@@ -39,19 +39,19 @@ export class UserInfoRepository {
     }
     
 
-    setUserLoggedIn(isUserLoggedIn) {
+    setUserLoggedIn(isUserLoggedIn: boolean) {
         this._store.userInfo.isLoggedIn = isUserLoggedIn;
     }
-    setUserSignedUp(isSignedUp) {
+    setUserSignedUp(isSignedUp: boolean) {
         this._store.userInfo.isSignedUp = isSignedUp;
     }
-    setHasUserSearched(hasSearched) {
+    setHasUserSearched(hasSearched: boolean) {
         this._store.userInfo.hasSearched = hasSearched;
     }
-    setUserName(name) {
+    setUserName(name: string) {
         this._store.userInfo.name = name;
     }
-    setProductTitleSearched(titleSearched) {
+    setProductTitleSearched(titleSearched: string) {
         this._store.userInfo.productTitleSearched = titleSearched;
     }
 }

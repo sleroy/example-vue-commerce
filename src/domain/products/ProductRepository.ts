@@ -1,4 +1,5 @@
 import { useCommerceStore } from '@/stores/commerce.ts'
+import type { Product } from './Product';
 
 export class ProductRepository {
     private _store: ReturnType<typeof useCommerceStore>;
@@ -11,25 +12,57 @@ export class ProductRepository {
         return this._store;
     }
 
-    get products() : Product[] {
+    get products(): Product[] {
         return this._store.products;
     }
 
-    getNumberOfProductsAdded() {
+    getNumberOfProductsAdded(): number {
         return this.productsAdded().length
     }
 
-    productsAdded() {
+    productsAdded(): Product[] {
         return this._store.products.filter(el => {
             return el.isAddedToCart;
         });
     }
-    productsAddedToFavourite() {
+    productsAddedToFavourite(): Product[] {
         return this.products.filter(el => {
             return el.isFavourite;
         });
     }
-    getProductById(id: string) {
+
+    generateBuyStats() {
+        let totalProducts = this._store.products.length,
+            productsAdded = this.productsAdded(),
+            pricesArray = [],
+            productLabel = '',
+            finalPrice = '',
+            quantity = 1;
+
+        productsAdded.forEach(product => {
+
+            if (product.quantity >= 1) {
+                quantity = product.quantity;
+            }
+
+            pricesArray.push((product.price * quantity)); // get the price of every product added and multiply quantity
+        });
+
+        finalPrice = pricesArray.reduce((a, b) => a + b, 0); // sum the prices
+
+        if (totalProducts > 1) { // set plural or singular
+            productLabel = 'products';
+        } else {
+            productLabel = 'product';
+        }
+        return {
+            totalProducts,
+            productLabel,
+            finalPrice
+        }
+    }
+
+    getProductById(id: number) {
         return this._store.products.find(product => product.id == id);
     }
 
@@ -37,7 +70,7 @@ export class ProductRepository {
         return this._store.products.quantity;
     }
 
-    addToCart(id) {
+    addToCart(id: number) {
         this.products.forEach(el => {
             if (id === el.id) {
                 el.isAddedToCart = true;
@@ -53,7 +86,7 @@ export class ProductRepository {
         });
     }
 
-    removeFromCart(id) {
+    removeFromCart(id: number) {
         this.products.forEach(el => {
             if (id === el.id) {
                 el.isAddedToCart = false;
@@ -67,42 +100,21 @@ export class ProductRepository {
         });
     }
 
-    setAddedBtn(data) {
-        this.products.forEach(el => {
-            if (data.id === el.id) {
-                el.isAddedBtn = data.status;
-            }
-        });
-    }
-    removeFromCart(id) {
-        this.products.forEach(el => {
-            if (id === el.id) {
-                el.isAddedToCart = false;
-            }
-        });
-    }
-
-    removeProductsFromFavourite() {
-        this.products.filter(el => {
-            el.isFavourite = false;
-        });
-    }
-
-    addToFavourite(id) {
+    addToFavourite(id: number) {
         this.products.forEach(el => {
             if (id === el.id) {
                 el.isFavourite = true;
             }
         });
     }
-    removeFromFavourite(id) {
+    removeFromFavourite(id: number) {
         this.products.forEach(el => {
             if (id === el.id) {
                 el.isFavourite = false;
             }
         });
     }
-    setQuantity(data) {
+    setQuantity(data: any) {
         this.products.forEach(el => {
             if (data.id === el.id) {
                 el.quantity = data.quantity;

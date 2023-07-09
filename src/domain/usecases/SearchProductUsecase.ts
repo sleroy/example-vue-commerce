@@ -4,18 +4,18 @@ import { UserInfoRepository } from '../userinfo/UserInfoRepository';
 export class SearchProductUsecase implements Usecase {
 
     constructor(private userRepository: UserInfoRepository) {
-        
+
     }
 
-    execute(...params : unknown) {
+    execute(...params: unknown) {
         const value: string = params[0];
         if (value.length > 0) {
-            userRepository.setHasUserSearched(true);
-            userRepository.setProductTitleSearched(value);
+            this.userRepository.setHasUserSearched(true);
+            this.userRepository.setProductTitleSearched(value);
         } else {
-            userRepository.setHasUserSearched(false);
-            userRepository.setProductTitleSearched('');
-        }   
+            this.userRepository.setHasUserSearched(false);
+            this.userRepository.setProductTitleSearched('');
+        }
     }
 
 }

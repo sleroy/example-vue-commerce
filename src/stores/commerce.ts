@@ -9,6 +9,7 @@ export const useCommerceStore = defineStore('commerce', {
         id: 1,
         title: 'Product 1',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+        image: 'https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/refurb-iphone-13-pro-max-graphite-2023?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1679072989055',
         price: 50,
         ratings: 3,
         reviews: 5,

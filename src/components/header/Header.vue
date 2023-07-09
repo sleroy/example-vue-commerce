@@ -56,17 +56,13 @@ import { SystemInfoRepository } from '../../domain/systeminfo/SystemInfoReposito
 import { UserInfoRepository } from '../../domain/userinfo/UserInfoRepository';
 
 // Access to the router
-const router = useRouter()
-const route = useRoute()
 
-const isCheckoutActive = ref(false)
 const showDropdown = ref(false)
 const logoutLabel = ref('Log out')
 const loginLabel = ref('Log in')
 const signupLabel = ref('Sign up')
 const wishlistLabel = ref('Wishlist')
 
-const loginUC = usecase('login')
 const logoutUC = usecase('logout')
 
 const productRepository = new ProductRepository();

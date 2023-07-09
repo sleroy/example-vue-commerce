@@ -8,5 +8,6 @@ export interface Product {
     isAddedToCart: boolean;
     isAddedBtn: boolean;
     isFavourite: boolean;
+    image: string?;
     quantity: number;
 }

@@ -12,7 +12,7 @@
           isAddedBtn: product.isAddedBtn
         }
       }">
-        <img class="rounded-2xl" src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+        <img class="rounded-2xl" :src="picture" alt="Placeholder image">
       </router-link>
     </div>
     <div class="text-wrapper p-4">
@@ -76,9 +76,6 @@ import { useRouter, useRoute } from 'vue-router'
 import { ref, reactive, computed, onMounted, defineProps, ReactiveEffect } from 'vue'
 import { UserInfoRepository } from '../domain/userinfo/UserInfoRepository';
 import { usecase } from '../domain/usecases/usecaseMap';
-// Access to the router
-const router = useRouter()
-const route = useRoute()
 
 const props = defineProps({
   product: Object,
@@ -86,12 +83,13 @@ const props = defineProps({
 })
 
 const addToCartLabel = ref('Add to cart')
-const viewDetailsLabel = ref('Details')
 const removeFromCartLabel = ref('Remove from cart')
 const addToFavouriteLabel = ref('Add to favourite')
 const removeFromFavouriteLabel = ref('Remove from favourite')
 const selected = ref(1)
 const quantityArray = reactive([]) as number[] // Reactive is for objects and arra
+
+const picture = computed( () => { return (props.product && props.product.image) ? props.product.image : 'https://bulma.io/images/placeholders/1280x960.png'})
 
 const userInfoRepo = new UserInfoRepository();
 
@@ -100,10 +98,6 @@ const removeFromCartUC = usecase('remove-from-cart');
 const saveToFavoriteUC = usecase('save-to-favorite');
 const removeFromFavoriteUC = usecase('remove-from-favorite');
 const selectQuantityUC = usecase('select-quantity');
-
-const isUserLogged = computed(() => {
-  return userInfoRepo.isUserLoggedIn()
-})
 
 
 onMounted(() => {
@@ -116,22 +110,22 @@ onMounted(() => {
   }
 })
 
-function addToCart(id: string) {
+function addToCart(id: number) {
   addToCartUC.execute(id)
 }
 
-function removeFromCart(id: string) {
+function removeFromCart(id: number) {
   removeFromCartUC.execute(id)
 }
 
-function saveToFavorite(id: string) {
+function saveToFavorite(id: number) {
   saveToFavoriteUC.execute(id)  
 }
-function removeFromFavourite(id: string) {
+function removeFromFavourite(id: number) {
   removeFromFavoriteUC.execute(id)
 }
 
-function onSelectQuantity(id: string) {
+function onSelectQuantity(id: number) {
   selectQuantityUC.execute(id, selected)
 }
 </script>
