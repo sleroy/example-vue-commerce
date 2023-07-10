@@ -1,4 +1,5 @@
 import type { Usecase } from './types';
+import { UserInfoRepository } from '../userinfo/UserInfoRepository';
 
 export interface SignupForm  {
     name: string,
@@ -17,6 +18,8 @@ export interface SignUpResponse {
 }
 
 export class SignupUsecase implements Usecase {
+
+  constructor(private userInfoRepository: UserInfoRepository) { }
 
     execute(form: SignupForm)  {
         const {name, email, password, repeatPassword} = form;

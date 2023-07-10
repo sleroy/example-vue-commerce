@@ -48,7 +48,7 @@ const systemInfoRepository = new SystemInfoRepository()
 const productRepository = new ProductRepository();
 
 const removeFromCartUC = usecase('remove-from-cart');
-const checkoutUC = usecase('checkoutUC');
+const checkoutUC = usecase('checkout');
 
 // Access to the router
 const modalTitle = ref('Checkout')

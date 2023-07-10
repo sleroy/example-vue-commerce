@@ -1,11 +1,15 @@
 import { useCommerceStore } from '@/stores/commerce.ts'
 import type { Product } from './Product';
+import { DemoProductDatabaseAdapter } from './demo/DemoProductDatabaseAdapter';
+import type { ProductDatabaseConnector } from './ProductDatabaseConnector';
 
 export class ProductRepository {
     private _store: ReturnType<typeof useCommerceStore>;
+    private productDB: ProductDatabaseConnector
 
     constructor() {
         this._store = useCommerceStore();
+        this.productDB = new DemoProductDatabaseAdapter()
     }
 
     get store() {
@@ -14,6 +18,12 @@ export class ProductRepository {
 
     get products(): Product[] {
         return this._store.products;
+    }
+
+    load() {
+        this.productDB.loadProducts().then(r => {
+            this._store.loadProducts(r.products)
+        });
     }
 
     getNumberOfProductsAdded(): number {
