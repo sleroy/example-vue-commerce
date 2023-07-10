@@ -1,7 +1,8 @@
 import { useCommerceStore } from '@/stores/commerce.ts'
 import type { Product } from './Product';
-import { DemoProductDatabaseAdapter } from './demo/DemoProductDatabaseAdapter';
-import type { ProductDatabaseConnector } from './ProductDatabaseConnector';
+import { DemoProductDatabaseAdapter } from '../../adapters/memory/DemoProductDatabaseAdapter';
+import type { ProductDatabaseConnector } from '../../connectors/ProductDatabaseConnector';
+import { productConnector } from '../../adapters/AdapterStrategy';
 
 export class ProductRepository {
     private _store: ReturnType<typeof useCommerceStore>;
@@ -9,7 +10,7 @@ export class ProductRepository {
 
     constructor() {
         this._store = useCommerceStore();
-        this.productDB = new DemoProductDatabaseAdapter()
+        this.productDB = productConnector(this._store.features.storage)        
     }
 
     get store() {
