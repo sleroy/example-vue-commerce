@@ -1,3 +1,3 @@
 export interface Usecase {
-    execute: (...params: unknown) => unknown
+    execute: (...params: any[]) => unknown
 }

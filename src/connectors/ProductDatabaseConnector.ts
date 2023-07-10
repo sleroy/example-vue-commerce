@@ -1,7 +1,9 @@
+import type { Product } from "../domain/products/Product"
+
 export interface ProductLoadResponse {
     products: Product[]
 }
 
 export interface ProductDatabaseConnector {
-    async loadProducts() : Promise<ProductLoadResponse>
+    loadProducts() : Promise<ProductLoadResponse>
 }

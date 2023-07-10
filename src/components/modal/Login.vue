@@ -43,9 +43,8 @@
 
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router'
-import { ref, computed, onMounted, onUnmounted, type Ref } from 'vue'
+import { ref, computed, type Ref } from 'vue'
 import { usecase } from '@/domain/usecases/usecaseMap';
-import { ProductRepository } from '../../domain/products/ProductRepository';
 import { SystemInfoRepository } from '../../domain/systeminfo/SystemInfoRepository';
 import { UserInfoRepository } from '../../domain/userinfo/UserInfoRepository';
 import { isValidEmail } from '@/assets/validators';
@@ -90,7 +89,7 @@ function checkForm(e: Event) {
     highlightEmailWithError.value = false;
     highlightPasswordWithError.value = false;
     isFormSuccess.value = true;
-    userInfoRepository.setUserLoggedIn(isFormSuccess)
+    userInfoRepository.setUserLoggedIn(isFormSuccess.value)
   }
 
   if (!email) {

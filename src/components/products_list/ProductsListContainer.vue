@@ -33,7 +33,7 @@ const products = computed(() => {
   const products = productRepo.products
   const hasSearched = userInfo.hasSearched()
   if (hasSearched) {
-    return this.getProductByTitle();
+    return getProductByTitle();
   } else {
     return products;
   }
@@ -41,7 +41,7 @@ const products = computed(() => {
 
 function getProductByTitle() {
   const products = productRepo.products
-  const productTitleSearched = userinfo.getProductTitleSearched()
+  const productTitleSearched = userInfo.getProductTitleSearched()
 
   return getByTitle(products, productTitleSearched);
 }

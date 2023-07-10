@@ -10,7 +10,7 @@ export class SaveToFavoriteProductUsecase implements Usecase {
 
     }
 
-    execute(id) {
+    execute(id: number) {
         let isUserLogged = this.userInfo.isUserLoggedIn();
         if (isUserLogged) {
           this.productRepo.addToFavourite(id);

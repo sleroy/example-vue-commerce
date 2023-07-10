@@ -16,29 +16,32 @@ import { LoadApiUsecase } from './LoadApiUsecase';
 
 
 
-const usecaseMapping = {
-    'open-product-detail' : () => new OpenProductDetailUsecase(),
-    'login' : () => new UserLoginUsecase(),
-    'logout' : () => new UserLogoutUsecase(),
-    'signup' : () => new SignupUsecase(),
-    'checkout' : (systemInfoRepo, userInfoRepo, productRepo) => new CheckoutUsecase(systemInfoRepo, userInfoRepo),
-    'search-product' : (systemInfoRepo, userInfoRepo, productRepo) => new SearchProductUsecase(userInfoRepo),
-    'add-to-cart' : (systemInfoRepo, userInfoRepo, productRepo) => new AddToCartUsecase(productRepo),
-    'remove-from-cart' : (systemInfoRepo, userInfoRepo, productRepo) => new RemoveFromCartUsecase(productRepo),
-    'save-to-favorite' : (systemInfoRepo, userInfoRepo, productRepo) => new SaveToFavoriteProductUsecase(productRepo, systemInfoRepo, userInfoRepo),
-    'remove-from-favorite' : (systemInfoRepo, userInfoRepo, productRepo) => new RemoveFromFavoriteProductUsecase(productRepo, systemInfoRepo),
-    'select-quantity' : (systemInfoRepo, userInfoRepo, productRepo) => new SelectQuantityUsecase(productRepo, systemInfoRepo),
-    'load-api': (systemInfoRepo, userInfoRepo, productRepo) => new LoadApiUsecase(productRepo),
+const usecaseMapping = (systemInfoRepo: SystemInfoRepository, userInfoRepo: UserInfoRepository, productRepo: ProductRepository) => {
+    return {
+        'open-product-detail': () => new OpenProductDetailUsecase(),
+        'login': () => new UserLoginUsecase(),
+        'logout': () => new UserLogoutUsecase(systemInfoRepo, userInfoRepo, productRepo),
+        'signup': () => new SignupUsecase(userInfoRepo),
+        'checkout': () => new CheckoutUsecase(systemInfoRepo, userInfoRepo),
+        'search-product': () => new SearchProductUsecase(userInfoRepo),
+        'add-to-cart': () => new AddToCartUsecase(productRepo),
+        'remove-from-cart': () => new RemoveFromCartUsecase(productRepo),
+        'save-to-favorite': () => new SaveToFavoriteProductUsecase(productRepo, systemInfoRepo, userInfoRepo),
+        'remove-from-favorite': () => new RemoveFromFavoriteProductUsecase(productRepo),
+        'select-quantity': () => new SelectQuantityUsecase(productRepo),
+        'load-api': () => new LoadApiUsecase(productRepo),
+    }
 }
 
 export function usecase(usecaseId: string) {
-    const systemInfoRepo = new SystemInfoRepository();
+    const systemInfoRepo = new SystemInfoRepository()
     const userInfoRepo = new UserInfoRepository()
     const productRepo = new ProductRepository()
-    const selectedUsecase = usecaseMapping[usecaseId];
-    if (!selectedUsecase) {
+    const selectedUsecaseMap: Record<string, any> = usecaseMapping(systemInfoRepo, userInfoRepo, productRepo);
+    
+    if (!selectedUsecaseMap[usecaseId]) {
         throw new Error(`Usecase ${usecaseId} not found`)
     }
 
-    return selectedUsecase(systemInfoRepo, userInfoRepo, productRepo);
+    return selectedUsecaseMap[usecaseId];
 }

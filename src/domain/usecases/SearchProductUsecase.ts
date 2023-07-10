@@ -7,7 +7,7 @@ export class SearchProductUsecase implements Usecase {
 
     }
 
-    execute(...params: unknown) {
+    execute(params: any[]) : unknown {
         const value: string = params[0];
         if (value.length > 0) {
             this.userRepository.setHasUserSearched(true);
@@ -16,6 +16,7 @@ export class SearchProductUsecase implements Usecase {
             this.userRepository.setHasUserSearched(false);
             this.userRepository.setProductTitleSearched('');
         }
+        return null;
     }
 
 }

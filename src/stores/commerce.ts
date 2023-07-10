@@ -5,9 +5,7 @@ import type { Product } from '../domain/products/Product';
 
 export const useCommerceStore = defineStore('commerce', {
   state: (): ECommerceState => ({
-    features: {
-      storage: 'firebase'
-    },
+    features: ['firebase'],
     products: [
     ],
     userInfo: {
@@ -26,24 +24,20 @@ export const useCommerceStore = defineStore('commerce', {
   getters: {
   },
   actions: {
-    setUserLoggedIn(isUserLoggedIn) {
+    setUserLoggedIn(isUserLoggedIn: boolean) {
       this.userInfo.isLoggedIn = isUserLoggedIn;
     },
-    setUserSignedUp(isSignedUp) {
+    setUserSignedUp(isSignedUp: boolean) {
       this.userInfo.isSignedUp = isSignedUp;
     },
-    setHasUserSearched(hasSearched) {
+    setHasUserSearched(hasSearched: boolean) {
       this.userInfo.hasSearched = hasSearched;
     },
-    setUserName(name) {
+    setUserName(name: string) {
       this.userInfo.name = name;
     },
-    setProductTitleSearched(titleSearched) {
+    setProductTitleSearched(titleSearched: string) {
       this.userInfo.productTitleSearched = titleSearched;
-    },
-  
-    SET_USER(authUser) {
-      this.authUser = authUser
     },
 
     loadProducts(allProducts: Product[]) {

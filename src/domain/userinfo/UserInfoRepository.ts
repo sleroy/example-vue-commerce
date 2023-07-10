@@ -1,8 +1,9 @@
-import { useCommerceStore } from '@/stores/commerce.ts'
+import { useCommerceStore } from '@/stores/commerce'
 
 export class UserInfoRepository {
     private _store: ReturnType<typeof useCommerceStore>;
 
+    
     constructor() {
         this._store = useCommerceStore();
     }
@@ -12,11 +13,11 @@ export class UserInfoRepository {
     }
 
     getProductTitleSearched() {
-        return this._store.productTitleSearched
+        return this._store.userInfo.productTitleSearched
     }
 
     hasSearched() {
-        return this._store.hasSearched;
+        return this._store.userInfo.hasSearched;
     }
 
     isUserLoggedIn() {

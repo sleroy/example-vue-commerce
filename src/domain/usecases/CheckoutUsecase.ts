@@ -5,12 +5,12 @@ import { UserInfoRepository } from '../userinfo/UserInfoRepository';
 export class CheckoutUsecase implements Usecase {
 
     constructor(private systemInfoRepository: SystemInfoRepository,
-        private userInfoRepository: UserInfoRepository) {
+        private userInfoRepo: UserInfoRepository) {
 
     }
 
     execute(): boolean {
-        if (this.userInfo.isUserLoggedIn()) {
+        if (this.userInfoRepo.isUserLoggedIn()) {
             return true;
         } else {
             

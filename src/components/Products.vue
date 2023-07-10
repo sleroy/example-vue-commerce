@@ -1,5 +1,5 @@
 <template>
-  <div :class="[detail ? 'detail' : '']" class="rounded-2xl shadow-custom bg-white p-4">
+  <div :class="[detail ? 'detail' : '']" class="rounded-2xl shadow-custom bg-white p-4" v-if="product">
     <div class="img-wrapper rounded-t-2xl">
       <router-link :to="{
         name: 'product_detail-id',
@@ -64,16 +64,18 @@
           </select>
           <button class="rounded-xl p-3 bg-blue text-white" v-if="!product.isAddedToCart"
             @click="addToCart(product.id)">{{ addToCartLabel }}</button>
-          <button class="rounded-xl p-3" v-if="product.isAddedToCart" @click="removeFromCart(product.id, false)">{{
+          <button class="rounded-xl p-3" v-if="product.isAddedToCart" @click="removeFromCart(product.id)">{{
             removeFromCartLabel }}</button>
         </div>
       </div>
     </div>
   </div>
+  <div :class="[detail ? 'detail' : '']" class="rounded-2xl shadow-custom bg-white p-4" v-else>
+    <h2>Product not found</h2>
+  </div>
 </template>
 <script setup lang="ts">
-import { useRouter, useRoute } from 'vue-router'
-import { ref, reactive, computed, onMounted, defineProps, ReactiveEffect } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { UserInfoRepository } from '../domain/userinfo/UserInfoRepository';
 import { usecase } from '../domain/usecases/usecaseMap';
 

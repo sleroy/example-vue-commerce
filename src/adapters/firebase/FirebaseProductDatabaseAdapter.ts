@@ -1,4 +1,4 @@
-import type { ProductDatabaseConnector, ProductLoadResponse } from '../ProductDatabaseConnector'
+import type { ProductDatabaseConnector, ProductLoadResponse } from '../../connectors/ProductDatabaseConnector'
 import { fireapp } from './firebaseConfig';
 
 export class FirebaseProductDatabaseAdapter implements ProductDatabaseConnector {

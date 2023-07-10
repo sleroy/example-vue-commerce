@@ -52,13 +52,12 @@
 
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router'
-import { ref, computed, onMounted, onUnmounted, type Ref } from 'vue'
+import { ref, computed, type Ref } from 'vue'
 import { usecase } from '@/domain/usecases/usecaseMap';
-import { ProductRepository } from '../../domain/products/ProductRepository';
 import { SystemInfoRepository } from '../../domain/systeminfo/SystemInfoRepository';
 import { UserInfoRepository } from '../../domain/userinfo/UserInfoRepository';
 import { isValidEmail } from '@/assets/validators';
-import { SignUpResponse, type SignupForm } from '../../domain/usecases/SignupUsecase';
+import { type SignUpResponse, type SignupForm } from '../../domain/usecases/SignupUsecase';
 
 const userInfoRepository = new UserInfoRepository()
 const systemInfoRepository = new SystemInfoRepository()
@@ -121,7 +120,7 @@ function checkForm(e: Event) {
   }
 }
 
-function checkNameOnKeyUp(nameValue) {
+function checkNameOnKeyUp(nameValue: any) {
   if (nameValue) {
     highlightNameWithError.value = false;
   } else {

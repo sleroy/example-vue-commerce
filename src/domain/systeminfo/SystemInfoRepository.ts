@@ -1,4 +1,4 @@
-import { useCommerceStore } from '@/stores/commerce.ts'
+import { useCommerceStore } from '@/stores/commerce'
 
 export class SystemInfoRepository {
     private _store: ReturnType<typeof useCommerceStore>;

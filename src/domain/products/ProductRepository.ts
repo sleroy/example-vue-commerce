@@ -1,6 +1,5 @@
-import { useCommerceStore } from '@/stores/commerce.ts'
+import { useCommerceStore } from '@/stores/commerce'
 import type { Product } from './Product';
-import { DemoProductDatabaseAdapter } from '../../adapters/memory/DemoProductDatabaseAdapter';
 import type { ProductDatabaseConnector } from '../../connectors/ProductDatabaseConnector';
 import { productConnector } from '../../adapters/AdapterStrategy';
 
@@ -10,7 +9,7 @@ export class ProductRepository {
 
     constructor() {
         this._store = useCommerceStore();
-        this.productDB = productConnector(this._store.features.storage)        
+        this.productDB = productConnector(this._store.features)        
     }
 
     get store() {
@@ -45,9 +44,9 @@ export class ProductRepository {
     generateBuyStats() {
         let totalProducts = this._store.products.length,
             productsAdded = this.productsAdded(),
-            pricesArray = [],
+            pricesArray = [] as number[],
             productLabel = '',
-            finalPrice = '',
+            finalPrice = 0,
             quantity = 1;
 
         productsAdded.forEach(product => {
@@ -74,11 +73,7 @@ export class ProductRepository {
     }
 
     getProductById(id: number): Product | undefined {
-        return this._store.products.find(product => product.id == id);
-    }
-
-    quantity() {
-        return this._store.products.quantity;
+        return this._store.products.find((product: Product) => product.id == id);
     }
 
     addToCart(id: number) {
@@ -89,7 +84,7 @@ export class ProductRepository {
         });
     }
 
-    setAddedBtn(data) {
+    setAddedBtn(data: any) {
         this.products.forEach(el => {
             if (data.id === el.id) {
                 el.isAddedBtn = data.status;

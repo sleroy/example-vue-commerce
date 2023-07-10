@@ -8,7 +8,7 @@ export class SelectQuantityUsecase implements Usecase {
 
     }
 
-    execute(id: string, selected) {
+    execute(id: string, selected: number) {
         let data = {
             id: id,
             quantity: selected
