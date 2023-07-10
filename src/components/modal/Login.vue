@@ -53,6 +53,8 @@ import { isValidEmail } from '@/assets/validators';
 const userInfoRepository = new UserInfoRepository()
 const systemInfoRepository = new SystemInfoRepository()
 
+const loginUC = usecase('login')
+
 // Access to the router
 const router = useRouter()
 const route = useRoute()

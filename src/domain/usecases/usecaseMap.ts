@@ -9,12 +9,16 @@ import { RemoveFromCartUsecase } from './RemoveFromCartUsecase';
 import { SaveToFavoriteProductUsecase } from './SaveToFavoriteProductsUsecase';
 import { SystemInfoRepository } from '../systeminfo/SystemInfoRepository';
 import { SelectQuantityUsecase } from './SelectQuantityUsecase';
+import { SignupUsecase } from './SignupUsecase';
+import { CheckoutUsecase } from './CheckoutUsecase';
 import { RemoveFromFavoriteProductUsecase } from './RemoveFromFavoriteProductsUsecase';
 
 const usecaseMapping = {
     'open-product-detail' : () => new OpenProductDetailUsecase(),
     'login' : () => new UserLoginUsecase(),
     'logout' : () => new UserLogoutUsecase(),
+    'signup' : () => new SignupUsecase(),
+    'checkout' : () => new CheckoutUsecase(),
     'search-product' : () => new SearchProductUsecase(new UserInfoRepository()),
     'add-to-cart' : () => new AddToCartUsecase(new ProductRepository()),
     'remove-from-cart' : () => new RemoveFromCartUsecase(new ProductRepository()),

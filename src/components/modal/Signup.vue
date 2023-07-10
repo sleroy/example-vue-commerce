@@ -58,9 +58,12 @@ import { ProductRepository } from '../../domain/products/ProductRepository';
 import { SystemInfoRepository } from '../../domain/systeminfo/SystemInfoRepository';
 import { UserInfoRepository } from '../../domain/userinfo/UserInfoRepository';
 import { isValidEmail } from '@/assets/validators';
+import { SignUpResponse, type SignupForm } from '../../domain/usecases/SignupUsecase';
 
 const userInfoRepository = new UserInfoRepository()
 const systemInfoRepository = new SystemInfoRepository()
+
+const signupUC = usecase('signup')
 
 // Access to the router
 const router = useRouter()
@@ -73,8 +76,10 @@ const btnRegisteredLabel = ref('Close')
 const notEqualErrorLabel = ref('Passwords must be equal')
 const passwordErrorLabel = ref('Password required')
 const nameErrorLabel = ref('Name required')
-const emailErrorLabel = ref('Email required')
+const emailRequiredLabel = ref('Email required')
 const emailNotValidLabel = ref('Valid email required')
+const emailErrorLabel = ref(emailRequiredLabel.value)
+
 const name = ref('')
 const email = ref('')
 const password = ref('')
@@ -97,43 +102,22 @@ function closeModal() {
 
 function checkForm(e: Event) {
   e.preventDefault();
-
-  if (name && email && password && repeatPassword) {
-    highlightEmailWithError.value = false;
-    highlightPasswordWithError.value = false;
-    isFormSuccess.value = true;
-    userInfoRepository.setUserName(name.value)
-    userInfoRepository.setUserSignedUp(isFormSuccess.value)
-    userInfoRepository.setUserLoggedIn(isFormSuccess.value)
-
+  const form: SignupForm  = {
+    name: name.value,
+    email: email.value,
+    password: password.value,
+    repeatPassword: repeatPassword.value
   }
-
-  if (!name) {
-    highlightNameWithError.value = true;
-  } else {
-    highlightNameWithError.value = false;
-  }
-
-  if (!email) {
-    highlightEmailWithError.value = true;
-
-    if (email && !isValidEmail(email)) {
-      emailErrorLabel.value = emailNotValidLabel.value;
-    }
-  } else {
-    highlightEmailWithError.value = false;
-  }
-
-  if (!password) {
-    highlightPasswordWithError.value = true;
-  } else {
-    highlightPasswordWithError.value = false;
-  }
-
-  if (!repeatPassword) {
-    highlightRepeatPasswordWithError.value = true;
-  } else {
-    highlightRepeatPasswordWithError.value = false;
+  const response: SignUpResponse = signupUC.execute(form)
+  isFormSuccess.value = response.isFormSuccess
+  highlightEmailWithError.value = response.highlightEmailWithError
+  highlightNameWithError.value = response.highlightNameWithError
+  highlightPasswordWithError.value = response.highlightPasswordWithError
+  highlightRepeatPasswordWithError.value = response.highlightRepeatPasswordWithError
+  if (response.emailNotValid) {
+    emailErrorLabel.value = emailNotValidLabel.value
+  } else if (response.highlightEmailWithError) {
+    emailErrorLabel.value = emailRequiredLabel.value;
   }
 }
 

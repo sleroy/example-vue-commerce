@@ -3,9 +3,9 @@
     <div class="py-16 mx-auto sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
         <div>
-        <img src="/vuemmerce-logo.png" class="mr-5 h-6 sm:h-9" alt="logo" />
+        <img src="/myshop.png" class="mr-5 h-6 sm:h-9" alt="logo" />
           <p class="max-w-xs mt-4 text-sm text-gray-600">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, accusantium.
+            Find the best products at the best price.
           </p>
           <div class="flex mt-8 space-x-6 text-gray-600">
             <a class="hover:opacity-75" href target="_blank" rel="noreferrer">

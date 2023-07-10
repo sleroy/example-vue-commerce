@@ -121,7 +121,7 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .title {
-  background: url('/vuemmerce-logo.png') no-repeat;
+  background: url('/myshop.png') no-repeat;
   background-position: 50% 50%;
   background-size: 165px;
 }
