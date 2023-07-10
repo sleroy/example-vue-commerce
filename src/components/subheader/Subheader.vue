@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import VmSearch from '../search/Search.vue';
 
 export default {

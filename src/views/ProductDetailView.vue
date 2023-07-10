@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import Products from '../components/Products.vue';
-import { ref, reactive, computed, onMounted, defineProps, type Ref } from 'vue'
+import { ref, reactive, computed, onMounted, type Ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useCommerceStore } from '@/stores/commerce'
 import type { Product } from '../domain/products/Product';
 import { ProductRepository } from '../domain/products/ProductRepository';
 import { usecase } from '@/domain/usecases/usecaseMap';
@@ -15,15 +14,17 @@ function validate(params: any) {
     return /^\d+$/.test(params.id)
 }
 
-const product = ref({}) as Ref<Product>;
+const product = ref(undefined) as Ref<Product| undefined>;
 const selected = ref(1);
 const quantityArray = reactive([] as number[]);
 const productRepo = new ProductRepository();
 
 
 onMounted(() => {
-    product.value = productRepo.getProductById(route.params.id as string);
-    selected.value = product.quantity;
+    product.value = productRepo.getProductById((route.params.id as unknown) as number);
+    if (product.value) {
+        selected.value = product.value.quantity;
+    }
 
     for (let i = 1; i <= 20; i++) {
         quantityArray.push(i);
@@ -31,7 +32,7 @@ onMounted(() => {
 })
 
 const isAddedBtn = computed(() => {
-    return product.isAddedBtn;
+    return product.value?.isAddedBtn;
 });
 
 // Usecases

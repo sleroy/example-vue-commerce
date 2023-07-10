@@ -73,7 +73,7 @@ export class ProductRepository {
         }
     }
 
-    getProductById(id: number) {
+    getProductById(id: number): Product | undefined {
         return this._store.products.find(product => product.id == id);
     }
 
