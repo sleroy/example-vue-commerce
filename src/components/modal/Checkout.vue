@@ -79,7 +79,7 @@ function closeModal(reloadPage: boolean) {
 		window.location.reload();
 	}
 }
-function removeFromCart(id: number) {
+function removeFromCart(id: string) {
 	removeFromCartUC.execute(id)
 }
 function onNextBtn() {

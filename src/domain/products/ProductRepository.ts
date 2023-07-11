@@ -72,11 +72,11 @@ export class ProductRepository {
         }
     }
 
-    getProductById(id: number): Product | undefined {
+    getProductById(id: string): Product | undefined {
         return this._store.products.find((product: Product) => product.id == id);
     }
 
-    addToCart(id: number) {
+    addToCart(id: string) {
         this.products.forEach(el => {
             if (id === el.id) {
                 el.isAddedToCart = true;
@@ -92,7 +92,7 @@ export class ProductRepository {
         });
     }
 
-    removeFromCart(id: number) {
+    removeFromCart(id: string) {
         this.products.forEach(el => {
             if (id === el.id) {
                 el.isAddedToCart = false;
@@ -106,14 +106,14 @@ export class ProductRepository {
         });
     }
 
-    addToFavourite(id: number) {
+    addToFavourite(id: string) {
         this.products.forEach(el => {
             if (id === el.id) {
                 el.isFavourite = true;
             }
         });
     }
-    removeFromFavourite(id: number) {
+    removeFromFavourite(id: string) {
         this.products.forEach(el => {
             if (id === el.id) {
                 el.isFavourite = false;

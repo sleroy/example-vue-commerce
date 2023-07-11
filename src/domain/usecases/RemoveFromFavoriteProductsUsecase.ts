@@ -8,7 +8,7 @@ export class RemoveFromFavoriteProductUsecase implements Usecase {
 
     }
 
-    execute(id: number) {
+    execute(id: string) {
         this.productRepo.removeFromFavourite(id); 
     }
 

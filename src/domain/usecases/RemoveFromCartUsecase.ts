@@ -8,7 +8,7 @@ export class RemoveFromCartUsecase implements Usecase {
 
     }
 
-    execute(id: number) {
+    execute(id: string) {
         let data = {
             id: id,
             status: false

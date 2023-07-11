@@ -39,9 +39,10 @@ export function usecase(usecaseId: string) {
     const productRepo = new ProductRepository()
     const selectedUsecaseMap: Record<string, any> = usecaseMapping(systemInfoRepo, userInfoRepo, productRepo);
     
-    if (!selectedUsecaseMap[usecaseId]) {
+    const usecaseFactory = selectedUsecaseMap[usecaseId];
+    if (!usecaseFactory) {
         throw new Error(`Usecase ${usecaseId} not found`)
     }
 
-    return selectedUsecaseMap[usecaseId];
+    return usecaseFactory();
 }

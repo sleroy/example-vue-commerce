@@ -8,7 +8,7 @@ export class AddToCartUsecase implements Usecase {
 
     }
 
-    execute(id: number) {
+    execute(id: string) {
         let data = {
             id: id,
             status: true
