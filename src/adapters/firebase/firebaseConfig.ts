@@ -21,7 +21,7 @@ export const fireanalytics = getAnalytics(fireapp);
 export const firestore = getFirestore(fireapp);
 
 
-const provider = new GoogleAuthProvider();
+export const provider = new GoogleAuthProvider();
 provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
 console.log("Firebase connection initialized \u{1F525}")

@@ -13,7 +13,8 @@ export const useCommerceStore = defineStore('commerce', {
       isSignedUp: false,
       hasSearched: false,
       name: '',
-      productTitleSearched: ''
+      productTitleSearched: '',
+      token: undefined
     },
     systemInfo: {
       openLoginModal: true,

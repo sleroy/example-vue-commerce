@@ -1,20 +1,26 @@
-import { obtainAuthentication } from '../../adapters/AdapterStrategy';
-import { useCommerceStore } from '../../stores/commerce';
-import type { Usecase } from './types';
-import { ECommerceState } from '../ECommerceState';
-import { AuthenticationConnector } from '../../connectors/AuthenticationConnector';
-import { AuthenticationService } from '../authentication/AuthenticationService';
+import { useCommerceStore } from '../../stores/commerce'
+import type { Usecase } from './types'
+import { type ECommerceState } from '../ECommerceState'
+import { type SigninResponse } from '../../connectors/AuthenticationConnector'
+import { AuthenticationService } from '../authentication/AuthenticationService'
+import { UserInfoRepository } from '../userinfo/UserInfoRepository'
+import { SystemInfoRepository } from '../systeminfo/SystemInfoRepository'
 
 export class UserSigninUsecase implements Usecase {
-    private _store: ECommerceState;
 
-    constructor(private authService : AuthenticationService) {
+  constructor(
+    private authService: AuthenticationService,
+    private userInfo: UserInfoRepository,
+    private systemInfo: SystemInfoRepository
+  ) {}
 
-    }
-
-    execute() {
-        this._store = useCommerceStore();
-        return this.authService.signin();        
-    }
-
+  async execute(): Promise<SigninResponse> {
+    return this.authService.signin().then((res) => {
+      if (res.success) {
+        this.userInfo.setUserLoggedIn(true)
+        this.systemInfo.showLoginModal(false)
+      }
+      return res
+    })
+  }
 }

@@ -12,7 +12,10 @@
           </div>
         </div>
         <div class="m-4">
-          <button type="submit" class="rounded-xl p-3 bg-blue text-white w-full">Sign in</button>
+          <button type="button" class="rounded-xl p-3 bg-blue text-white w-full" @click="signin()">Sign in</button>
+        </div>
+        <div class="m-4" v-if="signInError">
+          <p class="text-red">{{ errorLabel }}</p>
         </div>
       </section>
     </div>
@@ -25,6 +28,7 @@ import { ref, computed, type Ref } from 'vue'
 import { usecase } from '@/domain/usecases/usecaseMap';
 import { SystemInfoRepository } from '../../domain/systeminfo/SystemInfoRepository';
 import { UserInfoRepository } from '../../domain/userinfo/UserInfoRepository';
+import { type SigninResponse } from '../../connectors/AuthenticationConnector';
 
 const userInfoRepository = new UserInfoRepository()
 const systemInfoRepository = new SystemInfoRepository()
@@ -35,6 +39,9 @@ const signinUC = usecase('signin')
 const router = useRouter()
 const route = useRoute()
 
+const signInError = ref(false)
+const errorLabel = ref("User could not sign in")
+
 const openModal = computed(() => {
   return systemInfoRepository.isOpenedLoginModal();
 })
@@ -43,11 +50,19 @@ function closeModal() {
   systemInfoRepository.showLoginModal(false)
 }
 
-function checkForm(e: Event) {
-  e.preventDefault();
-  signinUC.execute();  
-
+function signin() {
+  signInError.value = false
+  signinUC.execute()
+    .then((res: SigninResponse) => {
+      signInError.value = res.success
+      errorLabel.value = res.errorReason
+    })
+    .catch((e: SigninResponse) => {
+      signInError.value = true;
+      errorLabel.value = e.errorReason;
+    })
 }
+
 </script>
 
 <style lang="scss">
