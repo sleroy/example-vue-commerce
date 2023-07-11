@@ -4,7 +4,7 @@ import type {
 } from '../../connectors/ProductDatabaseConnector'
 import type { Product } from '../../domain/products/Product'
 import { firestore } from './firebaseConfig'
-import { collection, addDoc, doc, getDoc, query, getDocs } from 'firebase/firestore'
+import { collection, addDoc, query, getDocs, QueryDocumentSnapshot, type SnapshotOptions } from 'firebase/firestore'
 import { hasFeature, setFeature } from './firebaseFeatures'
 
 const featureName = 'db_products'
@@ -52,7 +52,7 @@ const productConverter = {
       quantity: product.quantity
     }
   },
-  fromFirestore: (snapshot, options) => {
+  fromFirestore: (snapshot: QueryDocumentSnapshot, options: SnapshotOptions) => {
     const data = snapshot.data(options)
     data.id = snapshot.id
     return data as Product

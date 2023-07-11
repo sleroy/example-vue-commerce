@@ -1,5 +1,5 @@
 import { firestore } from './firebaseConfig'
-import { collection, addDoc, doc, getDoc, setDoc } from 'firebase/firestore'
+import { doc, getDoc, setDoc, QueryDocumentSnapshot, type SnapshotOptions } from 'firebase/firestore'
 
 class FeatureToggle {
     public name: string
@@ -19,7 +19,7 @@ const featureConverter = {
             value: feature.value
         }
     },
-    fromFirestore: (snapshot, options) => {
+    fromFirestore: (snapshot: QueryDocumentSnapshot, options: SnapshotOptions) => {
         const data = snapshot.data(options)
         return new FeatureToggle(data.name, data.value)
     }
