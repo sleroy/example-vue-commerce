@@ -16,7 +16,7 @@ export const useCommerceStore = defineStore('commerce', {
       productTitleSearched: ''
     },
     systemInfo: {
-      openLoginModal: false,
+      openLoginModal: true,
       openSignupModal: false,
       openCheckoutModal: false
     }

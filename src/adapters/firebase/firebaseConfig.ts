@@ -4,6 +4,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import firebaseConfig from './firebaseCredentials.json'
 import { getFirestore } from "firebase/firestore";
+import { GoogleAuthProvider } from "firebase/auth";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -18,5 +19,9 @@ export const fireapp = initializeApp(firebaseConfig);
 export const fireanalytics = getAnalytics(fireapp);
 // Initialize Cloud Firestore and get a reference to the service
 export const firestore = getFirestore(fireapp);
+
+
+const provider = new GoogleAuthProvider();
+provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
 console.log("Firebase connection initialized \u{1F525}")

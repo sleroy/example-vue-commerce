@@ -1,7 +1,7 @@
 import { useCommerceStore } from '@/stores/commerce'
 import type { Product } from './Product';
 import type { ProductDatabaseConnector } from '../../connectors/ProductDatabaseConnector';
-import { productConnector } from '../../adapters/AdapterStrategy';
+import { obtainProductDB } from '../../adapters/AdapterStrategy';
 
 export class ProductRepository {
     private _store: ReturnType<typeof useCommerceStore>;
@@ -9,7 +9,7 @@ export class ProductRepository {
 
     constructor() {
         this._store = useCommerceStore();
-        this.productDB = productConnector(this._store.features)        
+        this.productDB = obtainProductDB(this._store.features)        
     }
 
     get store() {

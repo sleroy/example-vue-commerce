@@ -1,5 +1,4 @@
 import { OpenProductDetailUsecase } from './OpenProductDetailUsecase';
-import { UserLoginUsecase } from './UserLoginUsecase';
 import { UserLogoutUsecase } from './UserLogoutUsecase';
 import { SearchProductUsecase } from './SearchProductUsecase';
 import { UserInfoRepository } from '../userinfo/UserInfoRepository';
@@ -13,13 +12,14 @@ import { SignupUsecase } from './SignupUsecase';
 import { CheckoutUsecase } from './CheckoutUsecase';
 import { RemoveFromFavoriteProductUsecase } from './RemoveFromFavoriteProductsUsecase';
 import { LoadApiUsecase } from './LoadApiUsecase';
+import { UserSigninUsecase } from './UserSigninUsecase';
 
 
 
 const usecaseMapping = (systemInfoRepo: SystemInfoRepository, userInfoRepo: UserInfoRepository, productRepo: ProductRepository) => {
     return {
         'open-product-detail': () => new OpenProductDetailUsecase(),
-        'login': () => new UserLoginUsecase(),
+        'signin': () => new UserSigninUsecase(),
         'logout': () => new UserLogoutUsecase(systemInfoRepo, userInfoRepo, productRepo),
         'signup': () => new SignupUsecase(userInfoRepo),
         'checkout': () => new CheckoutUsecase(systemInfoRepo, userInfoRepo),
