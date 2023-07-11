@@ -23,7 +23,7 @@ const usecaseMapping = (
 ) => {
   return {
     'open-product-detail': () => new OpenProductDetailUsecase(),
-    signin: () => new UserSigninUsecase(authService),
+    signin: () => new UserSigninUsecase(authService, userInfoRepo, systemInfoRepo),
     logout: () => new UserLogoutUsecase(systemInfoRepo, userInfoRepo, productRepo),
     signup: () => new SignupUsecase(userInfoRepo),
     checkout: () => new CheckoutUsecase(systemInfoRepo, userInfoRepo),
