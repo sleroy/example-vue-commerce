@@ -5,6 +5,7 @@ import { type SigninResponse } from '../../connectors/AuthenticationConnector'
 import { AuthenticationService } from '../authentication/AuthenticationService'
 import { UserInfoRepository } from '../userinfo/UserInfoRepository'
 import { SystemInfoRepository } from '../systeminfo/SystemInfoRepository'
+import { Events, eventbus } from '../eventBus'
 
 export class UserSigninUsecase implements Usecase {
 
@@ -19,6 +20,7 @@ export class UserSigninUsecase implements Usecase {
       if (res.success) {
         this.userInfo.setUserLoggedIn(true)
         this.systemInfo.showLoginModal(false)
+        eventbus.emit(Events.userSignin, "")
       }
       return res
     })

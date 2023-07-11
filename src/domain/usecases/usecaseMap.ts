@@ -42,7 +42,7 @@ export function usecase(usecaseId: string) {
   const systemInfoRepo = new SystemInfoRepository()
   const userInfoRepo = new UserInfoRepository()
   const productRepo = new ProductRepository()
-  const authService = new AuthenticationService(userInfoRepo);
+  const authService = new AuthenticationService(userInfoRepo, systemInfoRepo);
   const selectedUsecaseMap: Record<string, any> = usecaseMapping(
     systemInfoRepo,
     userInfoRepo,

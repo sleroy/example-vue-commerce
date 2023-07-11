@@ -20,6 +20,10 @@ export class UserInfoRepository {
     return this._store.userInfo.hasSearched
   }
 
+  hasToken() {
+    return this._store.userInfo && this._store.userInfo.token;
+  }
+
   isUserLoggedIn() {
     return this._store.userInfo.isLoggedIn
   }

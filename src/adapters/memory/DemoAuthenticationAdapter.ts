@@ -4,6 +4,10 @@ import {
 } from '../../connectors/AuthenticationConnector'
 
 export class DemoAuthenticationAdapter implements AuthenticationConnector {
+    requireAuth(): boolean {
+        return true;
+    }
+
     async signin(): Promise<SigninResponse> {
         return Promise.resolve({
             success: true,

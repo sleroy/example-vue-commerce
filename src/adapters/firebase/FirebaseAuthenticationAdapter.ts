@@ -2,10 +2,11 @@ import {
   type AuthenticationConnector,
   type SigninResponse
 } from '../../connectors/AuthenticationConnector'
-import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth'
 import { provider } from './firebaseConfig'
 
 export class FirebaseAuthenticationAdapter implements AuthenticationConnector {
+  
   async signin(): Promise<SigninResponse> {
     console.log('Attempting to signin using Firebase')
 
@@ -24,13 +25,13 @@ export class FirebaseAuthenticationAdapter implements AuthenticationConnector {
       const user = result.user
       // IdP data available using getAdditionalUserInfo(result)
       // ...
-      console.log("Authentication with success")
+      console.log('Authentication with success')
       return Promise.resolve({
         success: true,
         errorReason: null,
         token: {
-            token,
-            user
+          token,
+          user
         }
       })
     } catch (error) {
@@ -50,6 +51,22 @@ export class FirebaseAuthenticationAdapter implements AuthenticationConnector {
         errorReason: error
       })
     }
-    
+  }
+
+  requireAuth() {
+    const auth = getAuth()
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        const uid = user.uid
+        // ...
+        return true;
+      } else {
+        // User is signed out
+        // ...
+        return false;
+      }
+    })
   }
 }

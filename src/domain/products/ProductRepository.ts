@@ -2,14 +2,28 @@ import { useCommerceStore } from '@/stores/commerce'
 import type { Product } from './Product';
 import type { ProductDatabaseConnector } from '../../connectors/ProductDatabaseConnector';
 import { obtainProductDB } from '../../adapters/AdapterStrategy';
+import { Events, eventbus } from '../eventBus';
+import { type Emitter, type EventType } from 'mitt';
 
 export class ProductRepository {
     private _store: ReturnType<typeof useCommerceStore>;
     private productDB: ProductDatabaseConnector
+    eventBus: Emitter<Record<EventType, unknown>>;
 
     constructor() {
         this._store = useCommerceStore();
         this.productDB = obtainProductDB(this._store.features)        
+        this.eventBus = eventbus
+        
+        // We listen to userSignin event
+        this.eventBus.on(Events.userSignin, (e) => {
+            this.onUserSignin()
+        }); // 'e' has inferred type 'string'
+    }
+
+    onUserSignin() {
+        console.log("Refreshing the products")
+        this.load()
     }
 
     get store() {
