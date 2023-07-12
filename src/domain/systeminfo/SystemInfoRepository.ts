@@ -1,6 +1,8 @@
 import { useCommerceStore } from '@/stores/commerce'
+import { obtainRemoteNotifications } from '../../adapters/AdapterStrategy';
 
 export class SystemInfoRepository {
+
     private _store: ReturnType<typeof useCommerceStore>;
 
     constructor() {
@@ -54,6 +56,10 @@ export class SystemInfoRepository {
 
     showCheckoutModal(show: boolean) {
         this._store.systemInfo.openCheckoutModal = show;
+    }
+
+    enableNotifications() {
+        obtainRemoteNotifications(this._store.features).enableNotifications()
     }
 
 }

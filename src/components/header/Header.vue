@@ -6,7 +6,10 @@
     </router-link>
 
     <div class="flex items-center">
-      <div class="mx-2">
+        <div class="mx-2">
+          <button class="button bg-blue" @click="enableNotifications">Enable notifications</button>        
+        </div>
+        <div class="mx-2">
         <div class="cursor-pointer" @click="showCheckoutModal">
           <span :class="[numProductsAdded > 0 ? 'p-2 bg-blue text-white rounded-md' : '']">{{ numProductsAdded }}</span>
           <span class="icon">
@@ -32,7 +35,7 @@
             <span class="text-lg">{{ logoutLabel }}</span>
           </button>
         </div>
-        <div v-if="showDropdown && !isUserLoggedIn" class="dropdown">
+          <div v-if="showDropdown && !isUserLoggedIn" class="dropdown">
           <button v-if="!isUserLoggedIn" class="button" @click="showSigninModal">
             <span class="text-lg">Already registered?<br /> {{ loginLabel }}</span>
             <i class="fa fa-sign-in"></i>
@@ -57,6 +60,7 @@ import { usecase } from '@/domain/usecases/usecaseMap';
 import { ProductRepository } from '../../domain/products/ProductRepository';
 import { SystemInfoRepository } from '../../domain/systeminfo/SystemInfoRepository';
 import { UserInfoRepository } from '../../domain/userinfo/UserInfoRepository';
+import { obtainRemoteNotifications } from '../../adapters/AdapterStrategy';
 
 // Access to the router
 
@@ -116,6 +120,9 @@ function logout() {
   logoutUC.execute()
 }
 
+function enableNotifications() {
+  systemRepository.enableNotifications();
+}
 
 onMounted(() => {
   window.addEventListener("blur", closeDropdown, true);

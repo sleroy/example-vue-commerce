@@ -5,7 +5,7 @@ import { getAnalytics } from "firebase/analytics";
 import firebaseConfig from './firebaseCredentials.json'
 import { getFirestore } from "firebase/firestore";
 import { GoogleAuthProvider } from "firebase/auth";
-import { getMessaging } from "firebase/messaging";
+import { getMessaging, getToken } from "firebase/messaging";
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -26,7 +26,14 @@ export const firestore = getFirestore(fireapp);
 export const firemessaging = getMessaging(fireapp);
 
 
+
 export const provider = new GoogleAuthProvider();
 provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
 console.log("Firebase connection initialized \u{1F525}")
+
+export const messagingToken = firebaseConfig.messaging;
+
+export function requestPermissionMsg() {
+    getToken(firemessaging, { vapidKey: messagingToken });
+}
