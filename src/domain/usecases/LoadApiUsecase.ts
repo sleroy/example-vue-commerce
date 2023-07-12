@@ -8,6 +8,7 @@ export class LoadApiUsecase implements Usecase {
     }
 
     execute() {
+        // 
         this.productRepo.load();
     }
 

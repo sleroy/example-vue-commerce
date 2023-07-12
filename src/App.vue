@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import VmHeader from './components/header/Header.vue';
 import VmFooter from './components/footer/Footer.vue';
-//import VmLoginModal from './components/modal/Login.vue';
+import VmLoginModal from './components/modal/Login.vue';
 import VmSigninModal from './components/modal/Signin.vue';
 import VmSignupModal from './components/modal/Signup.vue';
 import VmCheckoutModal from './components/modal/Checkout.vue';
@@ -11,8 +11,9 @@ import VmCheckoutModal from './components/modal/Checkout.vue';
 <template>
   <VmHeader />
   <main>
-    <RouterView />
+    <RouterView/>
     <VmSigninModal/>
+    <VmLoginModal/>
     <VmSignupModal />
     <VmCheckoutModal />
   </main>

@@ -19,7 +19,7 @@ export class UserSigninUsecase implements Usecase {
     return this.authService.signin().then((res) => {
       if (res.success) {
         this.userInfo.setUserLoggedIn(true)
-        this.systemInfo.showLoginModal(false)
+        this.systemInfo.showSigninModal(false)
         eventbus.emit(Events.userSignin, "")
       }
       return res

@@ -17,7 +17,8 @@ export const useCommerceStore = defineStore('commerce', {
       token: undefined
     },
     systemInfo: {
-      openLoginModal: true,
+      openLoginModal: false,
+      openSigninModal: true,
       openSignupModal: false,
       openCheckoutModal: false
     }

@@ -13,6 +13,7 @@
         </div>
         <div class="m-4">
           <button type="button" class="rounded-xl p-3 bg-blue text-white w-full" @click="signin()">Sign in</button>
+          <button type="button" class="rounded-xl mt-3 p-3 bg-grey_dark text-white w-full" @click="signinPassword()">Sign in with password</button>
         </div>
         <div class="m-4" v-if="signInError">
           <p class="text-red">{{ errorLabel }}</p>
@@ -43,12 +44,19 @@ const signInError = ref(false)
 const errorLabel = ref("User could not sign in")
 
 const openModal = computed(() => {
-  return systemInfoRepository.isOpenedLoginModal();
+  return systemInfoRepository.isOpenedSigninModal();
 })
 
 function closeModal() {
-  systemInfoRepository.showLoginModal(false)
+  systemInfoRepository.showSigninModal(false)
 }
+
+
+function signinPassword() {
+  systemInfoRepository.showSigninModal(false)
+  systemInfoRepository.showLoginModal(true)  
+}
+
 
 function signin() {
   signInError.value = false

@@ -15,7 +15,7 @@ export class SaveToFavoriteProductUsecase implements Usecase {
         if (isUserLogged) {
           this.productRepo.addToFavourite(id);
         } else {
-          this.systemInfoRepo.showLoginModal(true);
+          this.systemInfoRepo.showSigninModal(true);
         }
     }
 

@@ -18,4 +18,16 @@ export class DemoAuthenticationAdapter implements AuthenticationConnector {
             }
         })
     }
+
+    passwordSignin(username: string, password: string): Promise<SigninResponse> {
+        return Promise.resolve({
+            success: true,
+            errorReason: null,
+            token: {
+                token: "TEST",
+                user: {}
+            }
+        })
+    }
+
 }

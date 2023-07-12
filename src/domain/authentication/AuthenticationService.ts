@@ -17,6 +17,8 @@ export class AuthenticationService {
     if (userInfo.hasToken()) {
       this.userInfo.setUserLoggedIn(true)
       this.sysInfoRepo.showLoginModal(false)
+      this.sysInfoRepo.showSigninModal(false)
+
     }
   }
 
@@ -33,6 +35,20 @@ export class AuthenticationService {
       return res
     } catch (e) {
       console.error('Cannot signin for the reason : ', e)
+      return Promise.reject(e)
+    }
+  }
+
+
+  async passwordSignin(username: string, password: string): Promise<SigninResponse> {
+    try {
+      const res = await this.auth.passwordSignin(username, password)
+      if (res && res.success) {
+        this.userInfo.storeToken(res.token)
+      }
+      return res
+    } catch (e) {
+      console.error('Cannot authentication with password for the reason : ', e)
       return Promise.reject(e)
     }
   }

@@ -6,5 +6,6 @@ export interface SigninResponse {
 }
 
 export interface AuthenticationConnector {
+    passwordSignin(username: string, password: string): Promise<SigninResponse>;
     signin(): Promise<SigninResponse>;
 }

@@ -30,9 +30,10 @@
             </div>
           </div>
           <div class="m-4">
-            <button v-if="!isUserLoggedIn" type="submit" class="rounded-xl p-3 bg-blue text-white w-full">{{ loginBtnLabel}}</button>
-            <button v-if="!isUserLoggedIn" type="button" class="rounded-xl p-3 bg-grey_light text-grey_dark w-full mt-2" @click="gotoSignup">{{ signupBtnLabel }}</button>
-            <button v-if="isUserLoggedIn" type="button" class="rounded-xl p-3 bg-grey_light text-grey_dark" @click="closeModal">{{ btnLoggedInLabel }}</button>
+            <button v-if="!isUserLoggedIn" type="submit" class="rounded-xl p-3 bg-blue text-white w-full">{{
+              loginBtnLabel }}</button>
+            <button v-if="isUserLoggedIn" type="button" class="rounded-xl p-3 bg-grey_light text-grey_dark"
+              @click="closeModal">{{ btnLoggedInLabel }}</button>
           </div>
         </section>
       </form>
@@ -51,7 +52,7 @@ import { isValidEmail } from '@/assets/validators';
 const userInfoRepository = new UserInfoRepository()
 const systemInfoRepository = new SystemInfoRepository()
 
-const loginUC = usecase('login')
+const loginUC = usecase('signin-password')
 
 // Access to the router
 const router = useRouter()
@@ -63,7 +64,6 @@ const loginBtnLabel = ref('Log in')
 const emailRequiredLabel = ref('Email required')
 const passwordRequiredLabel = ref('Password required')
 const emailNotValidLabel = ref('Valid email required')
-const signupBtnLabel = ref('Sign up')
 const btnLoggedInLabel = ref('Close')
 const email = ref('')
 const password = ref('')
@@ -83,10 +83,6 @@ function closeModal() {
   systemInfoRepository.showLoginModal(false)
 }
 
-function gotoSignup() {
-  systemInfoRepository.showLoginModal(false)
-  systemInfoRepository.showSignupModal(true)
-}
 
 function checkForm(e: Event) {
   e.preventDefault();

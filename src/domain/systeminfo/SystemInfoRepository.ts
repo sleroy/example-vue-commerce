@@ -15,6 +15,10 @@ export class SystemInfoRepository {
         return this._store.systemInfo.openLoginModal;
     }
 
+    isOpenedSigninModal() {
+        return this._store.systemInfo.openSigninModal;
+    }
+
     isOpenedSignupModal() {
         return this._store.systemInfo.openSignupModal;
     }
@@ -25,6 +29,11 @@ export class SystemInfoRepository {
 
     showLoginModal(show: boolean) {
         this._store.systemInfo.openLoginModal = show;
+    }
+
+
+    showSigninModal(show: boolean) {
+        this._store.systemInfo.openSigninModal = show;
     }
 
     showSignupModal(show: boolean) {

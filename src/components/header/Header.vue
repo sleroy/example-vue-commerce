@@ -33,8 +33,12 @@
           </button>
         </div>
         <div v-if="showDropdown && !isUserLoggedIn" class="dropdown">
-          <button v-if="!isUserLoggedIn" class="button" @click="showLoginModal">
+          <button v-if="!isUserLoggedIn" class="button" @click="showSigninModal">
             <span class="text-lg">Already registered?<br /> {{ loginLabel }}</span>
+            <i class="fa fa-sign-in"></i>
+          </button>
+          <button v-if="!isUserLoggedIn" class="button" @click="showLoginModal">
+            <span class="text-lg">Password sign-in<br /> {{ passwordLabel }}</span>
             <i class="fa fa-sign-in"></i>
           </button>
           <button v-if="!isUserLoggedIn" class="button" @click="showSignupModal">
@@ -48,7 +52,6 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter, useRoute } from 'vue-router'
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { usecase } from '@/domain/usecases/usecaseMap';
 import { ProductRepository } from '../../domain/products/ProductRepository';
@@ -60,6 +63,7 @@ import { UserInfoRepository } from '../../domain/userinfo/UserInfoRepository';
 const showDropdown = ref(false)
 const logoutLabel = ref('Log out')
 const loginLabel = ref('Log in')
+const passwordLabel = ref('Log in with pwd')
 const signupLabel = ref('Sign up')
 const wishlistLabel = ref('Wishlist')
 
@@ -94,6 +98,10 @@ function showCheckoutModal() {
 
 function showLoginModal() {
   systemRepository.showLoginModal(true);
+}
+
+function showSigninModal() {
+  systemRepository.showSigninModal(true);
 }
 
 function showSignupModal() {

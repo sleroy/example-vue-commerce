@@ -15,7 +15,7 @@ export class CheckoutUsecase implements Usecase {
         } else {
             
             this.systemInfoRepository.showCheckoutModal(false)
-            this.systemInfoRepository.showLoginModal(true)
+            this.systemInfoRepository.showSigninModal(true)
         }
         return false;
     }
