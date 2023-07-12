@@ -15,7 +15,7 @@ export class SystemInfoRepository {
         return this._store.systemInfo.checkoutRequired;
     }
 
-    setCheckoutRequired(option) {
+    setCheckoutRequired(option: boolean) {
         this._store.systemInfo.checkoutRequired = option;
     }
 

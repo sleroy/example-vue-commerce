@@ -1,23 +1,18 @@
 <script setup lang="ts">
-import { eventbus, Events } from '../../domain/eventBus';
-import { toast } from 'https://cdn.jsdelivr.net/npm/vue3-toastify@0.1.11/+esm';
-
+import { eventbus, Events } from '../../domain/eventBus'
+import { useToast } from "vue-toastification";
 
 // We listen to userSignin event
 eventbus.on(Events.checkoutPerformed, (e) => {
-    console.log("Received checkout")
-    toast("Wow so easy !", {
-        autoClose: 1000,
-      }); // ToastOptions
-}); // 'e' has inferred type 'string'
-</script>
-  
-<template>
+    console.log('Received checkout')
+    // Get toast interface
+    const toast = useToast();
 
-</template>
-  
+    // Use it!
+    toast("I'm a toast!");
+}) // 'e' has inferred type 'string'
+</script>
+
+<template></template>
 
 <style lang="scss"></style>
-  
-  
-  
