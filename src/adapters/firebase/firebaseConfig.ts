@@ -5,6 +5,8 @@ import { getAnalytics } from "firebase/analytics";
 import firebaseConfig from './firebaseCredentials.json'
 import { getFirestore } from "firebase/firestore";
 import { GoogleAuthProvider } from "firebase/auth";
+import { getMessaging } from "firebase/messaging";
+
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -19,6 +21,9 @@ export const fireapp = initializeApp(firebaseConfig);
 export const fireanalytics = getAnalytics(fireapp);
 // Initialize Cloud Firestore and get a reference to the service
 export const firestore = getFirestore(fireapp);
+
+// Initialize Firebase Cloud Messaging and get a reference to the service
+export const firemessaging = getMessaging(fireapp);
 
 
 export const provider = new GoogleAuthProvider();

@@ -14,6 +14,7 @@ import { RemoveFromFavoriteProductUsecase } from './RemoveFromFavoriteProductsUs
 import { LoadApiUsecase } from './LoadApiUsecase'
 import { UserSigninUsecase } from './UserSigninUsecase'
 import { AuthenticationService } from '../authentication/AuthenticationService'
+import { UserSigninWithPasswordUsecase } from './UserSigninWithPassword';
 
 const usecaseMapping = (
   systemInfoRepo: SystemInfoRepository,
@@ -24,7 +25,7 @@ const usecaseMapping = (
   return {
     'open-product-detail': () => new OpenProductDetailUsecase(),
     signin: () => new UserSigninUsecase(authService, userInfoRepo, systemInfoRepo),
-    'signin-password': () => new UserSigninUsecase(authService, userInfoRepo, systemInfoRepo),
+    'signin-password': () => new UserSigninWithPasswordUsecase(authService, userInfoRepo, systemInfoRepo),
     logout: () => new UserLogoutUsecase(systemInfoRepo, userInfoRepo, productRepo),
     signup: () => new SignupUsecase(userInfoRepo),
     checkout: () => new CheckoutUsecase(systemInfoRepo, userInfoRepo, productRepo),

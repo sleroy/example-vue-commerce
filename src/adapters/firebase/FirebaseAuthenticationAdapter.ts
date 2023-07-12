@@ -6,6 +6,9 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from
 import { provider } from './firebaseConfig'
 
 export class FirebaseAuthenticationAdapter implements AuthenticationConnector {
+  /**
+   * Google signin implementation
+   */
   async signin(): Promise<SigninResponse> {
     console.log('Attempting to signin using Firebase')
 

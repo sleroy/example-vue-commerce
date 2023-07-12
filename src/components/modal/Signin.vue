@@ -6,13 +6,8 @@
         <p class="text-xl">Sign-in</p>
       </div>
       <section class="p-5 rounded-b-2xl">
-        <div>
-          <div class="m-4">
-            <p>Authentication using your Google account</p>
-          </div>
-        </div>
         <div class="m-4">
-          <button type="button" class="rounded-xl p-3 bg-blue text-white w-full" @click="signin()">Sign in</button>
+          <button type="button" class="rounded-xl p-3 bg-blue text-white w-full" @click="signin()">Sign in with Google</button>
           <button type="button" class="rounded-xl mt-3 p-3 bg-grey_dark text-white w-full" @click="signinPassword()">Sign in with password</button>
         </div>
         <div class="m-4" v-if="signInError">

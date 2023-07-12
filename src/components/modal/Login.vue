@@ -55,8 +55,6 @@ const systemInfoRepository = new SystemInfoRepository()
 const loginUC = usecase('signin-password')
 
 // Access to the router
-const router = useRouter()
-const route = useRoute()
 
 const modalTitle = ref('Log in')
 const modalTitleLoggedIn = ref('Welcome!')
@@ -91,7 +89,7 @@ function checkForm(e: Event) {
     highlightEmailWithError.value = false;
     highlightPasswordWithError.value = false;
     isFormSuccess.value = true;
-    userInfoRepository.setUserLoggedIn(isFormSuccess.value)
+    loginUC.execute(email.value, password.value);
   }
 
   if (!email) {

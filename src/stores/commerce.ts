@@ -5,6 +5,10 @@ import type { Product } from '../domain/products/Product';
 
 export const useCommerceStore = defineStore('commerce', {
   state: (): ECommerceState => ({
+    // memory implementation = demo
+    // firebase implementation 
+    // amplify implementation
+    // supbase implementation
     features: ['firebase'],
     products: [
     ],
