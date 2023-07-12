@@ -7,7 +7,7 @@ import { UserInfoRepository } from '../userinfo/UserInfoRepository'
 import { SystemInfoRepository } from '../systeminfo/SystemInfoRepository'
 import { Events, eventbus } from '../eventBus'
 
-export class UserSigninUsecase implements Usecase {
+export class UserSigninWithPasswordUsecase implements Usecase {
 
   constructor(
     private authService: AuthenticationService,
@@ -15,12 +15,13 @@ export class UserSigninUsecase implements Usecase {
     private systemInfo: SystemInfoRepository
   ) {}
 
-  async execute(): Promise<SigninResponse> {
-    return this.authService.signin().then((res) => {
+  async execute(username: string, password:string): Promise<SigninResponse> {
+    return this.authService.passwordSignin(username, password).then((res) => {
       if (res.success) {
         this.userInfo.setUserLoggedIn(true)
         this.systemInfo.showSigninModal(false)
-        console.log("emit signin")
+        this.systemInfo.showLoginModal(false)
+        console.log("emit signin2")
         eventbus.emit(Events.userSignin, this.userInfo.getUserName())
       }
       return res

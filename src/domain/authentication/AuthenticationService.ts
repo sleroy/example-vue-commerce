@@ -30,6 +30,7 @@ export class AuthenticationService {
     try {
       const res = await this.auth.signin()
       if (res && res.success) {
+        this.userInfo.setUserName(res.username)
         this.userInfo.storeToken(res.token)
       }
       return res
@@ -44,6 +45,7 @@ export class AuthenticationService {
     try {
       const res = await this.auth.passwordSignin(username, password)
       if (res && res.success) {
+        this.userInfo.setUserName(res.username)
         this.userInfo.storeToken(res.token)
       }
       return res

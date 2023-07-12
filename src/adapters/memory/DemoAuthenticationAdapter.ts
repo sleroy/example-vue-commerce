@@ -12,7 +12,8 @@ export class DemoAuthenticationAdapter implements AuthenticationConnector {
         return Promise.resolve({
             success: true,
             errorReason: null,
-            token: {
+            username: "example",
+            token: {                
                 token: "TEST",
                 user: {}
             }
@@ -23,6 +24,7 @@ export class DemoAuthenticationAdapter implements AuthenticationConnector {
         return Promise.resolve({
             success: true,
             errorReason: null,
+            username: "example",
             token: {
                 token: "TEST",
                 user: {}

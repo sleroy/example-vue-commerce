@@ -1,4 +1,4 @@
-import mitt from 'mitt'
+import mitt, { Handler } from 'mitt'
 // git hub mitt
 
 export const eventbus = mitt()
@@ -7,6 +7,11 @@ export const eventbus = mitt()
 export enum Events {
     userSignin = "user-signin",
     checkoutPerformed = "checkoutPerformed"
+}
+
+export function registerEventHandler(eventName: Events, cb: Handler<unknown>) {
+    console.log(`Register event handler for  ${eventName}`)
+    eventbus.on(eventName, cb)
 }
 
 /**

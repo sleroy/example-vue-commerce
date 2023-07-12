@@ -2,7 +2,8 @@
 export interface SigninResponse {
     success: boolean,
     errorReason: any | undefined,
-    token: any | undefined
+    token: any | undefined,
+    username: string
 }
 
 export interface AuthenticationConnector {

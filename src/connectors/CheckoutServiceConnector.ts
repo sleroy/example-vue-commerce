@@ -10,5 +10,6 @@ export interface CheckoutResponse {
 }
 
 export interface CheckoutServiceConnector {
-    checkout(request: CheckoutRequest): Promise<CheckoutResponse>
+    checkout(request: CheckoutRequest): Promise<CheckoutResponse>,
+    subscribe(cb : (event: any) => unknown ): void
 }

@@ -16,12 +16,13 @@ export class FirebaseAuthenticationAdapter implements AuthenticationConnector {
       const result = await signInWithPopup(getAuth(), provider)
       // This gives you a Google Access Token. You can use it to access the Google API.
       const credential = GoogleAuthProvider.credentialFromResult(result)
-      if (!credential)
+      if (!credential) {
         return Promise.reject({
           success: false,
           errorReason: 'Cannot obtain the Google credentials',
           token: undefined
         })
+      }
       const token = credential.accessToken
       // The signed-in user info.
       const user = result.user
@@ -31,6 +32,7 @@ export class FirebaseAuthenticationAdapter implements AuthenticationConnector {
       return Promise.resolve({
         success: true,
         errorReason: null,
+        username: user.displayName ||  user.email || "unknown",
         token: {
           token,
           user

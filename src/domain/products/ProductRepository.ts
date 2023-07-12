@@ -2,7 +2,7 @@ import { useCommerceStore } from '@/stores/commerce'
 import type { Product } from './Product';
 import type { ProductDatabaseConnector } from '../../connectors/ProductDatabaseConnector';
 import { obtainProductDB } from '../../adapters/AdapterStrategy';
-import { Events, eventbus } from '../eventBus';
+import { Events, eventbus, registerEventHandler } from '../eventBus';
 import { type Emitter, type EventType } from 'mitt';
 
 export class ProductRepository {
@@ -16,7 +16,7 @@ export class ProductRepository {
         this.eventBus = eventbus
 
         // We listen to userSignin event
-        this.eventBus.on(Events.userSignin, (e) => {
+        registerEventHandler(Events.userSignin, (e) => {
             this.onUserSignin()
         }); // 'e' has inferred type 'string'
     }

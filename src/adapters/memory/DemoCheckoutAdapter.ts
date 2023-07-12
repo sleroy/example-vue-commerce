@@ -2,6 +2,10 @@ import type { CheckoutRequest, CheckoutResponse, CheckoutServiceConnector } from
 import { Events, eventbus } from "../../domain/eventBus";
 
 export class DemoCheckoutConnectorAdapter implements CheckoutServiceConnector {
+    subscribe(cb: (event: any) => unknown) {
+        
+    }
+    
     checkout(request: CheckoutRequest): Promise<CheckoutResponse> {
         eventbus.emit(Events.checkoutPerformed, request)
         console.log("Received checkout with cart ", { cart: request })

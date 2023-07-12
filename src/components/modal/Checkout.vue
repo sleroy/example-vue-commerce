@@ -71,7 +71,6 @@ function closeModal(reloadPage: boolean) {
 	if (reloadPage) {
 		systemInfoRepository.setCheckoutRequired(false)
 		isCheckoutSection.value = false;
-		console.log("Checkout is ", isCheckoutSection)
 	}
 }
 function removeFromCart(id: string) {

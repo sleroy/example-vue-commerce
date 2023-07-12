@@ -15,12 +15,14 @@ import { LoadApiUsecase } from './LoadApiUsecase'
 import { UserSigninUsecase } from './UserSigninUsecase'
 import { AuthenticationService } from '../authentication/AuthenticationService'
 import { UserSigninWithPasswordUsecase } from './UserSigninWithPassword';
+import { CheckoutRepository } from '../checkout/CheckoutRepository'
 
 const usecaseMapping = (
   systemInfoRepo: SystemInfoRepository,
   userInfoRepo: UserInfoRepository,
   productRepo: ProductRepository,
-  authService: AuthenticationService
+  authService: AuthenticationService,
+  checkoutRepository: CheckoutRepository
 ) => {
   return {
     'open-product-detail': () => new OpenProductDetailUsecase(),
@@ -35,7 +37,7 @@ const usecaseMapping = (
     'save-to-favorite': () => new SaveToFavoriteProductUsecase(productRepo, systemInfoRepo, userInfoRepo),
     'remove-from-favorite': () => new RemoveFromFavoriteProductUsecase(productRepo),
     'select-quantity': () => new SelectQuantityUsecase(productRepo),
-    'load-api': () => new LoadApiUsecase(productRepo)
+    'load-api': () => new LoadApiUsecase(productRepo, checkoutRepository)
   }
 }
 
@@ -43,12 +45,14 @@ export function usecase(usecaseId: string) {
   const systemInfoRepo = new SystemInfoRepository()
   const userInfoRepo = new UserInfoRepository()
   const productRepo = new ProductRepository()
+  const checkoutRepository = new CheckoutRepository()
   const authService = new AuthenticationService(userInfoRepo, systemInfoRepo);
   const selectedUsecaseMap: Record<string, any> = usecaseMapping(
     systemInfoRepo,
     userInfoRepo,
     productRepo,
-    authService
+    authService,
+    checkoutRepository,
   )
 
   const usecaseFactory = selectedUsecaseMap[usecaseId]
