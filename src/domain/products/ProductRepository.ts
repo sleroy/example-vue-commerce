@@ -52,10 +52,13 @@ export class ProductRepository {
     }
 
     clearCart() {
-        this._store.products = this._store.products.forEach(p => {
+        const newList = [] as Product[];
+        this._store.products.forEach((p: Product) => {
             p.isAddedToCart = false
             p.quantity = 0;
+            newList.push(p)
         });
+        this._store.products = newList;
     }
 
 

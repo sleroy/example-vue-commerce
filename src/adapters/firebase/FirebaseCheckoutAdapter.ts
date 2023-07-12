@@ -1,9 +1,6 @@
-import type { Product } from '../../domain/products/Product'
 import { firestore } from './firebaseConfig'
-import { collection, addDoc, query, getDocs, QueryDocumentSnapshot, type SnapshotOptions } from 'firebase/firestore'
-import { hasFeature, setFeature } from './firebaseFeatures'
+import { collection, addDoc } from 'firebase/firestore'
 import type { CheckoutRequest, CheckoutResponse, CheckoutServiceConnector } from "../../connectors/CheckoutServiceConnector";
-import { Events, eventbus } from '../../domain/eventBus';
 
 export class FirebaseCheckoutAdapter implements CheckoutServiceConnector {
     async checkout(request: CheckoutRequest): Promise<CheckoutResponse> {
