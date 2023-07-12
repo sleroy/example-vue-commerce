@@ -1,20 +1,21 @@
-import type { Usecase } from './types';
-import { ProductRepository } from '../products/ProductRepository';
-import type { Product } from '../products/Product';
+import type { Usecase } from './types'
+import { ProductRepository } from '../products/ProductRepository'
+import type { Product } from '../products/Product'
+import { SystemInfoRepository } from '../systeminfo/SystemInfoRepository'
 
 export class RemoveFromCartUsecase implements Usecase {
+  constructor(
+    private productRepo: ProductRepository,
+    private systemInfoRepository: SystemInfoRepository
+  ) {}
 
-    constructor(private productRepo: ProductRepository) {
-
+  execute(id: string) {
+    let data = {
+      id: id,
+      status: false
     }
-
-    execute(id: string) {
-        let data = {
-            id: id,
-            status: false
-        }
-        this.productRepo.removeFromCart(id);
-        this.productRepo.setAddedBtn(data);
-    }
-
+    this.productRepo.removeFromCart(id)
+    this.productRepo.setAddedBtn(data)
+    this.systemInfoRepository.setCheckoutRequired(true)
+  }
 }

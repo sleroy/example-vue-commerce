@@ -28,7 +28,7 @@
 				<button v-show="products.length > 0 && !isCheckoutSection" class="rounded-xl p-3 bg-blue text-white w-full"
 					@click="onNextBtn">{{ buyLabel }}</button>
 				<button v-if="isCheckoutSection" class="rounded-xl p-3 bg-blue text-white w-full"
-					@click="closeModal(false)">{{ closeLabel }}</button>
+					@click="closeModal(true)">{{ closeLabel }}</button>
 			</div>
 		</div>
 	</div>
@@ -39,7 +39,6 @@ import { ref, computed } from 'vue'
 import { usecase } from '@/domain/usecases/usecaseMap';
 import { ProductRepository } from '../../domain/products/ProductRepository';
 import { SystemInfoRepository } from '../../domain/systeminfo/SystemInfoRepository';
-import { UserInfoRepository } from '../../domain/userinfo/UserInfoRepository';
 
 const systemInfoRepository = new SystemInfoRepository()
 const productRepository = new ProductRepository(systemInfoRepository);
@@ -52,7 +51,7 @@ const modalTitle = ref('Checkout')
 const removeLabel = ref('Remove from cart')
 const cartEmptyLabel = ref('Your cart is empty')
 const closeLabel = ref('Close')
-const isCheckoutSection = computed(() => !systemInfoRepository.requireCheckout())
+const isCheckoutSection = ref(false)
 
 const products = computed(() => {
 	return productRepository.productsAdded();
@@ -70,14 +69,18 @@ const buyLabel = computed(() => {
 function closeModal(reloadPage: boolean) {
 	systemInfoRepository.showCheckoutModal(false)
 	if (reloadPage) {
-		window.location.reload();
+		systemInfoRepository.setCheckoutRequired(false)
+		isCheckoutSection.value = false;
+		console.log("Checkout is ", isCheckoutSection)
 	}
 }
 function removeFromCart(id: string) {
 	removeFromCartUC.execute(id)
 }
 function onNextBtn() {
-	checkoutUC.execute()	
+	checkoutUC.execute().then((r: boolean) => {
+		isCheckoutSection.value = r;
+	})
 }
 
 

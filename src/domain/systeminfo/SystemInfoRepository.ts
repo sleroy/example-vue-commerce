@@ -11,7 +11,8 @@ export class SystemInfoRepository {
         return this._store;
     }
 
-    requireCheckout() {
+    requireCheckout(): boolean {
+        console.log("Checkout required", this._store.systemInfo.checkoutRequired)
         return this._store.systemInfo.checkoutRequired;
     }
 

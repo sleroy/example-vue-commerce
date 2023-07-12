@@ -4,14 +4,13 @@ import type { ProductDatabaseConnector } from '../../connectors/ProductDatabaseC
 import { obtainProductDB } from '../../adapters/AdapterStrategy';
 import { Events, eventbus } from '../eventBus';
 import { type Emitter, type EventType } from 'mitt';
-import { SystemInfoRepository } from '../systeminfo/SystemInfoRepository';
 
 export class ProductRepository {
     private _store: ReturnType<typeof useCommerceStore>;
     private productDB: ProductDatabaseConnector
     eventBus: Emitter<Record<EventType, unknown>>;
 
-    constructor(private systemInfoRepository: SystemInfoRepository) {
+    constructor() {
         this._store = useCommerceStore();
         this.productDB = obtainProductDB(this._store.features)
         this.eventBus = eventbus
@@ -105,7 +104,6 @@ export class ProductRepository {
     }
 
     addToCart(id: string) {
-        this.systemInfoRepository.setCheckoutRequired(true)
         this.products.forEach(el => {
             if (id === el.id) {
                 el.isAddedToCart = true;
@@ -114,7 +112,6 @@ export class ProductRepository {
     }
 
     setAddedBtn(data: any) {
-        this.systemInfoRepository.setCheckoutRequired(true)
         this.products.forEach(el => {
             if (data.id === el.id) {
                 el.isAddedBtn = data.status;
@@ -122,8 +119,7 @@ export class ProductRepository {
         });
     }
 
-    removeFromCart(id: string) {
-        this.systemInfoRepository.setCheckoutRequired(true)
+    removeFromCart(id: string) {        
         this.products.forEach(el => {
             if (id === el.id) {
                 el.isAddedToCart = false;
@@ -152,7 +148,6 @@ export class ProductRepository {
         });
     }
     setQuantity(data: any) {
-        this.systemInfoRepository.setCheckoutRequired(true)
         this.products.forEach(el => {
             if (data.id === el.id) {
                 el.quantity = data.quantity;

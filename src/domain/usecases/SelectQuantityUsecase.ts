@@ -12,7 +12,7 @@ export class SelectQuantityUsecase implements Usecase {
         let data = {
             id: id,
             quantity: selected
-        }        
+        }
         this.productRepo.setQuantity(data);
     }
 

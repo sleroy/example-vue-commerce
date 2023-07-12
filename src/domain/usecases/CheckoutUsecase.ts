@@ -20,6 +20,7 @@ export class CheckoutUsecase implements Usecase {
 
     async execute(): Promise<boolean> {
         if (this.userInfoRepo.isUserLoggedIn()) {
+            console.info("Perform the checkout")
             try {
                 const request: CheckoutRequest = {
                     products: this.productRepo.getCart(),

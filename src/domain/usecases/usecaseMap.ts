@@ -29,10 +29,9 @@ const usecaseMapping = (
     signup: () => new SignupUsecase(userInfoRepo),
     checkout: () => new CheckoutUsecase(systemInfoRepo, userInfoRepo, productRepo),
     'search-product': () => new SearchProductUsecase(userInfoRepo),
-    'add-to-cart': () => new AddToCartUsecase(productRepo),
-    'remove-from-cart': () => new RemoveFromCartUsecase(productRepo),
-    'save-to-favorite': () =>
-      new SaveToFavoriteProductUsecase(productRepo, systemInfoRepo, userInfoRepo),
+    'add-to-cart': () => new AddToCartUsecase(productRepo, systemInfoRepo),
+    'remove-from-cart': () => new RemoveFromCartUsecase(productRepo, systemInfoRepo),
+    'save-to-favorite': () => new SaveToFavoriteProductUsecase(productRepo, systemInfoRepo, userInfoRepo),
     'remove-from-favorite': () => new RemoveFromFavoriteProductUsecase(productRepo),
     'select-quantity': () => new SelectQuantityUsecase(productRepo),
     'load-api': () => new LoadApiUsecase(productRepo)
@@ -42,7 +41,7 @@ const usecaseMapping = (
 export function usecase(usecaseId: string) {
   const systemInfoRepo = new SystemInfoRepository()
   const userInfoRepo = new UserInfoRepository()
-  const productRepo = new ProductRepository(systemInfoRepo)
+  const productRepo = new ProductRepository()
   const authService = new AuthenticationService(userInfoRepo, systemInfoRepo);
   const selectedUsecaseMap: Record<string, any> = usecaseMapping(
     systemInfoRepo,
