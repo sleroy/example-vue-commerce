@@ -52,7 +52,7 @@ export class ProductRepository {
     }
 
     clearCart() {
-        return this._store.products.forEach(p => {
+        this._store.products = this._store.products.forEach(p => {
             p.isAddedToCart = false
             p.quantity = 0;
         });

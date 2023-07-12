@@ -20,8 +20,8 @@ const authConnectorMap: Record<string, () => AuthenticationConnector> = {
 
 const checkoutConnectorMap: Record<string, () => CheckoutServiceConnector> = {
   memory: () => new DemoCheckoutConnectorAdapter(),
-  firebase: () => new DemoCheckoutConnectorAdapter(),
-  firebase2: () => new FirebaseCheckoutAdapter()
+  //firebase: () => new DemoCheckoutConnectorAdapter(),
+  firebase: () => new FirebaseCheckoutAdapter()
 
 }
 

@@ -52,7 +52,7 @@ const modalTitle = ref('Checkout')
 const removeLabel = ref('Remove from cart')
 const cartEmptyLabel = ref('Your cart is empty')
 const closeLabel = ref('Close')
-const isCheckoutSection = ref(systemInfoRepository.requireCheckout())
+const isCheckoutSection = computed(() => !systemInfoRepository.requireCheckout())
 
 const products = computed(() => {
 	return productRepository.productsAdded();
@@ -77,10 +77,7 @@ function removeFromCart(id: string) {
 	removeFromCartUC.execute(id)
 }
 function onNextBtn() {
-	isCheckoutSection.value = checkoutUC.execute()
-	if (isCheckoutSection.value) {
-		systemInfoRepository.setCheckoutRequired(false)
-	}
+	checkoutUC.execute()	
 }
 
 

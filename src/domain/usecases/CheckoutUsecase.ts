@@ -27,6 +27,7 @@ export class CheckoutUsecase implements Usecase {
                 }
                 const res = await this.checkoutConnector.checkout(request)
                 if (res.success) {
+                    this.systemInfoRepository.setCheckoutRequired(false)
                     this.productRepo.clearCart()
                 }
                 return Promise.resolve(res.success);
