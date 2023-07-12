@@ -4,17 +4,18 @@ import type { ProductDatabaseConnector } from '../../connectors/ProductDatabaseC
 import { obtainProductDB } from '../../adapters/AdapterStrategy';
 import { Events, eventbus } from '../eventBus';
 import { type Emitter, type EventType } from 'mitt';
+import { SystemInfoRepository } from '../systeminfo/SystemInfoRepository';
 
 export class ProductRepository {
     private _store: ReturnType<typeof useCommerceStore>;
     private productDB: ProductDatabaseConnector
     eventBus: Emitter<Record<EventType, unknown>>;
 
-    constructor() {
+    constructor(private systemInfoRepository: SystemInfoRepository) {
         this._store = useCommerceStore();
-        this.productDB = obtainProductDB(this._store.features)        
+        this.productDB = obtainProductDB(this._store.features)
         this.eventBus = eventbus
-        
+
         // We listen to userSignin event
         this.eventBus.on(Events.userSignin, (e) => {
             this.onUserSignin()
@@ -49,6 +50,16 @@ export class ProductRepository {
             return el.isAddedToCart;
         });
     }
+
+    clearCart() {
+        return this._store.products.forEach(p => {
+            p.isAddedToCart = false
+            p.quantity = 0;
+        });
+    }
+
+
+
     productsAddedToFavourite(): Product[] {
         return this.products.filter(el => {
             return el.isFavourite;
@@ -91,6 +102,7 @@ export class ProductRepository {
     }
 
     addToCart(id: string) {
+        this.systemInfoRepository.setCheckoutRequired(true)
         this.products.forEach(el => {
             if (id === el.id) {
                 el.isAddedToCart = true;
@@ -99,6 +111,7 @@ export class ProductRepository {
     }
 
     setAddedBtn(data: any) {
+        this.systemInfoRepository.setCheckoutRequired(true)
         this.products.forEach(el => {
             if (data.id === el.id) {
                 el.isAddedBtn = data.status;
@@ -107,6 +120,7 @@ export class ProductRepository {
     }
 
     removeFromCart(id: string) {
+        this.systemInfoRepository.setCheckoutRequired(true)
         this.products.forEach(el => {
             if (id === el.id) {
                 el.isAddedToCart = false;
@@ -135,10 +149,15 @@ export class ProductRepository {
         });
     }
     setQuantity(data: any) {
+        this.systemInfoRepository.setCheckoutRequired(true)
         this.products.forEach(el => {
             if (data.id === el.id) {
                 el.quantity = data.quantity;
             }
         });
+    }
+
+    getCart(): Product[] {
+        return this.productsAdded()
     }
 }

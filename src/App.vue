@@ -6,6 +6,7 @@ import VmLoginModal from './components/modal/Login.vue';
 import VmSigninModal from './components/modal/Signin.vue';
 import VmSignupModal from './components/modal/Signup.vue';
 import VmCheckoutModal from './components/modal/Checkout.vue';
+import VmCheckoutToast from './components/popup/VmCheckoutToast.vue';
 </script>
 
 <template>
@@ -16,6 +17,7 @@ import VmCheckoutModal from './components/modal/Checkout.vue';
     <VmLoginModal/>
     <VmSignupModal />
     <VmCheckoutModal />
+    <VmCheckoutToast />
   </main>
   <VmFooter />
 </template>

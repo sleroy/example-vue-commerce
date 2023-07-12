@@ -20,7 +20,8 @@ export const useCommerceStore = defineStore('commerce', {
       openLoginModal: false,
       openSigninModal: true,
       openSignupModal: false,
-      openCheckoutModal: false
+      openCheckoutModal: false,
+      checkoutRequired: false
     }
   }),
   getters: {

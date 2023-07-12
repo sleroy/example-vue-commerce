@@ -3,8 +3,10 @@ import mitt from 'mitt'
 
 export const eventbus = mitt()
 
+
 export enum Events {
-    userSignin = "user-signin"
+    userSignin = "user-signin",
+    checkoutPerformed = "checkoutPerformed"
 }
 
 /**

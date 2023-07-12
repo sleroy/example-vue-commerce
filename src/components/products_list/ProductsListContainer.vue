@@ -18,6 +18,7 @@ import { useCommerceStore } from '@/stores/commerce'
 import { getByTitle } from '@/assets/filters';
 import { ProductRepository } from '../../domain/products/ProductRepository';
 import { UserInfoRepository } from '../../domain/userinfo/UserInfoRepository';
+import { SystemInfoRepository } from '@/domain/systeminfo/SystemInfoRepository';
 
 // Access to the router
 const router = useRouter()
@@ -26,7 +27,8 @@ const route = useRoute()
 const id = ref('')
 const noProductLabel = ref('No product found')
 
-const productRepo = new ProductRepository()
+const systemInfoRepo = new SystemInfoRepository()
+const productRepo = new ProductRepository(systemInfoRepo)
 const userInfo = new UserInfoRepository();
 
 const products = computed(() => {

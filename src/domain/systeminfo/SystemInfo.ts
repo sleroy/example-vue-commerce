@@ -3,4 +3,5 @@ export interface SystemInfo {
     openSigninModal: boolean;
     openSignupModal: boolean;
     openCheckoutModal: boolean;
+    checkoutRequired: boolean;
 }

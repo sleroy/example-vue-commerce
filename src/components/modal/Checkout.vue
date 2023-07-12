@@ -28,24 +28,21 @@
 				<button v-show="products.length > 0 && !isCheckoutSection" class="rounded-xl p-3 bg-blue text-white w-full"
 					@click="onNextBtn">{{ buyLabel }}</button>
 				<button v-if="isCheckoutSection" class="rounded-xl p-3 bg-blue text-white w-full"
-					@click="closeModal(true)">{{ closeLabel }}</button>
+					@click="closeModal(false)">{{ closeLabel }}</button>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { useRouter, useRoute } from 'vue-router'
-import { ref, computed, onMounted, onUnmounted, type Ref } from 'vue'
+import { ref, computed } from 'vue'
 import { usecase } from '@/domain/usecases/usecaseMap';
 import { ProductRepository } from '../../domain/products/ProductRepository';
 import { SystemInfoRepository } from '../../domain/systeminfo/SystemInfoRepository';
 import { UserInfoRepository } from '../../domain/userinfo/UserInfoRepository';
-import { isValidEmail } from '@/assets/validators';
 
-const userInfoRepository = new UserInfoRepository()
 const systemInfoRepository = new SystemInfoRepository()
-const productRepository = new ProductRepository();
+const productRepository = new ProductRepository(systemInfoRepository);
 
 const removeFromCartUC = usecase('remove-from-cart');
 const checkoutUC = usecase('checkout');
@@ -55,7 +52,7 @@ const modalTitle = ref('Checkout')
 const removeLabel = ref('Remove from cart')
 const cartEmptyLabel = ref('Your cart is empty')
 const closeLabel = ref('Close')
-const isCheckoutSection = ref(false)
+const isCheckoutSection = ref(systemInfoRepository.requireCheckout())
 
 const products = computed(() => {
 	return productRepository.productsAdded();
@@ -69,9 +66,6 @@ const buyLabel = computed(() => {
 	return `Buy ${totalProducts} ${productLabel} at ${finalPrice}€`;
 })
 
-const isUserLoggedIn = computed(() => {
-	return userInfoRepository.isUserLoggedIn();
-})
 
 function closeModal(reloadPage: boolean) {
 	systemInfoRepository.showCheckoutModal(false)
@@ -83,8 +77,10 @@ function removeFromCart(id: string) {
 	removeFromCartUC.execute(id)
 }
 function onNextBtn() {
-	const res: boolean = checkoutUC.execute()	
-
+	isCheckoutSection.value = checkoutUC.execute()
+	if (isCheckoutSection.value) {
+		systemInfoRepository.setCheckoutRequired(false)
+	}
 }
 
 

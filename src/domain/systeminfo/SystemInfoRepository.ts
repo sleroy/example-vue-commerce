@@ -11,6 +11,17 @@ export class SystemInfoRepository {
         return this._store;
     }
 
+    requireCheckout() {
+        return this._store.systemInfo.checkoutRequired;
+    }
+
+    setCheckoutRequired(option) {
+        this._store.systemInfo.checkoutRequired = option;
+    }
+
+
+
+
     isOpenedLoginModal() {
         return this._store.systemInfo.openLoginModal;
     }
