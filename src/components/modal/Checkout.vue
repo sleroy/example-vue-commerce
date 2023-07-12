@@ -41,7 +41,7 @@ import { ProductRepository } from '../../domain/products/ProductRepository';
 import { SystemInfoRepository } from '../../domain/systeminfo/SystemInfoRepository';
 
 const systemInfoRepository = new SystemInfoRepository()
-const productRepository = new ProductRepository(systemInfoRepository);
+const productRepository = new ProductRepository();
 
 const removeFromCartUC = usecase('remove-from-cart');
 const checkoutUC = usecase('checkout');

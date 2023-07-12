@@ -15,7 +15,7 @@ const selected = ref(1);
 const quantityArray = reactive([] as number[]);
 
 const sysinfoRepo = new SystemInfoRepository();
-const productRepo = new ProductRepository(sysinfoRepo);
+const productRepo = new ProductRepository();
 
 
 onMounted(() => {

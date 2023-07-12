@@ -70,7 +70,7 @@ const wishlistLabel = ref('Wishlist')
 const logoutUC = usecase('logout')
 
 const systemRepository: SystemInfoRepository = new SystemInfoRepository();
-const productRepository = new ProductRepository(systemRepository);
+const productRepository = new ProductRepository();
 const userInfoRepository = new UserInfoRepository();
 
 
@@ -92,7 +92,7 @@ function closeDropdown() {
     showDropdown.value = false;
   }, 100);
 }
-function showCheckoutModal() {  
+function showCheckoutModal() {
   systemRepository.showCheckoutModal(true);
 }
 

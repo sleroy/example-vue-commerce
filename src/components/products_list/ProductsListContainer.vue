@@ -28,7 +28,7 @@ const id = ref('')
 const noProductLabel = ref('No product found')
 
 const systemInfoRepo = new SystemInfoRepository()
-const productRepo = new ProductRepository(systemInfoRepo)
+const productRepo = new ProductRepository()
 const userInfo = new UserInfoRepository();
 
 const products = computed(() => {
