@@ -1,7 +1,7 @@
 import type { Usecase } from './types';
 import { UserInfoRepository } from '../userinfo/UserInfoRepository';
-import { isValidEmail} from '@/assets/validators'
-
+import { isValidEmail } from '@/assets/validators'
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 export interface SignupForm {
   name: string,
   email: string,
@@ -22,7 +22,7 @@ export class SignupUsecase implements Usecase {
 
   constructor(private userInfoRepository: UserInfoRepository) { }
 
-  execute(form: SignupForm) {
+  async execute(form: SignupForm) {
     const { name, email, password, repeatPassword } = form;
 
     const response = {
@@ -37,10 +37,18 @@ export class SignupUsecase implements Usecase {
     if (name && email && password && repeatPassword) {
       response.highlightEmailWithError = false;
       response.highlightPasswordWithError = false;
-      response.isFormSuccess = true;
       this.userInfoRepository.setUserName(name)
       this.userInfoRepository.setUserSignedUp(response.isFormSuccess)
       this.userInfoRepository.setUserLoggedIn(response.isFormSuccess)
+
+      try {
+        await createUserWithEmailAndPassword(getAuth(), email, password)
+        response.isFormSuccess = true;
+      } catch (e) {
+        throw e
+      }
+
+      return response;
     }
 
     if (!name) {

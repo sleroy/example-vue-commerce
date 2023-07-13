@@ -118,6 +118,8 @@ function checkForm(e: Event) {
   } else if (response.highlightEmailWithError) {
     emailErrorLabel.value = emailRequiredLabel.value;
   }
+  
+  
 }
 
 function checkNameOnKeyUp(nameValue: any) {
