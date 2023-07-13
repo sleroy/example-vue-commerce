@@ -1,4 +1,4 @@
-import mitt, { Handler } from 'mitt'
+import mitt, { type Handler } from 'mitt'
 // git hub mitt
 
 export const eventbus = mitt()

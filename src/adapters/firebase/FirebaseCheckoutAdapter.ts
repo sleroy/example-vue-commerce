@@ -23,9 +23,9 @@ export class FirebaseCheckoutAdapter implements CheckoutServiceConnector {
     // Subscribe to events
     const q = query(collection(firestore, 'checkout'))
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      querySnapshot.docChanges().forEach(function (change) {
+      querySnapshot.docChanges().forEach((change) => {
         if (change.type == "added") {//first time it will be triggered
-          cb.call(this, change.doc.data())
+          cb(change.doc.data())
         }
       })
     })
