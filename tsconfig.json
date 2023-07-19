@@ -1,4 +1,7 @@
 {
+  "compilerOptions": {
+    "strictPropertyInitialization": false
+  },
   "files": [],
   "references": [
     {

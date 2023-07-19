@@ -7,13 +7,9 @@ import { type CheckoutServiceConnector } from '../../connectors/CheckoutServiceC
 let checkoutRegistration = false;
 
 export class CheckoutRepository {
-    private _store: ReturnType<typeof useCommerceStore>
-    eventBus: Emitter<Record<EventType, unknown>>
-    checkoutDB: CheckoutServiceConnector
-
-    constructor() {
-        this._store = useCommerceStore()
-        this.checkoutDB = obtainCheckout(this._store.features)
+    private eventBus: Emitter<Record<EventType, unknown>>
+    
+    constructor(private checkoutDB: CheckoutServiceConnector) {
         this.eventBus = eventbus
 
         if (!checkoutRegistration) {
@@ -28,4 +24,9 @@ export class CheckoutRepository {
             checkoutRegistration = true;
         }
     }
+
+    get store() {
+        return useCommerceStore();
+    }
+
 }

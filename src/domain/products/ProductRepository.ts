@@ -1,18 +1,13 @@
 import { useCommerceStore } from '@/stores/commerce'
 import type { Product } from './Product';
 import type { ProductDatabaseConnector } from '../../connectors/ProductDatabaseConnector';
-import { obtainProductDB } from '../../adapters/AdapterStrategy';
 import { Events, eventbus, registerEventHandler } from '../eventBus';
 import { type Emitter, type EventType } from 'mitt';
 
 export class ProductRepository {
-    private _store: ReturnType<typeof useCommerceStore>;
-    private productDB: ProductDatabaseConnector
-    eventBus: Emitter<Record<EventType, unknown>>;
+    private eventBus: Emitter<Record<EventType, unknown>>;
 
-    constructor() {
-        this._store = useCommerceStore();
-        this.productDB = obtainProductDB(this._store.features)
+    constructor(private productDB: ProductDatabaseConnector) {
         this.eventBus = eventbus
 
         // We listen to userSignin event
@@ -26,17 +21,17 @@ export class ProductRepository {
     }
 
     get store() {
-        return this._store;
+        return useCommerceStore();
     }
 
     get products(): Product[] {
-        return this._store.products;
+        return this.store.products;
     }
 
     load() {
         console.log("Refreshing the products")
         this.productDB.loadProducts().then(r => {
-            this._store.loadProducts(r.products)
+            this.store.loadProducts(r.products)
         });
     }
 
@@ -45,19 +40,19 @@ export class ProductRepository {
     }
 
     productsAdded(): Product[] {
-        return this._store.products.filter(el => {
+        return this.store.products.filter(el => {
             return el.isAddedToCart;
         });
     }
 
     clearCart() {
         const newList = [] as Product[];
-        this._store.products.forEach((p: Product) => {
+        this.store.products.forEach((p: Product) => {
             p.isAddedToCart = false
             p.quantity = 0;
             newList.push(p)
         });
-        this._store.products = newList;
+        this.store.products = newList;
     }
 
 
@@ -69,7 +64,7 @@ export class ProductRepository {
     }
 
     generateBuyStats() {
-        let totalProducts = this._store.products.length,
+        let totalProducts = this.store.products.length,
             productsAdded = this.productsAdded(),
             pricesArray = [] as number[],
             productLabel = '',
@@ -100,7 +95,7 @@ export class ProductRepository {
     }
 
     getProductById(id: string): Product | undefined {
-        return this._store.products.find((product: Product) => product.id == id);
+        return this.store.products.find((product: Product) => product.id == id);
     }
 
     addToCart(id: string) {

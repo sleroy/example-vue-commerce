@@ -2,36 +2,34 @@ import { useCommerceStore } from '@/stores/commerce'
 import { type Token } from '../authentication/Token'
 
 export class UserInfoRepository {
-  private _store: ReturnType<typeof useCommerceStore>
 
   constructor() {
-    this._store = useCommerceStore()
   }
 
   get store() {
-    return this._store
+    return useCommerceStore()
   }
 
   getProductTitleSearched() {
-    return this._store.userInfo.productTitleSearched
+    return this.store.userInfo.productTitleSearched
   }
 
   hasSearched() {
-    return this._store.userInfo.hasSearched
+    return this.store.userInfo.hasSearched
   }
 
   hasToken() {
-    return this._store.userInfo && this._store.userInfo.token;
+    return this.store.userInfo && this.store.userInfo.token;
   }
 
   isUserLoggedIn() {
-    return this._store.userInfo.isLoggedIn
+    return this.store.userInfo.isLoggedIn
   }
   isUserSignedUp() {
-    return this._store.userInfo.isSignedUp
+    return this.store.userInfo.isSignedUp
   }
   getUserName() {
-    return this._store.userInfo.name
+    return this.store.userInfo.name
   }
 
   getUserNameOrDefault() {
@@ -44,21 +42,21 @@ export class UserInfoRepository {
   }
 
   setUserLoggedIn(isUserLoggedIn: boolean) {
-    this._store.userInfo.isLoggedIn = isUserLoggedIn
+    this.store.userInfo.isLoggedIn = isUserLoggedIn
   }
   setUserSignedUp(isSignedUp: boolean) {
-    this._store.userInfo.isSignedUp = isSignedUp
+    this.store.userInfo.isSignedUp = isSignedUp
   }
   setHasUserSearched(hasSearched: boolean) {
-    this._store.userInfo.hasSearched = hasSearched
+    this.store.userInfo.hasSearched = hasSearched
   }
   setUserName(name: string) {
-    this._store.userInfo.name = name
+    this.store.userInfo.name = name
   }
   setProductTitleSearched(titleSearched: string) {
-    this._store.userInfo.productTitleSearched = titleSearched
+    this.store.userInfo.productTitleSearched = titleSearched
   }
   storeToken(token: Token) {
-    this._store.userInfo.token = token
+    this.store.userInfo.token = token
   }
 }

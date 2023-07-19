@@ -3,59 +3,53 @@ import { obtainRemoteNotifications } from '../../adapters/AdapterStrategy';
 
 export class SystemInfoRepository {
 
-    private _store: ReturnType<typeof useCommerceStore>;
-
     constructor() {
-        this._store = useCommerceStore();
     }
 
     get store() {
-        return this._store;
+        return useCommerceStore();
     }
 
     requireCheckout(): boolean {
-        console.log("Checkout required", this._store.systemInfo.checkoutRequired)
-        return this._store.systemInfo.checkoutRequired;
+        console.log("Checkout required", this.store.systemInfo.checkoutRequired)
+        return this.store.systemInfo.checkoutRequired;
     }
 
     setCheckoutRequired(option: boolean) {
-        this._store.systemInfo.checkoutRequired = option;
+        this.store.systemInfo.checkoutRequired = option;
     }
 
-
-
-
     isOpenedLoginModal() {
-        return this._store.systemInfo.openLoginModal;
+        return this.store.systemInfo.openLoginModal;
     }
 
     isOpenedSigninModal() {
-        return this._store.systemInfo.openSigninModal;
+        return this.store.systemInfo.openSigninModal;
     }
 
     isOpenedSignupModal() {
-        return this._store.systemInfo.openSignupModal;
+        return this.store.systemInfo.openSignupModal;
     }
 
     isOpenedCheckoutModal() {
-        return this._store.systemInfo.openCheckoutModal;
+        return this.store.systemInfo.openCheckoutModal;
     }
 
     showLoginModal(show: boolean) {
-        this._store.systemInfo.openLoginModal = show;
+        this.store.systemInfo.openLoginModal = show;
     }
 
 
     showSigninModal(show: boolean) {
-        this._store.systemInfo.openSigninModal = show;
+        this.store.systemInfo.openSigninModal = show;
     }
 
     showSignupModal(show: boolean) {
-        this._store.systemInfo.openSignupModal = show;
+        this.store.systemInfo.openSignupModal = show;
     }
 
     showCheckoutModal(show: boolean) {
-        this._store.systemInfo.openCheckoutModal = show;
+        this.store.systemInfo.openCheckoutModal = show;
     }
 
     enableNotifications() {
