@@ -13,12 +13,12 @@
 <script setup lang="ts">
 import VmProducts from '../Products.vue';
 import { useRouter, useRoute } from 'vue-router'
-import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { useCommerceStore } from '@/stores/commerce'
+import { ref, computed } from 'vue'
 import { getByTitle } from '@/assets/filters';
 import { ProductRepository } from '../../domain/products/ProductRepository';
 import { UserInfoRepository } from '../../domain/userinfo/UserInfoRepository';
 import { SystemInfoRepository } from '@/domain/systeminfo/SystemInfoRepository';
+import { backend } from '@/domain/backend';
 
 // Access to the router
 const router = useRouter()
@@ -27,13 +27,9 @@ const route = useRoute()
 const id = ref('')
 const noProductLabel = ref('No product found')
 
-const systemInfoRepo = new SystemInfoRepository()
-const productRepo = new ProductRepository()
-const userInfo = new UserInfoRepository();
-
 const products = computed(() => {
-  const products = productRepo.products
-  const hasSearched = userInfo.hasSearched()
+  const products = backend.products.products
+  const hasSearched = backend.user.hasSearched()
   if (hasSearched) {
     return getProductByTitle();
   } else {
@@ -42,8 +38,8 @@ const products = computed(() => {
 });
 
 function getProductByTitle() {
-  const products = productRepo.products
-  const productTitleSearched = userInfo.getProductTitleSearched()
+  const products = backend.products.products
+  const productTitleSearched = backend.user.getProductTitleSearched()
 
   return getByTitle(products, productTitleSearched);
 }

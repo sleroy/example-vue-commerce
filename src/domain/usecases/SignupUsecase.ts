@@ -2,6 +2,7 @@ import type { Usecase } from './types';
 import { UserInfoRepository } from '../userinfo/UserInfoRepository';
 import { isValidEmail } from '@/assets/validators'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
 export interface SignupForm {
   name: string,
   email: string,

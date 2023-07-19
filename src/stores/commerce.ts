@@ -22,7 +22,7 @@ export const useCommerceStore = defineStore('commerce', {
     },
     systemInfo: {
       openLoginModal: false,
-      openSigninModal: true,
+      openSigninModal: false,
       openSignupModal: false,
       openCheckoutModal: false,
       checkoutRequired: false

@@ -11,6 +11,7 @@ export class LoadApiUsecase implements Usecase {
 
     execute() {
         // 
+        console.log("Initialization of the API")
         this.productRepo.load();
     
     }

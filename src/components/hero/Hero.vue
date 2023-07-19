@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-blue p-10 lg:p-36">
+  <div class="bg-blue p-10 lg:p-24">
     <h1 class="text-white text-4xl mb-5">
       ECommerce App Demo
     </h1>

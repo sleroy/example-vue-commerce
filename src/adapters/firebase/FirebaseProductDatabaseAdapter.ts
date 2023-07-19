@@ -10,6 +10,7 @@ import { hasFeature, setFeature } from './firebaseFeatures'
 const featureName = 'db_products'
 
 async function loadDemoDataInFirebase(products: Product[]) {
+  console.log("Loading data into Firebase")
   try {
     const product: Product = {
       id: '',
@@ -61,23 +62,27 @@ const productConverter = {
 
 export class FirebaseProductDatabaseAdapter implements ProductDatabaseConnector {
   async loadProducts(): Promise<ProductLoadResponse> {
-    // We control if the collection exists and if they are some documents.
-    // If they are no documents, we upload the data for the first time into the collections
-    const products = [] as Product[]
-    if (!(await hasFeature(featureName))) {
-      await loadDemoDataInFirebase(products)
-    } else {
-      const q = query(collection(firestore, 'products'))
-      const querySnapshot = await getDocs(q.withConverter(productConverter))
-      querySnapshot.forEach((doc) => {
-        const product = doc.data();
-        products.push(product)
+    try {
+      // We control if the collection exists and if they are some documents.
+      // If they are no documents, we upload the data for the first time into the collections
+      const products = [] as Product[]
+      if (!(await hasFeature(featureName))) {
+        await loadDemoDataInFirebase(products)
+      } else {        
+        const q = query(collection(firestore, 'products'))
+        const querySnapshot = await getDocs(q.withConverter(productConverter))
+        querySnapshot.forEach((doc) => {
+          const product = doc.data();
+          products.push(product)
+        })
+      }
+      return Promise.resolve({
+        products: products
       })
+    } catch (e) {
+      console.error("Cannot obtain the list of products")
+      throw new Error(e)
     }
-    return Promise.resolve({
-      products: products
-    })
 
-    
   }
 }

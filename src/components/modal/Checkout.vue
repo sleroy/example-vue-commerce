@@ -37,11 +37,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { usecase } from '@/domain/usecases/usecaseMap';
-import { ProductRepository } from '../../domain/products/ProductRepository';
-import { SystemInfoRepository } from '../../domain/systeminfo/SystemInfoRepository';
+import { backend } from '@/domain/backend';
 
-const systemInfoRepository = new SystemInfoRepository()
-const productRepository = new ProductRepository();
 
 const removeFromCartUC = usecase('remove-from-cart');
 const checkoutUC = usecase('checkout');
@@ -54,22 +51,22 @@ const closeLabel = ref('Close')
 const isCheckoutSection = ref(false)
 
 const products = computed(() => {
-	return productRepository.productsAdded();
+	return backend.products.productsAdded();
 })
 const openModal = computed(() => {
-	return systemInfoRepository.isOpenedCheckoutModal();
+	return backend.system.isOpenedCheckoutModal();
 })
 
 const buyLabel = computed(() => {
-	const { totalProducts, productLabel, finalPrice } = productRepository.generateBuyStats();
+	const { totalProducts, productLabel, finalPrice } = backend.products.generateBuyStats();
 	return `Buy ${totalProducts} ${productLabel} at ${finalPrice}€`;
 })
 
 
 function closeModal(reloadPage: boolean) {
-	systemInfoRepository.showCheckoutModal(false)
+	backend.system.showCheckoutModal(false)
 	if (reloadPage) {
-		systemInfoRepository.setCheckoutRequired(false)
+		backend.system.setCheckoutRequired(false)
 		isCheckoutSection.value = false;
 	}
 }
@@ -81,7 +78,6 @@ function onNextBtn() {
 		isCheckoutSection.value = r;
 	})
 }
-
 
 </script>
 

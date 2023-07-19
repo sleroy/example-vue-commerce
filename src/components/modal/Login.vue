@@ -32,10 +32,6 @@
           <div class="m-4">
             <button v-if="!isUserLoggedIn" type="submit" class="rounded-xl p-3 bg-blue text-white w-full">{{
               loginBtnLabel }}</button>
-              <button v-if="!isUserLoggedIn" @click="onSignup" class="rounded-xl p-3 mt-3 bg-grey_light text-grey_dark w-full">
-              Sign up</button>
-            <button v-if="isUserLoggedIn" type="button" class="rounded-xl p-3 bg-grey_light text-grey_dark"
-              @click="closeModal">{{ btnLoggedInLabel }}</button>
           </div>
         </section>
       </form>
@@ -44,15 +40,10 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter, useRoute } from 'vue-router'
 import { ref, computed, type Ref } from 'vue'
 import { usecase } from '@/domain/usecases/usecaseMap';
-import { SystemInfoRepository } from '../../domain/systeminfo/SystemInfoRepository';
-import { UserInfoRepository } from '../../domain/userinfo/UserInfoRepository';
 import { isValidEmail } from '@/assets/validators';
-
-const userInfoRepository = new UserInfoRepository()
-const systemInfoRepository = new SystemInfoRepository()
+import { backend } from '@/domain/backend';
 
 const loginUC = usecase('signin-password')
 
@@ -64,7 +55,6 @@ const loginBtnLabel = ref('Log in')
 const emailRequiredLabel = ref('Email required')
 const passwordRequiredLabel = ref('Password required')
 const emailNotValidLabel = ref('Valid email required')
-const btnLoggedInLabel = ref('Close')
 const email = ref('')
 const password = ref('')
 const highlightEmailWithError = ref(null) as Ref<Boolean | null>
@@ -72,22 +62,16 @@ const highlightPasswordWithError = ref(null) as Ref<Boolean | null>
 const isFormSuccess = ref(false)
 
 const isUserLoggedIn = computed(() => {
-  return userInfoRepository.isUserLoggedIn();
+  return backend.user.isUserLoggedIn();
 })
 
 const openModal = computed(() => {
-  return systemInfoRepository.isOpenedLoginModal();
+  return backend.system.isOpenedLoginModal();
 })
 
 function closeModal() {
-  systemInfoRepository.showLoginModal(false)
+  backend.system.showLoginModal(false)
 }
-
-function onSignup() {
-  closeModal()
-  systemInfoRepository.showSignupModal(true)
-}
-
 
 function checkForm(e: Event) {
   e.preventDefault();

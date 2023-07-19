@@ -93,8 +93,6 @@ const quantityArray = reactive([]) as number[] // Reactive is for objects and ar
 
 const picture = computed( () => { return (props.product && props.product.image) ? props.product.image : 'https://bulma.io/images/placeholders/1280x960.png'})
 
-const userInfoRepo = new UserInfoRepository();
-
 const addToCartUC = usecase('add-to-cart');
 const removeFromCartUC = usecase('remove-from-cart');
 const saveToFavoriteUC = usecase('save-to-favorite');

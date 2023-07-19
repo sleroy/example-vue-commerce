@@ -3,23 +3,18 @@ import Products from '../components/Products.vue';
 import { ref, reactive, onMounted, type Ref } from 'vue'
 import { useRoute } from 'vue-router'
 import type { Product } from '../domain/products/Product';
-import { ProductRepository } from '../domain/products/ProductRepository';
-import { SystemInfoRepository } from '@/domain/systeminfo/SystemInfoRepository';
+import { backend } from '@/domain/backend';
 
 // Access to the router
 const route = useRoute()
 
 
-const product = ref(undefined) as Ref<Product| undefined>;
+const product = ref(undefined) as Ref<Product | undefined>;
 const selected = ref(1);
 const quantityArray = reactive([] as number[]);
 
-const sysinfoRepo = new SystemInfoRepository();
-const productRepo = new ProductRepository();
-
-
 onMounted(() => {
-    product.value = productRepo.getProductById(route.params.id as string);
+    product.value = backend.products.getProductById(route.params.id as string);
     if (product.value) {
         selected.value = product.value.quantity;
     }

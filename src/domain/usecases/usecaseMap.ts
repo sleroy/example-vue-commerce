@@ -30,6 +30,7 @@ const usecaseMapping = (
     'signin-password': () => new UserSigninWithPasswordUsecase(authService, userInfoRepo, systemInfoRepo),
     logout: () => new UserLogoutUsecase(systemInfoRepo, userInfoRepo, productRepo),
     signup: () => new SignupUsecase(userInfoRepo),
+    'go-to-signup': () => new SignupUsecase(userInfoRepo),
     checkout: () => new CheckoutUsecase(systemInfoRepo, userInfoRepo, productRepo),
     'search-product': () => new SearchProductUsecase(userInfoRepo),
     'add-to-cart': () => new AddToCartUsecase(productRepo, systemInfoRepo),
@@ -42,11 +43,6 @@ const usecaseMapping = (
 }
 
 export function usecase(usecaseId: string) {
-  const systemInfoRepo = new SystemInfoRepository()
-  const userInfoRepo = new UserInfoRepository()
-  const productRepo = new ProductRepository()
-  const checkoutRepository = new CheckoutRepository()
-  const authService = new AuthenticationService(userInfoRepo, systemInfoRepo);
   const selectedUsecaseMap: Record<string, any> = usecaseMapping(
     systemInfoRepo,
     userInfoRepo,

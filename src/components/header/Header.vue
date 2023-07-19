@@ -6,10 +6,10 @@
     </router-link>
 
     <div class="flex items-center">
-        <div class="mx-2">
-          <button class="button bg-blue" @click="enableNotifications">Enable notifications</button>        
-        </div>
-        <div class="mx-2">
+      <div class="mx-2">
+        <button class="button" @click="enableNotifications">&#x1F50A;</button>
+      </div>
+      <div class="mx-2">
         <div class="cursor-pointer" @click="showCheckoutModal">
           <span :class="[numProductsAdded > 0 ? 'p-2 bg-blue text-white rounded-md' : '']">{{ numProductsAdded }}</span>
           <span class="icon">
@@ -21,7 +21,7 @@
       <div class="mx-2">
         <button v-if="!isUserLoggedIn" @click="onShowDropdown">
           <span class="icon">
-            <i class="fa fa-user"></i>
+            <i class="fa fa-user pr-2"></i>Login
           </span>
         </button>
         <button class="cursor-pointer" v-if="isUserLoggedIn" @click="onShowDropdown">
@@ -35,17 +35,17 @@
             <span class="text-lg">{{ logoutLabel }}</span>
           </button>
         </div>
-          <div v-if="showDropdown && !isUserLoggedIn" class="dropdown">
+        <div v-if="showDropdown && !isUserLoggedIn" class="dropdown">
           <button v-if="!isUserLoggedIn" class="button" @click="showSigninModal">
-            <span class="text-lg">Already registered?<br /> {{ loginLabel }}</span>
+            <span class="text-lg">{{ loginLabel }}</span>
             <i class="fa fa-sign-in"></i>
           </button>
           <button v-if="!isUserLoggedIn" class="button" @click="showLoginModal">
-            <span class="text-lg">Password sign-in<br /> {{ passwordLabel }}</span>
+            <span class="text-lg">{{ passwordLabel }}</span>
             <i class="fa fa-sign-in"></i>
           </button>
           <button v-if="!isUserLoggedIn" class="button" @click="showSignupModal">
-            <span class="text-lg">New User?<br /> {{ signupLabel }}</span>
+            <span class="text-lg">{{ signupLabel }}</span>
             <i class="fa fa-user-plus"></i>
           </button>
         </div>
@@ -56,38 +56,32 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+
 import { usecase } from '@/domain/usecases/usecaseMap';
-import { ProductRepository } from '../../domain/products/ProductRepository';
-import { SystemInfoRepository } from '../../domain/systeminfo/SystemInfoRepository';
-import { UserInfoRepository } from '../../domain/userinfo/UserInfoRepository';
-import { obtainRemoteNotifications } from '../../adapters/AdapterStrategy';
+import { backend } from '../../domain/backend';
 
 // Access to the router
 
 const showDropdown = ref(false)
 const logoutLabel = ref('Log out')
-const loginLabel = ref('Log in')
-const passwordLabel = ref('Log in with pwd')
+const loginLabel = ref('Google Sign-in')
+const passwordLabel = ref('Sign-in with password')
 const signupLabel = ref('Sign up')
 const wishlistLabel = ref('Wishlist')
 
 const logoutUC = usecase('logout')
 
-const systemRepository: SystemInfoRepository = new SystemInfoRepository();
-const productRepository = new ProductRepository();
-const userInfoRepository = new UserInfoRepository();
-
 
 const numProductsAdded = computed(() => {
-  return productRepository.getNumberOfProductsAdded();
+  return backend.products.getNumberOfProductsAdded();
 });
 
 const isUserLoggedIn = computed(() => {
-  return userInfoRepository.isUserLoggedIn();
+  return backend.user.isUserLoggedIn();
 })
 
 const getUserName = computed(() => {
-  return userInfoRepository.getUserNameOrDefault();
+  return backend.user.getUserNameOrDefault();
 });
 
 
@@ -97,23 +91,23 @@ function closeDropdown() {
   }, 100);
 }
 function showCheckoutModal() {
-  systemRepository.showCheckoutModal(true);
+  backend.system.showCheckoutModal(true);
 }
 
 function showLoginModal() {
-  systemRepository.showLoginModal(true);
+  backend.system.showLoginModal(true);
 }
 
 function showSigninModal() {
-  systemRepository.showSigninModal(true);
+  backend.system.showSigninModal(true);
 }
 
 function showSignupModal() {
-  systemRepository.showSignupModal(true);
+  backend.system.showSignupModal(true);
 }
 
 function onShowDropdown() {
-  showDropdown.value = !showDropdown
+  showDropdown.value = !showDropdown.value
 }
 
 function logout() {
@@ -121,7 +115,7 @@ function logout() {
 }
 
 function enableNotifications() {
-  systemRepository.enableNotifications();
+  backend.system.enableNotifications();
 }
 
 onMounted(() => {

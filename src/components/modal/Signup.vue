@@ -58,9 +58,7 @@ import { SystemInfoRepository } from '../../domain/systeminfo/SystemInfoReposito
 import { UserInfoRepository } from '../../domain/userinfo/UserInfoRepository';
 import { isValidEmail } from '@/assets/validators';
 import { type SignUpResponse, type SignupForm } from '../../domain/usecases/SignupUsecase';
-
-const userInfoRepository = new UserInfoRepository()
-const systemInfoRepository = new SystemInfoRepository()
+import { backend } from '@/domain/backend';
 
 const signupUC = usecase('signup')
 
@@ -90,13 +88,13 @@ const highlightRepeatPasswordWithError = ref(null) as Ref<boolean | null>
 const isFormSuccess = ref(false)
 
 const isUserSignedUp = computed(() => {
-  return userInfoRepository.isUserSignedUp();
+  return backend.user.isUserSignedUp();
 })
 
-const openModal = computed(() => { return systemInfoRepository.isOpenedSignupModal(); })
+const openModal = computed(() => { return backend.system.isOpenedSignupModal(); })
 
 function closeModal() {
-  systemInfoRepository.showSignupModal(false);
+  backend.system.showSignupModal(false);
 }
 
 function checkForm(e: Event) {

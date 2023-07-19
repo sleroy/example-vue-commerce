@@ -22,7 +22,6 @@ export class ProductRepository {
     }
 
     onUserSignin() {
-        console.log("Refreshing the products")
         this.load()
     }
 
@@ -35,6 +34,7 @@ export class ProductRepository {
     }
 
     load() {
+        console.log("Refreshing the products")
         this.productDB.loadProducts().then(r => {
             this._store.loadProducts(r.products)
         });
