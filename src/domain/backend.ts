@@ -3,7 +3,7 @@ import { UserInfoRepository } from './userinfo/UserInfoRepository';
 import { ProductRepository } from './products/ProductRepository';
 import { CheckoutRepository } from './checkout/CheckoutRepository';
 import { AuthenticationService } from './authentication/AuthenticationService';
-import { obtainCheckout, obtainProductDB } from '@/adapters/AdapterStrategy';
+import { obtainAuthentication, obtainCheckout, obtainProductDB, obtainRemoteNotifications } from '@/adapters/AdapterStrategy';
 
 export interface IBackend {
     system: SystemInfoRepository,
@@ -26,23 +26,23 @@ class Backend implements IBackend {
     }
 
     init(features: string[]) {
-
+        console.log("\u{23F0} Loading Backend with ", {f: features.map((s:string) => s)})
         const checkoutDB = obtainCheckout(features)
         const productDB = obtainProductDB(features)
+        const authConnector = obtainAuthentication(features)
+        const remoteNotificationConnector = obtainRemoteNotifications(features)
 
-        this.system =  new SystemInfoRepository()
+        this.system =  new SystemInfoRepository(remoteNotificationConnector)
         this.user = new UserInfoRepository()
         this.products = new ProductRepository(productDB)
         this.checkouts = new CheckoutRepository(checkoutDB)
-        this.auth = new AuthenticationService(this.user, this.system);
+        this.auth = new AuthenticationService(this.user, this.system, authConnector);
 
         return this
-    }
-
-    
+    }    
 }
 
-export const backend = new Backend().init(['memory'])
+export const backend = new Backend()
 
 
 

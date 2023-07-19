@@ -1,13 +1,17 @@
 import { useCommerceStore } from '@/stores/commerce'
-import { obtainRemoteNotifications } from '../../adapters/AdapterStrategy';
+import type { RemoteNotificationConnector } from '@/connectors/RemoteNotificationConnector';
 
-export class SystemInfoRepository {
-
-    constructor() {
+export class SystemInfoRepository {    
+    
+    constructor(private remoteNotificationConnector: RemoteNotificationConnector) {
     }
 
     get store() {
         return useCommerceStore();
+    }
+
+    get features() : string[] {
+        return this.store.features
     }
 
     requireCheckout(): boolean {
@@ -53,7 +57,7 @@ export class SystemInfoRepository {
     }
 
     enableNotifications() {
-        obtainRemoteNotifications(this._store.features).enableNotifications()
+        this.remoteNotificationConnector.enableNotifications()
     }
 
 }

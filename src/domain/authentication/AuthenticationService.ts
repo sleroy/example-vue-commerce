@@ -1,5 +1,4 @@
 import { useCommerceStore } from '@/stores/commerce'
-import { obtainAuthentication } from '../../adapters/AdapterStrategy'
 import {
   type AuthenticationConnector,
   type SigninResponse
@@ -8,22 +7,14 @@ import { UserInfoRepository } from '../userinfo/UserInfoRepository'
 import { SystemInfoRepository } from '../systeminfo/SystemInfoRepository'
 
 export class AuthenticationService {
-  private _store: ReturnType<typeof useCommerceStore>
-  auth: AuthenticationConnector
-
-  constructor(private userInfo: UserInfoRepository, private sysInfoRepo: SystemInfoRepository) {
-    this._store = useCommerceStore()
-    this.auth = obtainAuthentication(this._store.features)
-    if (userInfo.hasToken()) {
-      this.userInfo.setUserLoggedIn(true)
-      this.sysInfoRepo.showLoginModal(false)
-      this.sysInfoRepo.showSigninModal(false)
-
-    }
-  }
+  constructor(
+    private userInfo: UserInfoRepository,
+    private sysInfoRepo: SystemInfoRepository,
+    private auth: AuthenticationConnector
+  ) {}
 
   get store() {
-    return this._store
+    return useCommerceStore()
   }
 
   async signin(): Promise<SigninResponse> {
@@ -39,7 +30,6 @@ export class AuthenticationService {
       return Promise.reject(e)
     }
   }
-
 
   async passwordSignin(username: string, password: string): Promise<SigninResponse> {
     try {

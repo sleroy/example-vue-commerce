@@ -20,7 +20,6 @@ export class UserSigninUsecase implements Usecase {
       if (res.success) {
         this.userInfo.setUserLoggedIn(true)
         this.systemInfo.showSigninModal(false)
-        console.log("emit signin")
         eventbus.emit(Events.userSignin, this.userInfo.getUserName())
       }
       return res

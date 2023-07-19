@@ -21,7 +21,6 @@ export class UserSigninWithPasswordUsecase implements Usecase {
         this.userInfo.setUserLoggedIn(true)
         this.systemInfo.showSigninModal(false)
         this.systemInfo.showLoginModal(false)
-        console.log("emit signin2")
         eventbus.emit(Events.userSignin, this.userInfo.getUserName())
       }
       return res

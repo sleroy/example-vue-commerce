@@ -15,7 +15,7 @@
         <img class="rounded-2xl" :src="picture" alt="Placeholder image">
       </router-link>
     </div>
-    <div class="text-wrapper p-4">
+    <div class="text-wrapper p-4 ">
       <div class="flex items-center justify-between mb-3">
         <div class="media-content">
           <router-link :to="{
@@ -29,7 +29,7 @@
               isAddedBtn: product.isAddedBtn
             }
           }">
-            <span :class="[detail ? 'text-3xl' : 'text-lg']" class="font-medium">{{ product.title }}</span>
+            <span :class="[detail ? 'text-3xl' : 'text-lg']" class="p-4 font-medium">{{ product.title }}</span>
           </router-link>
         </div>
         <button class="button text-lg" :title="removeFromFavouriteLabel" v-show="product.isFavourite"
@@ -56,15 +56,15 @@
             <strong>&euro; {{ product.price }}</strong>
           </p>
         </div>
-        <div class="flex justify-between mt-5 items-center">
-          <select class="p-2 border-2 rounded-2xl" @change="onSelectQuantity(product.id)" v-model="selected">
+        <div class="flex flex-col flex-wrap gap-1 mt-5 items-center w-full">
+          <select class="p-2 border-2 rounded-2xl  w-full" @change="onSelectQuantity(product.id)" v-model="selected">
             <option v-bind:key="quantity" v-for="quantity in quantityArray" :value="quantity">
               {{ quantity }}
             </option>
           </select>
-          <button class="rounded-xl p-3 bg-blue text-white" v-if="!product.isAddedToCart"
+          <button class="rounded-xl p-3 bg-blue text-white w-full" v-if="!product.isAddedToCart"
             @click="addToCart(product.id)">{{ addToCartLabel }}</button>
-          <button class="rounded-xl p-3" v-if="product.isAddedToCart" @click="removeFromCart(product.id)">{{
+          <button class="rounded-xl p-3 w-full" v-if="product.isAddedToCart" @click="removeFromCart(product.id)">{{
             removeFromCartLabel }}</button>
         </div>
       </div>

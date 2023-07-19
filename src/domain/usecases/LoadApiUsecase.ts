@@ -1,19 +1,28 @@
-import { Events, eventbus } from '../eventBus';
 import { ProductRepository } from '../products/ProductRepository';
 import type { Usecase } from './types';
-import { CheckoutRepository } from '../checkout/CheckoutRepository';
+import type { UserInfoRepository } from '../userinfo/UserInfoRepository';
+import type { SystemInfoRepository } from '../systeminfo/SystemInfoRepository';
+import { backend } from '../backend';
 
 export class LoadApiUsecase implements Usecase {
     constructor(private productRepo: ProductRepository,
-        private checkoutRepo: CheckoutRepository) {
+        private userInfo: UserInfoRepository,
+        private system: SystemInfoRepository) {
 
     }
 
-    execute() {
+    execute(...features: string[]) {
         // 
         console.log("Initialization of the API")
+        backend.init(this.system.features)
+
         this.productRepo.load();
-    
+
+        if (this.userInfo.hasToken()) {
+            this.userInfo.setUserLoggedIn(true)
+            this.system.showLoginModal(false)
+            this.system.showSigninModal(false)
+        }
     }
 
 }

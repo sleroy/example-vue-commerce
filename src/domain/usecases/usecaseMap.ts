@@ -1,21 +1,16 @@
 import { OpenProductDetailUsecase } from './OpenProductDetailUsecase'
 import { UserLogoutUsecase } from './UserLogoutUsecase'
 import { SearchProductUsecase } from './SearchProductUsecase'
-import { UserInfoRepository } from '../userinfo/UserInfoRepository'
 import { AddToCartUsecase } from './AddToCartUsecase'
-import { ProductRepository } from '../products/ProductRepository'
 import { RemoveFromCartUsecase } from './RemoveFromCartUsecase'
 import { SaveToFavoriteProductUsecase } from './SaveToFavoriteProductsUsecase'
-import { SystemInfoRepository } from '../systeminfo/SystemInfoRepository'
 import { SelectQuantityUsecase } from './SelectQuantityUsecase'
 import { SignupUsecase } from './SignupUsecase'
 import { CheckoutUsecase } from './CheckoutUsecase'
 import { RemoveFromFavoriteProductUsecase } from './RemoveFromFavoriteProductsUsecase'
 import { LoadApiUsecase } from './LoadApiUsecase'
 import { UserSigninUsecase } from './UserSigninUsecase'
-import { AuthenticationService } from '../authentication/AuthenticationService'
 import { UserSigninWithPasswordUsecase } from './UserSigninWithPassword';
-import { CheckoutRepository } from '../checkout/CheckoutRepository'
 import { backend, type IBackend } from '../backend'
 
 const usecaseMapping = (backend:IBackend
@@ -34,7 +29,7 @@ const usecaseMapping = (backend:IBackend
     'save-to-favorite': () => new SaveToFavoriteProductUsecase(backend.products, backend.system, backend.user),
     'remove-from-favorite': () => new RemoveFromFavoriteProductUsecase(backend.products),
     'select-quantity': () => new SelectQuantityUsecase(backend.products),
-    'load-api': () => new LoadApiUsecase(backend.products, backend.checkouts)
+    'load-api': () => new LoadApiUsecase(backend.products, backend.user, backend.system)
   }
 }
 
