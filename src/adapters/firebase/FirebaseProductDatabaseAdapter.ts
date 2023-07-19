@@ -79,9 +79,15 @@ export class FirebaseProductDatabaseAdapter implements ProductDatabaseConnector 
       return Promise.resolve({
         products: products
       })
-    } catch (e) {
+    } catch (e:any) {
       console.error("Cannot obtain the list of products")
-      throw new Error(e)
+      if(typeof e === "string") {
+        throw new Error(e as string)
+      } else if (e instanceof Error) {
+        throw new Error(e.message)
+      } else {
+        throw new Error(e as string)
+      }
     }
 
   }

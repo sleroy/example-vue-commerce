@@ -16,40 +16,30 @@ import { UserSigninUsecase } from './UserSigninUsecase'
 import { AuthenticationService } from '../authentication/AuthenticationService'
 import { UserSigninWithPasswordUsecase } from './UserSigninWithPassword';
 import { CheckoutRepository } from '../checkout/CheckoutRepository'
+import { backend, type IBackend } from '../backend'
 
-const usecaseMapping = (
-  systemInfoRepo: SystemInfoRepository,
-  userInfoRepo: UserInfoRepository,
-  productRepo: ProductRepository,
-  authService: AuthenticationService,
-  checkoutRepository: CheckoutRepository
+const usecaseMapping = (backend:IBackend
 ) => {
   return {
     'open-product-detail': () => new OpenProductDetailUsecase(),
-    signin: () => new UserSigninUsecase(authService, userInfoRepo, systemInfoRepo),
-    'signin-password': () => new UserSigninWithPasswordUsecase(authService, userInfoRepo, systemInfoRepo),
-    logout: () => new UserLogoutUsecase(systemInfoRepo, userInfoRepo, productRepo),
-    signup: () => new SignupUsecase(userInfoRepo),
-    'go-to-signup': () => new SignupUsecase(userInfoRepo),
-    checkout: () => new CheckoutUsecase(systemInfoRepo, userInfoRepo, productRepo),
-    'search-product': () => new SearchProductUsecase(userInfoRepo),
-    'add-to-cart': () => new AddToCartUsecase(productRepo, systemInfoRepo),
-    'remove-from-cart': () => new RemoveFromCartUsecase(productRepo, systemInfoRepo),
-    'save-to-favorite': () => new SaveToFavoriteProductUsecase(productRepo, systemInfoRepo, userInfoRepo),
-    'remove-from-favorite': () => new RemoveFromFavoriteProductUsecase(productRepo),
-    'select-quantity': () => new SelectQuantityUsecase(productRepo),
-    'load-api': () => new LoadApiUsecase(productRepo, checkoutRepository)
+    signin: () => new UserSigninUsecase(backend.auth, backend.user, backend.system),
+    'signin-password': () => new UserSigninWithPasswordUsecase(backend.auth, backend.user, backend.system),
+    logout: () => new UserLogoutUsecase(backend.system, backend.user, backend.products),
+    signup: () => new SignupUsecase(backend.user),
+    'go-to-signup': () => new SignupUsecase(backend.user),
+    checkout: () => new CheckoutUsecase(backend.system, backend.user, backend.products),
+    'search-product': () => new SearchProductUsecase(backend.user),
+    'add-to-cart': () => new AddToCartUsecase(backend.products, backend.system),
+    'remove-from-cart': () => new RemoveFromCartUsecase(backend.products, backend.system),
+    'save-to-favorite': () => new SaveToFavoriteProductUsecase(backend.products, backend.system, backend.user),
+    'remove-from-favorite': () => new RemoveFromFavoriteProductUsecase(backend.products),
+    'select-quantity': () => new SelectQuantityUsecase(backend.products),
+    'load-api': () => new LoadApiUsecase(backend.products, backend.checkouts)
   }
 }
 
 export function usecase(usecaseId: string) {
-  const selectedUsecaseMap: Record<string, any> = usecaseMapping(
-    systemInfoRepo,
-    userInfoRepo,
-    productRepo,
-    authService,
-    checkoutRepository,
-  )
+  const selectedUsecaseMap: Record<string, any> = usecaseMapping(backend)
 
   const usecaseFactory = selectedUsecaseMap[usecaseId]
   if (!usecaseFactory) {
