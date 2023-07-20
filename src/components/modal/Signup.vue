@@ -54,17 +54,14 @@
 import { useRouter, useRoute } from 'vue-router'
 import { ref, computed, type Ref } from 'vue'
 import { usecase } from '@/domain/usecases/usecaseMap';
-import { SystemInfoRepository } from '../../domain/systeminfo/SystemInfoRepository';
-import { UserInfoRepository } from '../../domain/userinfo/UserInfoRepository';
 import { isValidEmail } from '@/assets/validators';
 import { type SignUpResponse, type SignupForm } from '../../domain/usecases/SignupUsecase';
 import { backend } from '@/domain/backend';
 
 const signupUC = usecase('signup')
 
+
 // Access to the router
-const router = useRouter()
-const route = useRoute()
 
 const modalTitle = ref('Sign up')
 const modalTitleRegistered = ref('Welcome ')

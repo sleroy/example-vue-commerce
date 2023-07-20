@@ -2,7 +2,7 @@
 import Products from '../components/Products.vue';
 import { ref, reactive, onMounted, type Ref } from 'vue'
 import { useRoute } from 'vue-router'
-import type { Product } from '../domain/products/Product';
+import  { Product } from '../domain/products/Product';
 import { backend } from '@/domain/backend';
 
 // Access to the router

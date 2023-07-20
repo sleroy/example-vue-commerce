@@ -29,7 +29,7 @@ const usecaseMapping = (backend:IBackend
     'save-to-favorite': () => new SaveToFavoriteProductUsecase(backend.products, backend.system, backend.user),
     'remove-from-favorite': () => new RemoveFromFavoriteProductUsecase(backend.products),
     'select-quantity': () => new SelectQuantityUsecase(backend.products),
-    'load-api': () => new LoadApiUsecase(backend.products, backend.user, backend.system)
+    'load-api': () => new LoadApiUsecase(backend.products, backend.user, backend.system),
   }
 }
 

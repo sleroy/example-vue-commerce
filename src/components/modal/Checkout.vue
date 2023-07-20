@@ -6,29 +6,10 @@
 				<p class="text-xl">{{ modalTitle }}</p>
 				<button class="delete" aria-label="close" @click="closeModal(false)">X</button>
 			</div>
-			<section class="p-5 rounded-b-2xl">
-				<div v-if="!isCheckoutSection">
-					<div class="box" v-for="product in products" :key="product.id">
-						<div>
-							<p>{{ product.title }} {{ product.quantity > 0 ? ` - Quantity: ${product.quantity}` : '' }}</p>
-							<p>{{ product.price }} &euro;</p>
-						</div>
-						<button class="rounded-xl p-3 text-white bg-red" @click="removeFromCart(product.id)">{{ removeLabel
-						}}</button>
-					</div>
-					<div v-if="products.length === 0">
-						<p>{{ cartEmptyLabel }}</p>
-					</div>
-				</div>
-				<div v-if="isCheckoutSection">
-					<p>You bought it :-)</p>
-				</div>
-			</section>
+			<CheckoutTable></CheckoutTable>
 			<div class="m-4">
-				<button v-show="products.length > 0 && !isCheckoutSection" class="rounded-xl p-3 bg-blue text-white w-full"
-					@click="onNextBtn">{{ buyLabel }}</button>
-				<button v-if="isCheckoutSection" class="rounded-xl p-3 bg-blue text-white w-full"
-					@click="closeModal(true)">{{ closeLabel }}</button>
+				<button v-show="products.length > 0" class="rounded-xl p-3 bg-blue text-white w-full" @click="onNextBtn">{{ buyLabel }}</button>
+				<button v-show="products.length == 0" class="rounded-xl p-3 bg-blue text-white w-full" @click="closeModal(true)">{{ closeLabel }}</button>
 			</div>
 		</div>
 	</div>
@@ -36,19 +17,17 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { usecase } from '@/domain/usecases/usecaseMap';
 import { backend } from '@/domain/backend';
+import CheckoutTable from "../checkout/CheckoutTable.vue";
+import { useRouter } from 'vue-router';
 
 
-const removeFromCartUC = usecase('remove-from-cart');
-const checkoutUC = usecase('checkout');
 
 // Access to the router
+const router = useRouter()
+
 const modalTitle = ref('Checkout')
-const removeLabel = ref('Remove from cart')
-const cartEmptyLabel = ref('Your cart is empty')
 const closeLabel = ref('Close')
-const isCheckoutSection = ref(false)
 
 const products = computed(() => {
 	return backend.products.productsAdded();
@@ -67,16 +46,11 @@ function closeModal(reloadPage: boolean) {
 	backend.system.showCheckoutModal(false)
 	if (reloadPage) {
 		backend.system.setCheckoutRequired(false)
-		isCheckoutSection.value = false;
 	}
 }
-function removeFromCart(id: string) {
-	removeFromCartUC.execute(id)
-}
 function onNextBtn() {
-	checkoutUC.execute().then((r: boolean) => {
-		isCheckoutSection.value = r;
-	})
+	backend.system.showCheckoutModal(false)
+	router.push({name:"checkout"})
 }
 
 </script>

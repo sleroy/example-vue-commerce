@@ -2,7 +2,7 @@ import type {
   ProductDatabaseConnector,
   ProductLoadResponse
 } from '../../connectors/ProductDatabaseConnector'
-import type { Product } from '../../domain/products/Product'
+import { Product } from '../../domain/products/Product'
 export class DemoProductDatabaseAdapter implements ProductDatabaseConnector {
   async loadProducts(): Promise<ProductLoadResponse> {
     const allProducts : Product[] = [
@@ -124,7 +124,7 @@ export class DemoProductDatabaseAdapter implements ProductDatabaseConnector {
         isFavourite: false,
         quantity: 1
       }
-    ]
+    ].map(r => Object.assign(new Product(), r))
     const response : ProductLoadResponse = {
       products: allProducts
     }

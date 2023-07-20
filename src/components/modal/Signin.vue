@@ -20,13 +20,10 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { usecase } from '@/domain/usecases/usecaseMap';
-import { SystemInfoRepository } from '../../domain/systeminfo/SystemInfoRepository';
 import { type SigninResponse } from '../../connectors/AuthenticationConnector';
 import { backend } from '@/domain/backend';
 
 const signinUC = usecase('signin')
-
-// Access to the router
 const signInError = ref(false)
 const errorLabel = ref("User could not sign in")
 
@@ -51,7 +48,7 @@ function signin() {
 
 <style lang="scss">
 .fa-exclamation-circle {
-  @apply text-red;
+  @apply text-red-500;
 }
 
 .fa-check {

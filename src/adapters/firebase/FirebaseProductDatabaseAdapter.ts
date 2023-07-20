@@ -2,7 +2,7 @@ import type {
   ProductDatabaseConnector,
   ProductLoadResponse
 } from '../../connectors/ProductDatabaseConnector'
-import type { Product } from '../../domain/products/Product'
+import { Product } from '../../domain/products/Product'
 import { firestore } from './firebaseConfig'
 import { collection, addDoc, query, getDocs, QueryDocumentSnapshot, type SnapshotOptions } from 'firebase/firestore'
 import { hasFeature, setFeature } from './firebaseFeatures'
@@ -12,7 +12,7 @@ const featureName = 'db_products'
 async function loadDemoDataInFirebase(products: Product[]) {
   console.log("Loading data into Firebase")
   try {
-    const product: Product = {
+    const product: Product = Object.assign(new Product(), {
       id: '',
       title: 'Demo Firebase product',
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
@@ -24,7 +24,7 @@ async function loadDemoDataInFirebase(products: Product[]) {
       isAddedBtn: false,
       isFavourite: false,
       quantity: 1
-    }
+    })
     const docRef = await addDoc(collection(firestore, 'products'), product)
     console.log('Document written with ID: ', docRef.id, docRef.path)
     product.id = docRef.id
@@ -38,25 +38,26 @@ async function loadDemoDataInFirebase(products: Product[]) {
 // Firestore data converter
 const productConverter = {
   toFirestore: (product: Product) => {
-    return {
-      id: product.id,
-      title: product.title,
-      description: product.description,
-      price: product.price,
-      ratings: product.ratings,
-      reviews: product.reviews,
+    return Object.assign(new Product(),
+      {
+        id: product.id,
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        ratings: product.ratings,
+        reviews: product.reviews,
 
-      isAddedToCart: product.isAddedToCart,
-      isAddedBtn: product.isAddedBtn,
-      isFavourite: product.isFavourite,
-      image: product.image,
-      quantity: product.quantity
-    }
+        isAddedToCart: product.isAddedToCart,
+        isAddedBtn: product.isAddedBtn,
+        isFavourite: product.isFavourite,
+        image: product.image,
+        quantity: product.quantity
+      })
   },
   fromFirestore: (snapshot: QueryDocumentSnapshot, options: SnapshotOptions) => {
     const data = snapshot.data(options)
     data.id = snapshot.id
-    return data as Product
+    return Object.assign(new Product(), data)
   }
 }
 
@@ -68,20 +69,20 @@ export class FirebaseProductDatabaseAdapter implements ProductDatabaseConnector 
       const products = [] as Product[]
       if (!(await hasFeature(featureName))) {
         await loadDemoDataInFirebase(products)
-      } else {        
+      } else {
         const q = query(collection(firestore, 'products'))
         const querySnapshot = await getDocs(q.withConverter(productConverter))
         querySnapshot.forEach((doc) => {
           const product = doc.data();
-          products.push(product)
+          products.push(Object.assign(new Product(), product))
         })
       }
       return Promise.resolve({
         products: products
       })
-    } catch (e:any) {
+    } catch (e: any) {
       console.error("Cannot obtain the list of products")
-      if(typeof e === "string") {
+      if (typeof e === "string") {
         throw new Error(e as string)
       } else if (e instanceof Error) {
         throw new Error(e.message)

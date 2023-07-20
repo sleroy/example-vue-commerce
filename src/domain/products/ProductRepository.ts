@@ -1,5 +1,5 @@
 import { useCommerceStore } from '@/stores/commerce'
-import type { Product } from './Product';
+import  { Product } from './Product';
 import type { ProductDatabaseConnector } from '../../connectors/ProductDatabaseConnector';
 import { Events, eventbus, registerEventHandler } from '../eventBus';
 import { type Emitter, type EventType } from 'mitt';

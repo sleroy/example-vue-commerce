@@ -1,4 +1,4 @@
-export interface Product {
+export class Product {
     id: string;
     title: string;
     description: string;
@@ -10,4 +10,8 @@ export interface Product {
     isFavourite: boolean;
     image: string | undefined | null;
     quantity: number;
+
+    total() {
+        return this.price * this.quantity;
+    }
 }

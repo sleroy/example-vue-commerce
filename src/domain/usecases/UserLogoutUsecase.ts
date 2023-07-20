@@ -6,7 +6,6 @@ import { useRouter, useRoute } from 'vue-router'
 
 // Access to the router
 const router = useRouter()
-const route = useRoute()
 
 
 export class UserLogoutUsecase implements Usecase {

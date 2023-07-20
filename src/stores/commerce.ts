@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import type { ECommerceState } from '@/domain/ECommerceState';
-import type { Product } from '../domain/products/Product';
+import  { Product } from '../domain/products/Product';
 
 export const useCommerceStore = defineStore('commerce', {
   state: (): ECommerceState => ({

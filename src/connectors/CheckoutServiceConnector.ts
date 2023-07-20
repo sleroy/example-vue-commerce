@@ -1,4 +1,4 @@
-import type { Product } from "../domain/products/Product"
+import  { Product } from "../domain/products/Product"
 
 export interface CheckoutRequest {
     products: Product[]

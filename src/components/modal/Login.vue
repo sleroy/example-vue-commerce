@@ -47,8 +47,6 @@ import { backend } from '@/domain/backend';
 
 const loginUC = usecase('signin-password')
 
-// Access to the router
-
 const modalTitle = ref('Log in')
 const modalTitleLoggedIn = ref('Welcome!')
 const loginBtnLabel = ref('Log in')
@@ -121,7 +119,7 @@ function checkPasswordOnKeyUp(passwordValue: string) {
 
 <style lang="scss">
 .fa-exclamation-circle {
-  @apply text-red;
+  @apply text-red-500;
 }
 
 .fa-check {

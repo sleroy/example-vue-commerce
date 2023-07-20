@@ -1,4 +1,4 @@
-import type { Product } from "../domain/products/Product";
+import  { Product } from "../domain/products/Product";
 
 export function getByTitle (list: Product[], keyword: string) {
     const search = keyword.trim().toLowerCase();
