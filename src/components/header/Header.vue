@@ -5,21 +5,25 @@
       <h1 class="title w-40 h-12"></h1>
     </router-link>
 
-    <div class="flex items-center">
-      <div class="mx-2">
-        <button class="button" @click="enableNotifications">&#x1F50A;</button>
+    <div class="flex flex-row §items-center gap-4 py-6">
+      <div class="nav-category">Category 1</div>
+      <div class="nav-category">Category 2</div>
+      <div class="nav-category">Category 3</div>
+      <div class="nav-category">Category 4</div>      
+      <div class="nav-notifications">
+        <button @click="enableNotifications">&#x1F50A;</button>
       </div>
-      <div class="mx-2">
+      <div class="nav-cart">
         <div class="cursor-pointer" @click="showCheckoutModal">
-          <span :class="[numProductsAdded > 0 ? 'p-2 bg-blue text-white rounded-md' : '']">{{ numProductsAdded }}</span>
-          <span class="icon">
-            <i class="fa fa-shopping-cart"></i>
+          <span :class="[numProductsAdded > 0 ? 'visible' : 'invisible']">{{ numProductsAdded }}</span>
+          <span class="nav-cart-label">
+            <i class="fa fa-shopping-cart" :class="[numProductsAdded > 0 ? 'nav-cart-icon-selected' : 'nav-cart-icon']"></i>Cart
           </span>
         </div>
       </div>
 
-      <div class="mx-2">
-        <button v-if="!isUserLoggedIn" @click="onShowDropdown">
+      <div class="nav-login">
+        <button cass="button" v-if="!isUserLoggedIn" @click="onShowDropdown">
           <span class="icon">
             <i class="fa fa-user pr-2"></i>Login
           </span>
@@ -153,5 +157,37 @@ onUnmounted(() => {
   @apply hover:bg-grey_light;
   @apply p-2;
   @apply rounded-lg;
+}
+
+.nav-products-number {
+  @apply py-2 px-2 bg-blue text-white rounded-md text-xs
+}
+
+.nav-category {
+  @apply text-grey_dark text-xs uppercase font-light 
+}
+
+.nav-login {
+  @apply text-grey_dark text-xs uppercase font-light
+}
+
+.nav-notifications {
+  @apply align-middle justify-center text-sm
+}
+
+.nav-cart {
+  @apply text-grey_dark text-xs uppercase font-light 
+}
+
+.nav-cart-icon {
+  @apply pr-1
+}
+
+.nav-cart-icon-selected {
+  @apply text-blue pr-1
+}
+
+.nav-products-number {
+
 }
 </style>

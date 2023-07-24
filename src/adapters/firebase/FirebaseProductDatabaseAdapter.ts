@@ -12,7 +12,7 @@ const featureName = 'db_products'
 async function loadDemoDataInFirebase(products: Product[]) {
   console.log("Loading data into Firebase")
   try {
-    const product: Product = Object.assign(new Product(), {
+    const product = {
       id: '',
       title: 'Demo Firebase product',
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
@@ -24,11 +24,11 @@ async function loadDemoDataInFirebase(products: Product[]) {
       isAddedBtn: false,
       isFavourite: false,
       quantity: 1
-    })
+    }
     const docRef = await addDoc(collection(firestore, 'products'), product)
     console.log('Document written with ID: ', docRef.id, docRef.path)
     product.id = docRef.id
-    products.push(product)
+    products.push(Object.assign(new Product(), product))
     await setFeature(featureName, true)
   } catch (e) {
     console.error('Error adding document: ', e)

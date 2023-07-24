@@ -6,7 +6,7 @@
 				<p class="text-xl">{{ modalTitle }}</p>
 				<button class="delete" aria-label="close" @click="closeModal(false)">X</button>
 			</div>
-			<CheckoutTable></CheckoutTable>
+			<CheckoutTable :modal="true"></CheckoutTable>
 			<div class="m-4">
 				<button v-show="products.length > 0" class="rounded-xl p-3 bg-blue text-white w-full" @click="onNextBtn">{{ buyLabel }}</button>
 				<button v-show="products.length == 0" class="rounded-xl p-3 bg-blue text-white w-full" @click="closeModal(true)">{{ closeLabel }}</button>

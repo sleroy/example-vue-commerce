@@ -50,8 +50,6 @@ export const useCommerceStore = defineStore('commerce', {
     loadProducts(allProducts: Product[]) {
       this.products = allProducts
     }
-
-
   }
 })
 

@@ -10,7 +10,7 @@ import CheckoutTable from '@/components/checkout/CheckoutTable.vue';
                     Shopping cart
                 </header>
                 <div class="cart-list">
-                    <CheckoutTable></CheckoutTable>             
+                    <CheckoutTable :modal="false"></CheckoutTable>             
                 </div>
 
                 <div class="cart-actions">

@@ -1,26 +1,26 @@
 <template>
     <section class="checkout-product-grid">
         <div v-if="!isCheckoutSection" class="w-full" >
-            <div class="cart-header-row" v-if="products.length > 0">
+            <div class="cart-header-row" :class="[modal? 'cols-5' : 'cols-6']" v-if="products.length > 0">
                 <div class="cart-header-title">Title</div>
                 <div class="cart-header-quantity">Quantity</div>
-                <div class="cart-header-price">Price &euro;</div>
+                <div class="cart-header-price" v-if="!modal">Price &euro;</div>
                 <div class="cart-header-totalprice">Total &euro;</div>
                 <div class="cart-header-action"></div>
             </div>
-            <div class="cart-product-row" v-for="product in products" :key="product.id">
+            <div class="cart-product-row"  :class="[modal ? 'cols-5' : 'cols-6']" v-for="product in products" :key="product.id">
                 <div class="cart-product-title">{{ product.title }}</div>
-                <div class="cart-product-quantity"><span class="money">{{ product.quantity > 0 ? `${product.quantity}` : '' }}</span>
+                <div class="cart-product-quantity" ><span class="money">{{ product.quantity > 0 ? `${product.quantity}` : '' }}</span>
                 </div>
-                <div class="cart-product-price">{{ product.price }} &euro;</div>
+                <div class="cart-product-price" v-if="!modal">{{ product.price }} &euro;</div>
                 <div class="cart-product-totalprice">{{ product.total() }} &euro;</div>                
                 <div class="cart-product-action">
                     <button class="cart-product-remove-button" @click="removeFromCart(product.id)">
-                        {{ removeLabel }}
+                        {{ modal ? 'X' : removeLabel }}
                     </button>
                 </div>
             </div>
-            <div class="cart-footer-row" v-if="products.length > 0">
+            <div class="cart-footer-row" v-if="products.length > 0 && !modal">
                     <div class="cart-footer-action">
                         <button class="cart-proceed-button" @click="proceedCheckout()">
                             Proceed to the payment
@@ -41,9 +41,10 @@
 import { ref, computed } from 'vue'
 import { usecase } from '@/domain/usecases/usecaseMap';
 import { backend } from '@/domain/backend';
-
+const props = defineProps(['modal'])
 
 const removeFromCartUC = usecase('remove-from-cart');
+const checkoutUC = usecase('checkout');
 
 
 // Access to the router
@@ -56,6 +57,9 @@ const products = computed(() => {
     return backend.products.productsAdded();
 })
 
+function proceedCheckout() {
+    checkoutUC.execute()
+}
 
 
 function removeFromCart(id: string) {
@@ -81,7 +85,7 @@ function removeFromCart(id: string) {
 
 
 .cart-product-row {
-    @apply grid grid-cols-1 md:grid-cols-6 align-middle justify-items-center my-2 gap-1 md:gap-4
+    @apply grid grid-cols-2 align-middle justify-items-center my-2 gap-1 md:gap-4
 }
 
 
@@ -111,7 +115,7 @@ function removeFromCart(id: string) {
 }
 
 .cart-header-row {
-    @apply invisible md:visible grid mb-3 grid-cols-1 md:grid-cols-6 md:gap-4
+    @apply invisible md:visible grid mb-3 grid-cols-2 md:gap-4 
 }
 
 .cart-header-title {
@@ -138,8 +142,16 @@ function removeFromCart(id: string) {
     @apply w-full md:w-1/3 rounded-xl p-3 md:p-4 text-white bg-blue
 }
 
+.cols-5 {
+    @apply md:grid-cols-5
+}
+
+.cols-6 {
+    @apply md:grid-cols-6
+}
+
 .cart-footer-row {
-    @apply flex flex-row md:grid-cols-6 mb-3 justify-end my-16  gap-4
+    @apply flex flex-row mb-3 justify-end my-16  gap-4
 }
 
 .cart-footer-action {
