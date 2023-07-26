@@ -1,7 +1,7 @@
-import  { Product } from "../domain/products/Product"
+import type { ProductData } from "../domain/products/Product"
 
 export interface CheckoutRequest {
-    products: Product[]
+    products: ProductData[]
     user: string
 }
 
