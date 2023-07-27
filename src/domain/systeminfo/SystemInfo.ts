@@ -1,5 +1,5 @@
 export interface SystemInfo {
-    openLoginModal: boolean;
+    openSigninUserPasswordModal: boolean;
     openSigninModal: boolean;
     openSignupModal: boolean;
     openCheckoutModal: boolean;

@@ -42,7 +42,7 @@ export class SystemInfoRepository {
     }
 
     isOpenedSigninUserPasswordModal() {
-        return this.store.systemInfo.openLoginModal;
+        return this.store.systemInfo.openSigninUserPasswordModal;
     }
 
     isOpenedSigninModal() {
@@ -58,7 +58,7 @@ export class SystemInfoRepository {
     }
 
     showSigninUserPasswordModal(show: boolean) {
-        this.store.systemInfo.openLoginModal = show;
+        this.store.systemInfo.openSigninUserPasswordModal = show;
     }
 
 

@@ -13,7 +13,7 @@ export const useCommerceStore = defineStore('commerce', {
     products: [
     ],
     systemInfo: {
-      openLoginModal: false,
+      openSigninUserPasswordModal: false,
       openSigninModal: false,
       openSignupModal: false,
       openCheckoutModal: false,
