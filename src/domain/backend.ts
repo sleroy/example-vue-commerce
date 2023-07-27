@@ -33,10 +33,11 @@ class Backend implements IBackend {
         const remoteNotificationConnector = obtainRemoteNotifications(features)
 
         this.system =  new SystemInfoRepository(remoteNotificationConnector)
-        this.user = new UserInfoRepository()
+        this.user = new UserInfoRepository(localStorage)
         this.products = new ProductRepository(productDB)
         this.checkouts = new CheckoutRepository(checkoutDB)
         this.auth = new AuthenticationService(this.user, this.system, authConnector);
+
 
         return this
     }    

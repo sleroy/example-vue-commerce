@@ -16,6 +16,7 @@ export class LoadApiUsecase implements Usecase {
         console.log("Initialization of the API")
         backend.init(this.system.features)
 
+        this.userInfo.readStorage()
         this.productRepo.load();
 
         if (this.userInfo.isUserLoggedIn()) {

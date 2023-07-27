@@ -3,23 +3,36 @@ import { type Token } from '../authentication/Token'
 
 export class UserInfoRepository {
 
-  constructor() {
+  constructor(private localStorage: Storage) {
+
   }
 
   get store() {
     return useCommerceStore()
   }
 
+  saveStorage() {
+    localStorage.setItem('isLoggedIn', this.store.userInfo.isLoggedIn.toString())
+    localStorage.setItem('isSignedUp', this.store.userInfo.isSignedUp.toString())
+    localStorage.setItem('name', this.store.userInfo.name.toString())
 
-  isUserLoggedIn():boolean {
-    // convert string to boolean
-    return localStorage.getItem("isLoggedIn") == "true"
   }
-  isUserSignedUp():boolean {
-    return localStorage.getItem("isSignedUp") == "true"
+
+  readStorage() {
+    this.store.userInfo.isLoggedIn = this.localStorage.getItem("isLoggedIn") == "true"
+    this.store.userInfo.isSignedUp = this.localStorage.getItem("isSignedUp") == "true"
+    this.store.userInfo.name = this.localStorage.getItem("name") || ""
   }
-  getUserName():string {
-    return localStorage.getItem("name") || ""
+
+
+  isUserLoggedIn(): boolean {
+    return this.store.userInfo.isLoggedIn
+  }
+  isUserSignedUp(): boolean {
+    return this.store.userInfo.isSignedUp
+  }
+  getUserName(): string {
+    return this.store.userInfo.name
   }
 
   getUserNameOrDefault() {
@@ -32,14 +45,18 @@ export class UserInfoRepository {
   }
 
   setUserLoggedIn(isUserLoggedIn: boolean) {
-    localStorage.setItem('isLoggedIn', isUserLoggedIn.toString())
+    this.saveStorage()
+    this.store.userInfo.isLoggedIn = isUserLoggedIn
   }
   setUserSignedUp(isSignedUp: boolean) {
-    localStorage.setItem('isSignedUp', isSignedUp.toString())
+    this.saveStorage()
+    this.store.userInfo.isSignedUp= isSignedUp
+
   }
-  
+
   setUserName(name: string) {
-    localStorage.setItem('name', name.toString())
+    this.saveStorage()
+    this.store.userInfo.name = name
   }
 
 
