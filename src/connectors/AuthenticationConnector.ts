@@ -6,7 +6,12 @@ export interface SigninResponse {
     username: string
 }
 
+export interface SignupResponse {
+    idpUser: any | undefined | null;
+}
+
 export interface AuthenticationConnector {
-    passwordSignin(username: string, password: string): Promise<SigninResponse>;
-    signin(): Promise<SigninResponse>;
+    passwordSignin(username: string, password: string): Promise<any>;
+    signin(): Promise<any>;
+    signup(username:string, email:string, password:string): Promise<any>
 }

@@ -1,6 +1,7 @@
 import {
     type AuthenticationConnector,
-    type SigninResponse
+    type SigninResponse,
+    type SignupResponse
 } from '../../connectors/AuthenticationConnector'
 
 export class DemoAuthenticationAdapter implements AuthenticationConnector {
@@ -29,6 +30,12 @@ export class DemoAuthenticationAdapter implements AuthenticationConnector {
                 token: "TEST",
                 user: {}
             }
+        })
+    }
+
+    signup(email: string, password: string): Promise<SignupResponse> {
+        return Promise.resolve({
+            idpUser: null            
         })
     }
 

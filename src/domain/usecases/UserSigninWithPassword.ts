@@ -10,20 +10,9 @@ import { Events, eventbus } from '../eventBus'
 export class UserSigninWithPasswordUsecase implements Usecase {
 
   constructor(
-    private authService: AuthenticationService,
-    private userInfo: UserInfoRepository,
-    private systemInfo: SystemInfoRepository
-  ) {}
+    private authService: AuthenticationService  ) {}
 
-  async execute(username: string, password:string): Promise<SigninResponse> {
-    return this.authService.passwordSignin(username, password).then((res) => {
-      if (res.success) {
-        this.userInfo.setUserLoggedIn(true)
-        this.systemInfo.showSigninModal(false)
-        this.systemInfo.showLoginModal(false)
-        eventbus.emit(Events.userSignin, this.userInfo.getUserName())
-      }
-      return res
-    })
+  async execute(username: string, password:string): Promise<unknown> {
+    return this.authService.passwordSignin(username, password)
   }
 }

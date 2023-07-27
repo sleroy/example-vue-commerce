@@ -1,5 +1,5 @@
-import { useCommerceStore } from '@/stores/commerce'
 import type { RemoteNotificationConnector } from '@/connectors/RemoteNotificationConnector';
+import { useCommerceStore } from '@/stores/commerce'
 
 export class SystemInfoRepository {    
     
@@ -13,6 +13,24 @@ export class SystemInfoRepository {
     get features() : string[] {
         return this.store.features
     }
+
+    hasSearched(): boolean {
+        return this.store.systemInfo.hasSearched
+    }
+
+
+    getProductTitleSearched(): string {
+        return this.store.systemInfo.productTitleSearched
+    }
+
+    setProductTitleSearched(titleSearched: string) {
+        this.store.systemInfo.productTitleSearched = titleSearched
+    }
+
+    setHasUserSearched(hasSearched: boolean) {
+        this.store.systemInfo.hasSearched = hasSearched
+    }
+
 
     requireCheckout(): boolean {
         console.log("Checkout required", this.store.systemInfo.checkoutRequired)

@@ -9,29 +9,24 @@
       </div>
       <form @submit="checkForm" action="#" method="post">
         <section class="p-5 rounded-b-2xl">
-          <div v-if="!isUserLoggedIn">
+          <div>
             <div class="m-4">
               <input :class="[highlightEmailWithError ? 'input border-red' : 'input']" type="email"
                 placeholder="youremail@email.com" name="emailName" v-model="email" @keyup="checkEmailOnKeyUp(email)" />
-              <p v-if="highlightEmailWithError" class="text-red">{{ emailRequiredLabel }}</p>
+              <p v-if="highlightEmailWithError" class="text-red-500">{{ emailRequiredLabel }}</p>
             </div>
             <div class="m-4">
               <input :class="[highlightPasswordWithError ? 'input border-red' : 'input']" type="password"
                 placeholder="********" name="passwordName" v-model="password" @keyup="checkPasswordOnKeyUp(password)" />
-              <p v-if="highlightPasswordWithError" class="text-red">{{ passwordRequiredLabel }}</p>
+              <p v-if="highlightPasswordWithError" class="text-red-500">{{ passwordRequiredLabel }}</p>
             </div>
-          </div>
-          <div v-if="isUserLoggedIn" class="level">
-            <div class="text-center">
-              <div>
-                <p class="title">Welcome back!</p>
-                <p class="heading">Now you are logged in</p>
-              </div>
+            <div class="m-4">
+              <p v-if="loginError" class="text-red-500">{{ loginLbl }}</p>
             </div>
           </div>
           <div class="m-4">
-            <button v-if="!isUserLoggedIn" type="submit" class="rounded-xl p-3 bg-blue text-white w-full">{{
-              loginBtnLabel }}</button>
+            <button v-if="!isUserLoggedIn" type="submit" class="rounded-xl p-3 bg-blue text-white w-full">
+            {{ loginBtnLabel }}</button>
           </div>
         </section>
       </form>
@@ -44,10 +39,14 @@ import { ref, computed, type Ref } from 'vue'
 import { usecase } from '@/domain/usecases/usecaseMap';
 import { isValidEmail } from '@/assets/validators';
 import { backend } from '@/domain/backend';
+import { toErrorWithMessage } from '@/domain/utils/errors';
 
-const loginUC = usecase('signin-password')
+const signPwdUC = usecase('signin-password')
 
 const modalTitle = ref('Log in')
+const loginError = ref(false)
+const loginLbl = ref("Login failed")
+
 const modalTitleLoggedIn = ref('Welcome!')
 const loginBtnLabel = ref('Log in')
 const emailRequiredLabel = ref('Email required')
@@ -73,12 +72,17 @@ function closeModal() {
 
 function checkForm(e: Event) {
   e.preventDefault();
-
+  loginError.value = false
+  loginLbl.value = "Login failed"
   if (email && password) {
     highlightEmailWithError.value = false;
     highlightPasswordWithError.value = false;
     isFormSuccess.value = true;
-    loginUC.execute(email.value, password.value);
+    signPwdUC.execute(email.value, password.value)
+      .catch((err: any) => {        
+        loginLbl.value = toErrorWithMessage(err).message
+        loginError.value = true 
+      });
   }
 
   if (!email) {

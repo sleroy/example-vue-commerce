@@ -1,34 +1,27 @@
 import {
+  type SignupResponse,
   type AuthenticationConnector,
   type SigninResponse
 } from '../../connectors/AuthenticationConnector'
 import {
-  Amplify, Auth
+  Amplify, Auth, Hub
 } from 'aws-amplify';
+import { amplify } from './AmplifyConfig';
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 
+amplify.require();
 
-export class AmplifyeAuthenticationAdapter implements AuthenticationConnector {
+export class AmplifyAuthenticationAdapter implements AuthenticationConnector {
+  
   /**
    * Google signin implementation
    */
-  async signin(): Promise<SigninResponse> {
+  async signin(): Promise<any> {
     console.log('Authentication with success')
-
-    const userName = ""
-    const email = ""
-    const token: string = ""
-    const user: any | undefined = ""
-
-    return Promise.resolve({
-      success: true,
-      errorReason: null,
-      username: userName || email || "unknown",
-      token: {
-        token,
-        user
-      }
-    })
-  } catch(error) {
+  
+    Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })
+  
+  } catch(error: any) {
     // Handle Errors here.
     /**
     const errorCode = error.code
@@ -56,5 +49,33 @@ export class AmplifyeAuthenticationAdapter implements AuthenticationConnector {
       success: false,
       errorReason: 'Not implemented yet'
     })
+  }
+
+  async signup(username:string, email: string, password: string): Promise<SignupResponse> {
+    try {
+      const params = {
+        username: email,
+        password: password,
+        attributes: {
+          email, // optional
+          given_name: "Random Given name",
+          family_name: "Random Family name",
+          //phoneNumber, // optional - E.164 number convention
+          // other custom attributes
+        },
+        autoSignIn: {
+          // optional - enables auto sign in after user is confirmed
+          enabled: true,
+        }
+      }
+      const { user } = await Auth.signUp(params)
+      const resp: SignupResponse = {
+        idpUser: user,
+      }
+      return resp
+    } catch (e) {
+      console.error("Amplify sign up error", e)
+      throw new Error("Cannot perform the sign up for the reason " + e);
+    }
   }
 }

@@ -15,9 +15,6 @@ import VmProducts from '../Products.vue';
 import { useRouter, useRoute } from 'vue-router'
 import { ref, computed } from 'vue'
 import { getByTitle } from '@/assets/filters';
-import { ProductRepository } from '../../domain/products/ProductRepository';
-import { UserInfoRepository } from '../../domain/userinfo/UserInfoRepository';
-import { SystemInfoRepository } from '@/domain/systeminfo/SystemInfoRepository';
 import { backend } from '@/domain/backend';
 
 // Access to the router
@@ -29,7 +26,7 @@ const noProductLabel = ref('No product found')
 
 const products = computed(() => {
   const products = backend.products.products
-  const hasSearched = backend.user.hasSearched()
+  const hasSearched = backend.system.hasSearched()
   if (hasSearched) {
     return getProductByTitle();
   } else {
@@ -39,7 +36,7 @@ const products = computed(() => {
 
 function getProductByTitle() {
   const products = backend.products.products
-  const productTitleSearched = backend.user.getProductTitleSearched()
+  const productTitleSearched = backend.system.getProductTitleSearched()
 
   return getByTitle(products, productTitleSearched);
 }

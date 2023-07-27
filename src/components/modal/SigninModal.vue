@@ -10,7 +10,7 @@
           <button type="button" class="rounded-xl p-3 bg-blue text-white w-full" @click="signin()">Sign in with Google</button>
         </div>
         <div class="m-4" v-if="signInError">
-          <p class="text-red">{{ errorLabel }}</p>
+          <p class="text-red-500">{{ errorLabel }}</p>
         </div>
       </section>
     </div>

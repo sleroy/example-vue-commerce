@@ -10,19 +10,9 @@ import { Events, eventbus } from '../eventBus'
 export class UserSigninUsecase implements Usecase {
 
   constructor(
-    private authService: AuthenticationService,
-    private userInfo: UserInfoRepository,
-    private systemInfo: SystemInfoRepository
-  ) {}
+    private authService: AuthenticationService  ) {}
 
-  async execute(): Promise<SigninResponse> {
-    return this.authService.signin().then((res) => {
-      if (res.success) {
-        this.userInfo.setUserLoggedIn(true)
-        this.systemInfo.showSigninModal(false)
-        eventbus.emit(Events.userSignin, this.userInfo.getUserName())
-      }
-      return res
-    })
+  async execute(): Promise<unknown> {
+    return this.authService.signin()
   }
 }

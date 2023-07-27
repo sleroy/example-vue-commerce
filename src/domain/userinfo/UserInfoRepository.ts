@@ -10,26 +10,16 @@ export class UserInfoRepository {
     return useCommerceStore()
   }
 
-  getProductTitleSearched() {
-    return this.store.userInfo.productTitleSearched
-  }
 
-  hasSearched() {
-    return this.store.userInfo.hasSearched
+  isUserLoggedIn():boolean {
+    // convert string to boolean
+    return localStorage.getItem("isLoggedIn") == "true"
   }
-
-  hasToken() {
-    return this.store.userInfo && this.store.userInfo.token;
+  isUserSignedUp():boolean {
+    return localStorage.getItem("isSignedUp") == "true"
   }
-
-  isUserLoggedIn() {
-    return this.store.userInfo.isLoggedIn
-  }
-  isUserSignedUp() {
-    return this.store.userInfo.isSignedUp
-  }
-  getUserName() {
-    return this.store.userInfo.name
+  getUserName():string {
+    return localStorage.getItem("name") || ""
   }
 
   getUserNameOrDefault() {
@@ -42,21 +32,15 @@ export class UserInfoRepository {
   }
 
   setUserLoggedIn(isUserLoggedIn: boolean) {
-    this.store.userInfo.isLoggedIn = isUserLoggedIn
+    localStorage.setItem('isLoggedIn', isUserLoggedIn.toString())
   }
   setUserSignedUp(isSignedUp: boolean) {
-    this.store.userInfo.isSignedUp = isSignedUp
+    localStorage.setItem('isSignedUp', isSignedUp.toString())
   }
-  setHasUserSearched(hasSearched: boolean) {
-    this.store.userInfo.hasSearched = hasSearched
-  }
+  
   setUserName(name: string) {
-    this.store.userInfo.name = name
+    localStorage.setItem('name', name.toString())
   }
-  setProductTitleSearched(titleSearched: string) {
-    this.store.userInfo.productTitleSearched = titleSearched
-  }
-  storeToken(token: Token) {
-    this.store.userInfo.token = token
-  }
+
+
 }

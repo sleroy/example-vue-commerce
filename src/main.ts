@@ -10,12 +10,15 @@ import { usecase } from './domain/usecases/usecaseMap';
 import Toast, { PluginOptions } from "vue-toastification";
 // Import the CSS or use your own!
 import "vue-toastification/dist/index.css";
+import { subscribeEventListeners } from './domain/usecases/eventListeners';
 
 const app = createApp(App)
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 app.use(pinia)
+
+subscribeEventListeners()
 
 
 app.use(router)

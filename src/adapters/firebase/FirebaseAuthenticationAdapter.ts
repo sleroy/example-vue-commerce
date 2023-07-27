@@ -1,15 +1,18 @@
 import {
   type AuthenticationConnector,
-  type SigninResponse
+  type SigninResponse,
+  type SignupResponse
 } from '../../connectors/AuthenticationConnector'
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth'
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, createUserWithEmailAndPassword, type UserCredential, type User, signInWithEmailAndPassword } from 'firebase/auth'
 import { provider } from './firebaseConfig'
+import { eventbus } from '@/domain/eventBus'
+import { Events } from '../../domain/eventBus';
 
 export class FirebaseAuthenticationAdapter implements AuthenticationConnector {
   /**
    * Google signin implementation
    */
-  async signin(): Promise<SigninResponse> {
+  async signin(): Promise<any> {
     console.log('Attempting to signin using Firebase')
 
     try {
@@ -25,19 +28,20 @@ export class FirebaseAuthenticationAdapter implements AuthenticationConnector {
       }
       const token = credential.accessToken
       // The signed-in user info.
-      const user = result.user
+      const user: User = result.user
       // IdP data available using getAdditionalUserInfo(result)
       // ...
-      console.log('Authentication with success')
-      return Promise.resolve({
+      const positiveResponse = {
         success: true,
         errorReason: null,
-        username: user.displayName ||  user.email || "unknown",
+        username: user.displayName || user.email || "unknown",
         token: {
           token,
           user
         }
-      })
+      };
+      eventbus.emit(Events.userSignin, positiveResponse)
+      return Promise.resolve(positiveResponse)
     } catch (error) {
       // Handle Errors here.
       /**
@@ -74,11 +78,34 @@ export class FirebaseAuthenticationAdapter implements AuthenticationConnector {
     })
   }
 
-  passwordSignin(username: string, password: string): Promise<SigninResponse> {
-    // TODO
-    return Promise.reject({
-      success: false,
-      errorReason: 'Not implemented yet'
-    })
+ passwordSignin(username: string, password: string): Promise<any> {
+   const auth = getAuth();
+   return signInWithEmailAndPassword(auth, username, password)
+     .then((userCredential) => {
+       // Signed in 
+       const user = userCredential.user;
+       const positiveResponse = {
+         success: true,
+         errorReason: null,
+         username: user.displayName || user.email || "unknown",
+         token: {
+           user
+         }
+       };
+       eventbus.emit(Events.userSignin, positiveResponse)
+     })
+  }
+
+  async signup(username:string, email: string, password: string): Promise<SignupResponse> {
+    try {
+      const fbaseResponse = await createUserWithEmailAndPassword(getAuth(), email, password)
+      const resp: SignupResponse = {
+        idpUser: fbaseResponse.user
+      }
+      return resp
+    } catch (e) {
+      console.error("Firebase sign up error", e)
+      throw new Error("Cannot perform the sign up for the reason " + e);
+    }
   }
 }

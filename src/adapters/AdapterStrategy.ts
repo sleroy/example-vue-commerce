@@ -13,27 +13,32 @@ import { FirebaseCheckoutAdapter } from './firebase/FirebaseCheckoutAdapter';
 import { FirebaseAuthenticationAdapter } from './firebase/FirebaseAuthenticationAdapter';
 import { FirebaseRemoteNotificationConnector } from './firebase/FirebaseRemoteNotificationConnector';
 import { DemoRemoteNotificationConnector } from './memory/DemoRemoteNotificationConnector';
+import { AmplifyAuthenticationAdapter } from './amplify/AmplifyAuthenticationAdapter';
 
 const productConnectorMap: Record<string, () => ProductDatabaseConnector> = {
   memory: () => new DemoProductDatabaseAdapter(),
-  firebase: () => new FirebaseProductDatabaseAdapter()
+  firebase: () => new FirebaseProductDatabaseAdapter(),
+  amplify: () => new FirebaseProductDatabaseAdapter()
 }
 
 const authConnectorMap: Record<string, () => AuthenticationConnector> = {
   memory: () => new DemoAuthenticationAdapter(),
-  firebase: () => new FirebaseAuthenticationAdapter()
+  firebase: () => new FirebaseAuthenticationAdapter(),
+  amplify: () => new AmplifyAuthenticationAdapter(),
 }
 
 const checkoutConnectorMap: Record<string, () => CheckoutServiceConnector> = {
   memory: () => new DemoCheckoutConnectorAdapter(),
   //firebase: () => new DemoCheckoutConnectorAdapter(),
-  firebase: () => new FirebaseCheckoutAdapter()
+  firebase: () => new FirebaseCheckoutAdapter(),
+  amplify: () => new FirebaseCheckoutAdapter()
 }
 
 const notificationConnectorMap: Record<string, () => RemoteNotificationConnector> = {
   memory: () => new DemoRemoteNotificationConnector(),
   //firebase: () => new DemoCheckoutConnectorAdapter(),
-  firebase: () => new FirebaseRemoteNotificationConnector()
+  firebase: () => new FirebaseRemoteNotificationConnector(),
+  amplify: () => new FirebaseRemoteNotificationConnector()
 }
 
 export function obtainProductDB(features: string[]): ProductDatabaseConnector {

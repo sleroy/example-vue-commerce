@@ -1,7 +1,7 @@
 import { useCommerceStore } from '@/stores/commerce'
 import { Product, type ProductData } from './Product'
 import type { ProductDatabaseConnector } from '../../connectors/ProductDatabaseConnector'
-import { Events, eventbus, registerEventHandler } from '../eventBus'
+import { eventbus } from '../eventBus'
 import { type Emitter, type EventType } from 'mitt'
 
 export class ProductRepository {
@@ -10,10 +10,6 @@ export class ProductRepository {
     constructor(private productDB: ProductDatabaseConnector) {
         this.eventBus = eventbus
 
-        // We listen to userSignin event
-        registerEventHandler(Events.userSignin, (e) => {
-            this.onUserSignin()
-        }) // 'e' has inferred type 'string'
     }
 
     onUserSignin() {

@@ -25,9 +25,10 @@
       <div class="nav-login">
         <button cass="button" v-if="!isUserLoggedIn" @click="onShowDropdown">
           <span class="icon">
-            <i class="fa fa-user pr-2"></i>Login
+            <i class="fa fa-user pr-2"></i>
           </span>
-        </button>
+            <span class="nav-category">Login</span>
+          </button>
         <button class="cursor-pointer" v-if="isUserLoggedIn" @click="onShowDropdown">
           Welcome {{ getUserName }}
         </button>
@@ -40,16 +41,16 @@
           </button>
         </div>
         <div v-if="showDropdown && !isUserLoggedIn" class="dropdown">
-          <button v-if="!isUserLoggedIn" class="button" @click="showSigninModal">
-            <span class="text-lg">{{ loginLabel }}</span>
+          <button v-if="!isUserLoggedIn" class="button header-btn-signin" @click="showSigninModal">
+            <span class="header-btn-lbl">{{ loginLabel }}</span>
             <i class="fa fa-sign-in"></i>
           </button>
-          <button v-if="!isUserLoggedIn" class="button" @click="showLoginModal">
-            <span class="text-lg">{{ passwordLabel }}</span>
+          <button v-if="!isUserLoggedIn" class="button header-btn-signinpwd" @click="showLoginModal">
+            <span class="header-btn-lbl">{{ passwordLabel }}</span>
             <i class="fa fa-sign-in"></i>
           </button>
-          <button v-if="!isUserLoggedIn" class="button" @click="showSignupModal">
-            <span class="text-lg">{{ signupLabel }}</span>
+          <button v-if="!isUserLoggedIn" class="button header-btn-signup" @click="showSignupModal">
+            <span class="header-btn-lbl">{{ signupLabel }}</span>
             <i class="fa fa-user-plus"></i>
           </button>
         </div>
@@ -137,6 +138,22 @@ onUnmounted(() => {
   background: url('/myshop.png') no-repeat;
   background-position: 50% 50%;
   background-size: 165px;
+}
+
+.header-btn-signin {
+  @apply text-xs
+}
+
+.header-btn-signinpwd {
+  @apply text-xs
+}
+
+.header-btn-signup {
+  @apply text-xs
+}
+
+.header-btn-lbl {
+
 }
 
 .dropdown {

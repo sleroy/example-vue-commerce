@@ -11,24 +11,27 @@
         <section class="p-5 rounded-b-2xl">
           <div v-if="!isUserSignedUp">
             <div class="m-4">
-              <input :class="[highlightNameWithError ? 'input border-red' : 'input']" type="text" placeholder="Your Name"
+              <input :class="[highlightNameWithError ? 'input border-red-500' : 'input']" type="text" placeholder="Your Name"
                 v-model="name" @keyup="checkNameOnKeyUp(name)" />
-              <p v-if="highlightNameWithError" class="help text-red">{{ nameErrorLabel }}</p>
+              <p v-if="highlightNameWithError" class="help text-red-500">{{ nameErrorLabel }}</p>
             </div>
             <div class="m-4">
-              <input :class="[highlightEmailWithError ? 'input border-red' : 'input']" type="email"
+              <input :class="[highlightEmailWithError ? 'input border-red-500' : 'input']" type="email"
                 placeholder="youremail@email.com" name="emailName" v-model="email" @keyup="checkEmailOnKeyUp(email)" />
-              <p v-if="highlightEmailWithError" class="help text-red">{{ emailErrorLabel }}</p>
+              <p v-if="highlightEmailWithError" class="help text-red-500">{{ emailErrorLabel }}</p>
             </div>
             <div class="m-4">
-              <input :class="[highlightPasswordWithError ? 'input border-red' : 'input']" type="password"
+              <input :class="[highlightPasswordWithError ? 'input border-red-500' : 'input']" type="password"
                 placeholder="********" v-model="password" @keyup="checkPasswordOnKeyUp(password)">
-              <p v-if="highlightPasswordWithError" class="help text-red">{{ passwordErrorLabel }}</p>
+              <p v-if="highlightPasswordWithError" class="help text-red-500">{{ passwordErrorLabel }}</p>
             </div>
             <div class="m-4">
-              <input :class="[highlightRepeatPasswordWithError ? 'input border-red' : 'input']" type="password"
+              <input :class="[highlightRepeatPasswordWithError ? 'input border-red-500' : 'input']" type="password"
                 placeholder="********" v-model="repeatPassword" @keyup="checkRepeatPasswordOnKeyUp(repeatPassword)" />
-              <p v-if="highlightRepeatPasswordWithError" class="help text-red">{{ notEqualErrorLabel }}</p>
+              <p v-if="highlightRepeatPasswordWithError" class="help text-red-500">{{ notEqualErrorLabel }}</p>
+            </div>
+            <div class="m-4" v-if="errorMessage">              
+              <p class="help text-red-500">{{ errorMessage }}</p>
             </div>
           </div>
           <div v-if="isUserSignedUp">
@@ -43,7 +46,7 @@
         <div class="m-4">
           <button v-if="!isUserSignedUp" class="rounded-xl p-3 bg-blue text-white w-full">{{ primaryBtnLabel }}</button>
           <button v-if="isUserSignedUp" type="button" class="rounded-xl p-3 bg-grey_light text-grey_dark"
-            @click="closeModal">{{ btnRegisteredLabel }}</button>
+            @click="redirectLogin">{{ btnRegisteredLabel }}</button>
         </div>
       </form>
     </div>
@@ -51,12 +54,12 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter, useRoute } from 'vue-router'
 import { ref, computed, type Ref } from 'vue'
 import { usecase } from '@/domain/usecases/usecaseMap';
 import { isValidEmail } from '@/assets/validators';
-import { type SignUpResponse, type SignupForm } from '../../domain/usecases/SignupUsecase';
+import { type SignUpFormResponse, type SignupForm } from '../../domain/usecases/SignupUsecase';
 import { backend } from '@/domain/backend';
+import { toErrorWithMessage } from '../../domain/utils/errors';
 
 const signupUC = usecase('signup')
 
@@ -76,6 +79,7 @@ const emailErrorLabel = ref(emailRequiredLabel.value)
 
 const name = ref('')
 const email = ref('')
+const errorMessage = ref('')
 const password = ref('')
 const repeatPassword = ref('')
 const highlightNameWithError = ref(null) as Ref<boolean | null>
@@ -84,36 +88,51 @@ const highlightPasswordWithError = ref(null) as Ref<boolean | null>
 const highlightRepeatPasswordWithError = ref(null) as Ref<boolean | null>
 const isFormSuccess = ref(false)
 
-const isUserSignedUp = computed(() => {
-  return backend.user.isUserSignedUp();
-})
+const isUserSignedUp = ref(false)
 
 const openModal = computed(() => { return backend.system.isOpenedSignupModal(); })
 
+
+
 function closeModal() {
   backend.system.showSignupModal(false);
+
+}
+
+function redirectLogin() {
+  closeModal()
+  backend.system.showLoginModal(true)
 }
 
 function checkForm(e: Event) {
   e.preventDefault();
+  errorMessage.value = ""
   const form: SignupForm  = {
     name: name.value,
     email: email.value,
     password: password.value,
     repeatPassword: repeatPassword.value
   }
-  const response: SignUpResponse = signupUC.execute(form)
-  isFormSuccess.value = response.isFormSuccess
-  highlightEmailWithError.value = response.highlightEmailWithError
-  highlightNameWithError.value = response.highlightNameWithError
-  highlightPasswordWithError.value = response.highlightPasswordWithError
-  highlightRepeatPasswordWithError.value = response.highlightRepeatPasswordWithError
-  if (response.emailNotValid) {
-    emailErrorLabel.value = emailNotValidLabel.value
-  } else if (response.highlightEmailWithError) {
-    emailErrorLabel.value = emailRequiredLabel.value;
-  }
+  signupUC.execute(form).then((response: SignUpFormResponse) => {
+    isFormSuccess.value = response.isFormSuccess
+    highlightEmailWithError.value = response.highlightEmailWithError
+    highlightNameWithError.value = response.highlightNameWithError
+    highlightPasswordWithError.value = response.highlightPasswordWithError
+    highlightRepeatPasswordWithError.value = response.highlightRepeatPasswordWithError
+    errorMessage.value = response.errorMessage
+    
+    isUserSignedUp.value = isFormSuccess.value
+
+    if (response.emailNotValid) {
+      emailErrorLabel.value = emailNotValidLabel.value
+    } else if (response.highlightEmailWithError) {
+      emailErrorLabel.value = emailRequiredLabel.value;
+    }
+  }).catch((e: unknown) => {
+    errorMessage.value = toErrorWithMessage(e).message
+  })
   
+
   
 }
 

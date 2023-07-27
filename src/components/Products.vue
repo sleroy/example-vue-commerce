@@ -35,13 +35,13 @@
         <button class="button text-lg" :title="removeFromFavouriteLabel" v-show="product.isFavourite"
           @click="removeFromFavourite(product.id)">
           <span class="icon">
-            <i class="fas fa-heart text-red"></i>
+            <i class="fas fa-heart text-red-500"></i>
           </span>
         </button>
         <button class="button text-lg" :title="addToFavouriteLabel" v-show="!product.isFavourite"
           @click="saveToFavorite(product.id)">
           <span class="icon">
-            <i class="far fa-heart text-red"></i>
+            <i class="far fa-heart text-red-500"></i>
           </span>
         </button>
       </div>

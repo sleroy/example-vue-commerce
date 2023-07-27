@@ -4,14 +4,25 @@ import mitt, { type Handler } from 'mitt'
 export const eventbus = mitt()
 
 
+
+
+
+
+
+
 export enum Events {
     userSignin = "user-signin",
-    checkoutPerformed = "checkoutPerformed"
+    checkoutPerformed = "checkoutPerformed",
+    userSignout = "userSignout",
+    customOAuthState = "customOAuthState"
 }
 
 export function registerEventHandler(eventName: Events, cb: Handler<unknown>) {
     console.log(`Register event handler for  ${eventName}`)
-    eventbus.on(eventName, cb)
+    eventbus.on(eventName, (e) => {
+        console.log(`[${eventName}] received with `, {e})
+        cb(e)
+    })
 }
 
 /**
