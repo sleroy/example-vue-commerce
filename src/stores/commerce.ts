@@ -8,7 +8,7 @@ export const useCommerceStore = defineStore('commerce', {
     // firebase implementation 
     // amplify implementation
     // supbase implementation
-    features: ['firebase'],
+    features: ['amplify'],
     products: [
     ],
     systemInfo: {
@@ -21,7 +21,7 @@ export const useCommerceStore = defineStore('commerce', {
       productTitleSearched: ""
     },
     userInfo: {
-      name: false,
+      name: "",
       isSignedUp: false,
       isLoggedIn: false
     }

@@ -27,6 +27,17 @@ export const amplifyCredentials = {
       // OPTIONAL - Cookie secure flag
       // Either true or false, indicating if the cookie transmission requires a secure protocol (https).
       secure: true
-    }
+    },
+    oauth: {
+      domain: "729089851413-2aqji59e9qo8baf6i8qpt2v8hp4n68sb.apps.googleusercontent.com",
+      scope: [
+        "email",
+        "openid"
+      ],
+      redirectSignIn: "http://localhost:3000/",
+      redirectSignOut: "http://localhost:3000/",
+      responseType: "code"
+    },
+    federationTarget: "GOOGLE"
   }
 }
