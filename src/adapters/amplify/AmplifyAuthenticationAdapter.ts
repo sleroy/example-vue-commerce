@@ -19,6 +19,7 @@ export class AmplifyAuthenticationAdapter implements AuthenticationConnector {
   async signin(): Promise<any> {
     console.log('Authentication with success')
   
+    //TODO : test federation
     Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })
   
   } catch(error: any) {
