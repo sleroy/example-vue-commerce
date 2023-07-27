@@ -101,7 +101,7 @@ function closeModal() {
 
 function redirectLogin() {
   closeModal()
-  backend.system.showLoginModal(true)
+  backend.system.showSigninUserPasswordModal(true)
 }
 
 function checkForm(e: Event) {

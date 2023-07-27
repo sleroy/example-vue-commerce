@@ -41,7 +41,7 @@ export class SystemInfoRepository {
         this.store.systemInfo.checkoutRequired = option;
     }
 
-    isOpenedLoginModal() {
+    isOpenedSigninUserPasswordModal() {
         return this.store.systemInfo.openLoginModal;
     }
 
@@ -57,7 +57,7 @@ export class SystemInfoRepository {
         return this.store.systemInfo.openCheckoutModal;
     }
 
-    showLoginModal(show: boolean) {
+    showSigninUserPasswordModal(show: boolean) {
         this.store.systemInfo.openLoginModal = show;
     }
 

@@ -30,7 +30,7 @@ export class AuthenticationService {
   onSigninEventReceived(e: SigninResponse) {
     console.log("Received sign in event", e)
     this.userInfo.setUserLoggedIn(true)
-    this.sysInfoRepo.showLoginModal(false)
+    this.sysInfoRepo.showSigninUserPasswordModal(false)
     this.sysInfoRepo.showSigninModal(false)
     this.sysInfoRepo.showSignupModal(false)
   }

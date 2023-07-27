@@ -63,11 +63,11 @@ const isUserLoggedIn = computed(() => {
 })
 
 const openModal = computed(() => {
-  return backend.system.isOpenedLoginModal();
+  return backend.system.isOpenedSigninUserPasswordModal();
 })
 
 function closeModal() {
-  backend.system.showLoginModal(false)
+  backend.system.showSigninUserPasswordModal(false)
 }
 
 function checkForm(e: Event) {

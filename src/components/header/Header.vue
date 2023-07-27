@@ -45,7 +45,7 @@
             <span class="header-btn-lbl">{{ loginLabel }}</span>
             <i class="fa fa-sign-in"></i>
           </button>
-          <button v-if="!isUserLoggedIn" class="button header-btn-signinpwd" @click="showLoginModal">
+          <button v-if="!isUserLoggedIn" class="button header-btn-signinpwd" @click="showSigninUserPasswordModal">
             <span class="header-btn-lbl">{{ passwordLabel }}</span>
             <i class="fa fa-sign-in"></i>
           </button>
@@ -99,8 +99,8 @@ function showCheckoutModal() {
   backend.system.showCheckoutModal(true);
 }
 
-function showLoginModal() {
-  backend.system.showLoginModal(true);
+function showSigninUserPasswordModal() {
+  backend.system.showSigninUserPasswordModal(true);
 }
 
 function showSigninModal() {

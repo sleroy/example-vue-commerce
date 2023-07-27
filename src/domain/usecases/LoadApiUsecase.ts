@@ -19,7 +19,7 @@ export class LoadApiUsecase implements Usecase {
         this.productRepo.load();
 
         if (this.userInfo.isUserLoggedIn()) {
-            this.system.showLoginModal(false)
+            this.system.showSigninUserPasswordModal(false)
             this.system.showSigninModal(false)
         }
     }
