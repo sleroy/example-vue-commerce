@@ -26,8 +26,12 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::787156592790:role/CodeGuruSecurityGitHubAccessRole
           aws-region: us-east-1
-          role-session-name: GitHubActionScript
-
+                role-session-name: GitHubActionScript
+      - name: CodeGuru Reviewer
+        uses: aws-actions/codeguru-reviewer@v1.1
+        with:
+          build_path: target # build artifact(s) directory
+          s3_bucket: codeguru-reviewer-silvanly-firebase
       - name: CodeGuru Security
         uses: aws-actions/codeguru-security@v1
         with:
