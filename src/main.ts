@@ -11,6 +11,8 @@ import Toast, { PluginOptions } from "vue-toastification";
 // Import the CSS or use your own!
 import "vue-toastification/dist/index.css";
 import { subscribeEventListeners } from './domain/usecases/eventListeners';
+import { createApp } from 'vue'
+
 
 const app = createApp(App)
 
@@ -23,12 +25,14 @@ subscribeEventListeners()
 
 app.use(router)
 
+
+
 const options: PluginOptions = {
     // You can set your default options here
 };
 
 app.use(Toast, options);
 
-usecase('load-api').execute()
+// usecase('load-api').execute()
 
 app.mount('#app')

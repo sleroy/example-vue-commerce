@@ -1,26 +1,20 @@
-import mitt, { type Handler } from 'mitt'
+import mitt, { type EventType, type Handler } from 'mitt'
 // git hub mitt
 
 export const eventbus = mitt()
 
-
-
-
-
-
-
-
 export enum Events {
-    userSignin = "user-signin",
-    checkoutPerformed = "checkoutPerformed",
-    userSignout = "userSignout",
-    customOAuthState = "customOAuthState"
+  calc_started = "CALC_STARTED",
+  calc_terminated = "CALC_TERMINATED",
+  calc_new_offsite = "calc_new_offsite",
+  calc_new_line_budget = "calc_new_line_budget",
+  error = "error"
 }
 
 export function registerEventHandler(eventName: Events, cb: Handler<unknown>) {
-    console.log(`Register event handler for  ${eventName}`)
+    console.log(`Register event handler for  ${String(eventName)}`)
     eventbus.on(eventName, (e) => {
-        console.log(`[${eventName}] received with `, {e})
+        console.log(`[${String(eventName)}] received with `, {e})
         cb(e)
     })
 }

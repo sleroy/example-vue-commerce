@@ -5,56 +5,7 @@
       <h1 class="title w-40 h-12"></h1>
     </router-link>
 
-    <div class="flex flex-row §items-center gap-4 py-6">
-      <div class="nav-category">Category 1</div>
-      <div class="nav-category">Category 2</div>
-      <div class="nav-category">Category 3</div>
-      <div class="nav-category">Category 4</div>      
-      <div class="nav-notifications">
-        <button @click="enableNotifications">&#x1F50A;</button>
-      </div>
-      <div class="nav-cart">
-        <div class="cursor-pointer" @click="showCheckoutModal">
-          <span :class="[numProductsAdded > 0 ? 'visible' : 'invisible']">{{ numProductsAdded }}</span>
-          <span class="nav-cart-label">
-            <i class="fa fa-shopping-cart" :class="[numProductsAdded > 0 ? 'nav-cart-icon-selected' : 'nav-cart-icon']"></i>Cart
-          </span>
-        </div>
-      </div>
-
-      <div class="nav-login">
-        <button cass="button" v-if="!isUserLoggedIn" @click="onShowDropdown">
-          <span class="icon">
-            <i class="fa fa-user pr-2"></i>
-          </span>
-            <span class="nav-category">Login</span>
-          </button>
-        <button class="cursor-pointer" v-if="isUserLoggedIn" @click="onShowDropdown">
-          Welcome {{ getUserName }}
-        </button>
-        <div v-if="showDropdown && isUserLoggedIn" class="dropdown w-52 h-28">
-          <router-link :to="{ name: 'user-wishlist' }" class="button text-center">
-            <span class="text-lg">{{ wishlistLabel }}</span>
-          </router-link>
-          <button @click="logout" class="button">
-            <span class="text-lg">{{ logoutLabel }}</span>
-          </button>
-        </div>
-        <div v-if="showDropdown && !isUserLoggedIn" class="dropdown">
-          <button v-if="!isUserLoggedIn" class="button header-btn-signin" @click="showSigninModal">
-            <span class="header-btn-lbl">{{ loginLabel }}</span>
-            <i class="fa fa-sign-in"></i>
-          </button>
-          <button v-if="!isUserLoggedIn" class="button header-btn-signinpwd" @click="showSigninUserPasswordModal">
-            <span class="header-btn-lbl">{{ passwordLabel }}</span>
-            <i class="fa fa-sign-in"></i>
-          </button>
-          <button v-if="!isUserLoggedIn" class="button header-btn-signup" @click="showSignupModal">
-            <span class="header-btn-lbl">{{ signupLabel }}</span>
-            <i class="fa fa-user-plus"></i>
-          </button>
-        </div>
-      </div>
+    <div class="flex flex-row §items-center gap-4 py-6">    
     </div>
   </nav>
 </template>
@@ -68,59 +19,12 @@ import { backend } from '../../domain/backend';
 // Access to the router
 
 const showDropdown = ref(false)
-const logoutLabel = ref('Log out')
-const loginLabel = ref('Google Sign-in')
-const passwordLabel = ref('Sign-in with password')
-const signupLabel = ref('Sign up')
-const wishlistLabel = ref('Wishlist')
-
-const logoutUC = usecase('logout')
-
-
-const numProductsAdded = computed(() => {
-  return backend.products.getNumberOfProductsAdded();
-});
-
-const isUserLoggedIn = computed(() => {
-  return backend.user.isUserLoggedIn();
-})
-
-const getUserName = computed(() => {
-  return backend.user.getUserNameOrDefault();
-});
 
 
 function closeDropdown() {
   setTimeout(() => {
     showDropdown.value = false;
   }, 100);
-}
-function showCheckoutModal() {
-  backend.system.showCheckoutModal(true);
-}
-
-function showSigninUserPasswordModal() {
-  backend.system.showSigninUserPasswordModal(true);
-}
-
-function showSigninModal() {
-  backend.system.showSigninModal(true);
-}
-
-function showSignupModal() {
-  backend.system.showSignupModal(true);
-}
-
-function onShowDropdown() {
-  showDropdown.value = !showDropdown.value
-}
-
-function logout() {
-  logoutUC.execute()
-}
-
-function enableNotifications() {
-  backend.system.enableNotifications();
 }
 
 onMounted(() => {

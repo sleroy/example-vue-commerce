@@ -2,22 +2,12 @@
 import { RouterView } from 'vue-router'
 import VmHeader from './components/header/Header.vue';
 import VmFooter from './components/footer/Footer.vue';
-import VmSigninUserPasswordModal from './components/modal/SigninUserPasswordModal.vue';
-import VmSigninModal from './components/modal/SigninModal.vue';
-import VmSignupModal from './components/modal/SignupModal.vue';
-import VmCheckoutModal from './components/modal/CheckoutModal.vue';
-import VmCheckoutToast from './components/popup/VmCheckoutToast.vue';
 </script>
 
 <template>
   <VmHeader />
   <main>
     <RouterView/>
-    <VmSigninModal/>
-    <VmSigninUserPasswordModal/>
-    <VmSignupModal />
-    <VmCheckoutModal />
-    <VmCheckoutToast />
   </main>
   <VmFooter />
 </template>
